@@ -9,6 +9,12 @@ import {
 } from '@remix-run/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './queryClient'
+import stylesheet from '~/tailwind.css?url'
+import { LinksFunction } from '@remix-run/node'
+
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: stylesheet },
+]
 
 export async function loader() {
   return json({

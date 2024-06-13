@@ -9,7 +9,7 @@ export default function Product({ product }: { product: IProduct }) {
   const { title, featuredImage, priceRange } = product
 
   return (
-    <div className="product-detail">
+    <div>
       <h1>{title}</h1>
       <img src={featuredImage?.url} alt={title} />
       <p>Price: {priceRange?.minVariantPrice?.amount}</p>
