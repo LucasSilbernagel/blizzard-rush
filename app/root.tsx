@@ -38,18 +38,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body>
         <header>
-          <div className="text-white bg-black flex justify-end gap-4 pr-4">
+          <div className="text-white bg-black flex justify-end gap-4 pr-12 py-2 text-xs font-light">
             <div>
-              <Link to="/returns">Easy Returns</Link>
+              <Link to="/easy-returns">Easy Returns</Link>
             </div>
             <div>
-              <Link to="/returns">Get Help</Link>
+              <Link to="/help">Get Help</Link>
             </div>
             <div>
-              <Link to="/returns">Wishlist</Link>
+              <Link to="/wishlist">Wishlist</Link>
             </div>
           </div>
         </header>

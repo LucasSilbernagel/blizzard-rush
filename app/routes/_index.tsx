@@ -1,13 +1,13 @@
 import type { MetaFunction } from '@remix-run/node'
-import { Link } from '@remix-run/react'
 import { useQuery } from '@tanstack/react-query'
 import { request } from 'graphql-request'
 import getEnv from '~/get-env'
 import { IProduct } from './products.$productId'
+import Homepage from '~/components/Homepage/Homepage'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Blizzard Rush' },
+    { title: 'Blizzard Rush | Shop Snowboards' },
     { name: 'description', content: 'All about Blizzard Rush' },
   ]
 }
@@ -73,22 +73,9 @@ export default function Index() {
     return <div>Error: {error.message}</div>
   }
 
-  return (
-    <div>
-      <h1>Blizzard Rush</h1>
-      {products && (
-        <ul>
-          {products.map((product) => {
-            return (
-              <li key={product.id}>
-                <Link to={`/products/${product.id.split('/').at(-1)}`}>
-                  {product.title}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      )}
-    </div>
-  )
+  if (!products) {
+    return <div>No products</div>
+  }
+
+  return <Homepage products={products} />
 }
