@@ -39,21 +39,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <header>
-        <div className="text-white bg-black flex justify-end gap-4 pr-4">
-          <div>
-            <Link to="/returns">Easy Returns</Link>
-          </div>
-          <div>
-            <Link to="/returns">Get Help</Link>
-          </div>
-          <div>
-            <Link to="/returns">Wishlist</Link>
-          </div>
-        </div>
-      </header>
       <body>
+        <header>
+          <div className="text-white bg-black flex justify-end gap-4 pr-4">
+            <div>
+              <Link to="/returns">Easy Returns</Link>
+            </div>
+            <div>
+              <Link to="/returns">Get Help</Link>
+            </div>
+            <div>
+              <Link to="/returns">Wishlist</Link>
+            </div>
+          </div>
+        </header>
         {children}
+        <footer>
+          <p>
+            Built by{' '}
+            <a
+              href="https://lucassilbernagel.com/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Lucas Silbernagel
+            </a>
+          </p>
+        </footer>
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
@@ -62,18 +74,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         />
         <Scripts />
       </body>
-      <footer>
-        <p>
-          Built by{' '}
-          <a
-            href="https://lucassilbernagel.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Lucas Silbernagel
-          </a>
-        </p>
-      </footer>
     </html>
   )
 }
