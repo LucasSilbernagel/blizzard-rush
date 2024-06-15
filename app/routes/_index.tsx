@@ -30,24 +30,24 @@ export default function Index() {
     const endpoint = `https://${shopifyDomain}/api/2023-01/graphql`
 
     const productsQuery = `
-    query getProducts {
-      products(first: 250) {
-        edges {
-          node {
-            id
-            title
-            featuredImage {
-              url
-            }
-            priceRange {
-              minVariantPrice {
-                amount
+      query getProducts {
+        products(first: 250) {
+          edges {
+            node {
+              id
+              title
+              featuredImage {
+                url
+              }
+              priceRange {
+                minVariantPrice {
+                  amount
+                }
               }
             }
           }
         }
       }
-}
     `
 
     const headers = {

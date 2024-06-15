@@ -59,7 +59,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
         </header>
-        {children}
+        <main>{children}</main>
         <footer>
           <p>
             Built by{' '}

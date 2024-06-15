@@ -7,6 +7,9 @@ export default {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
       },
+      colors: {
+        'theme-yellow': '#f8da1c',
+      },
     },
   },
   plugins: [],

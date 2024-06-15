@@ -1,0 +1,25 @@
+.Homepage__product-link {
+  @apply p-2 flex flex-col items-center relative max-w-[300px];
+}
+
+.Homepage__product-image {
+  @apply relative;
+}
+
+.Homepage__product-image::after {
+  @apply content-[''] w-full h-full border-2 border-transparent absolute -top-2 -right-2 -z-10 bg-white transition-all duration-300;
+}
+
+.Homepage__product-link:hover .Homepage__product-image::after,
+.Homepage__product-link:focus-visible .Homepage__product-image::after {
+  @apply border-theme-yellow;
+}
+
+.Homepage__product-footer {
+  @apply transition-colors duration-300 p-2 bg-white w-full flex flex-col;
+}
+
+.Homepage__product-link:hover .Homepage__product-footer,
+.Homepage__product-link:focus-visible .Homepage__product-footer {
+  @apply bg-theme-yellow;
+}
