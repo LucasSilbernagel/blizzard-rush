@@ -23,7 +23,7 @@ const Homepage = (props: HomepageProps) => {
           {new Array(12).fill(0).map((_skeleton, index) => {
             return (
               <li key={`skeleton-${index}`}>
-                <Skeleton className="h-[364px] w-[345.75px]" />
+                <Skeleton className="h-[364px] w-[300px] sm:w-[345.75px]" />
               </li>
             )
           })}
