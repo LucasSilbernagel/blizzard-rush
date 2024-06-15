@@ -1,0 +1,7 @@
+.Footer {
+  @apply mt-6 py-6 text-center;
+}
+
+.Footer a {
+  @apply font-semibold underline underline-offset-2 hover:underline-offset-1 focus-visible:underline-offset-1;
+}

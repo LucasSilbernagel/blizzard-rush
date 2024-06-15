@@ -1,5 +1,4 @@
 import {
-  Link,
   Links,
   Meta,
   Outlet,
@@ -12,6 +11,8 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './queryClient'
 import stylesheet from '~/tailwind.css?url'
 import { LinksFunction } from '@remix-run/node'
+import Footer from './components/Footer/Footer'
+import Header from './components/Header/Header'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -46,32 +47,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body>
-        <header>
-          <div className="text-white bg-black flex justify-end gap-4 pr-12 py-2 text-xs font-light">
-            <div>
-              <Link to="/easy-returns">Easy Returns</Link>
-            </div>
-            <div>
-              <Link to="/help">Get Help</Link>
-            </div>
-            <div>
-              <Link to="/wishlist">Wishlist</Link>
-            </div>
-          </div>
-        </header>
+        <Header />
         <main>{children}</main>
-        <footer>
-          <p>
-            Built by{' '}
-            <a
-              href="https://lucassilbernagel.com/"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Lucas Silbernagel
-            </a>
-          </p>
-        </footer>
+        <Footer />
         <ScrollRestoration />
         <script
           dangerouslySetInnerHTML={{
