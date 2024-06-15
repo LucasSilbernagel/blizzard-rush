@@ -7,7 +7,7 @@ const Homepage = ({ products }: { products: IProduct[] }) => {
     <div>
       <h1 className="mb-12">Blizzard Rush</h1>
       {products && (
-        <ul className="gap-6 flex flex-col items-center sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <ul className="flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products
             .filter((product) => product.featuredImage)
             .map((product) => {
