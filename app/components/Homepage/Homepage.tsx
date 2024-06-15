@@ -1,6 +1,7 @@
 import { Link } from '@remix-run/react'
 import { IProduct } from '~/routes/products.$productId'
 import { Skeleton } from '@/components/ui/skeleton'
+import Image from 'rc-image'
 
 import './Homepage.css'
 
@@ -40,7 +41,8 @@ const Homepage = (props: HomepageProps) => {
                     className="Homepage__product-link"
                   >
                     <div className="Homepage__product-image">
-                      <img
+                      <Image
+                        placeholder
                         src={product.featuredImage.url}
                         alt={product.title}
                         className="max-h-[329.75px]"
