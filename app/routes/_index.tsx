@@ -65,17 +65,5 @@ export default function Index() {
 
   const products = data?.products.edges.map((edge) => edge.node)
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>
-  }
-
-  if (!products) {
-    return <div>No products</div>
-  }
-
-  return <Homepage products={products} />
+  return <Homepage products={products} isLoading={isLoading} error={error} />
 }
