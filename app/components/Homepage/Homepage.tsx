@@ -4,6 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'rc-image'
 
 import './Homepage.css'
+import { Dispatch, SetStateAction } from 'react'
 
 type HomepageProps = {
   isLoading: boolean
@@ -12,6 +13,10 @@ type HomepageProps = {
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean
+  sortKey: 'TITLE' | 'PRICE'
+  reverse: boolean
+  setSortKey: Dispatch<SetStateAction<'TITLE' | 'PRICE'>>
+  setReverse: (boolean: boolean) => void
 }
 
 const Homepage = (props: HomepageProps) => {
@@ -22,6 +27,10 @@ const Homepage = (props: HomepageProps) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
+    sortKey,
+    reverse,
+    setSortKey,
+    setReverse,
   } = props
 
   return (
@@ -39,6 +48,28 @@ const Homepage = (props: HomepageProps) => {
           })}
         </ul>
       )}
+      <div>
+        <label>
+          Sort by:
+          <select
+            value={sortKey}
+            onChange={(e) => setSortKey(e.target.value as 'TITLE' | 'PRICE')}
+          >
+            <option value="TITLE">Title</option>
+            <option value="PRICE">Price</option>
+          </select>
+        </label>
+        <label>
+          Order:
+          <select
+            value={reverse ? 'DESC' : 'ASC'}
+            onChange={(e) => setReverse(e.target.value === 'DESC')}
+          >
+            <option value="ASC">Ascending</option>
+            <option value="DESC">Descending</option>
+          </select>
+        </label>
+      </div>
       {products && !isLoading && !error && (
         <ul className="flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {products
