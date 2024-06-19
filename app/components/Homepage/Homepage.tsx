@@ -2,9 +2,7 @@ import { Link } from '@remix-run/react'
 import { IProduct } from '~/routes/products.$productId'
 import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'rc-image'
-
 import './Homepage.css'
-import { Dispatch, SetStateAction } from 'react'
 
 type HomepageProps = {
   isLoading: boolean
@@ -13,10 +11,8 @@ type HomepageProps = {
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean
-  sortKey: 'TITLE' | 'PRICE'
-  reverse: boolean
-  setSortKey: Dispatch<SetStateAction<'TITLE' | 'PRICE'>>
-  setReverse: (boolean: boolean) => void
+  sortOption: string
+  handleSortOptionChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 const Homepage = (props: HomepageProps) => {
@@ -27,10 +23,8 @@ const Homepage = (props: HomepageProps) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
-    sortKey,
-    reverse,
-    setSortKey,
-    setReverse,
+    sortOption,
+    handleSortOptionChange,
   } = props
 
   return (
@@ -50,23 +44,12 @@ const Homepage = (props: HomepageProps) => {
       )}
       <div>
         <label>
-          Sort by:
-          <select
-            value={sortKey}
-            onChange={(e) => setSortKey(e.target.value as 'TITLE' | 'PRICE')}
-          >
-            <option value="TITLE">Title</option>
-            <option value="PRICE">Price</option>
-          </select>
-        </label>
-        <label>
-          Order:
-          <select
-            value={reverse ? 'DESC' : 'ASC'}
-            onChange={(e) => setReverse(e.target.value === 'DESC')}
-          >
-            <option value="ASC">Ascending</option>
-            <option value="DESC">Descending</option>
+          <span className="sr-only">Sort:</span>
+          <select value={sortOption} onChange={handleSortOptionChange}>
+            <option value="TITLE_ASC">Alphabetically, A-Z</option>
+            <option value="TITLE_DESC">Alphabetically, Z-A</option>
+            <option value="PRICE_ASC">Price, low-high</option>
+            <option value="PRICE_DESC">Price, high-low</option>
           </select>
         </label>
       </div>

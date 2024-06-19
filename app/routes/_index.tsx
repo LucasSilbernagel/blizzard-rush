@@ -83,8 +83,10 @@ export default function Index() {
     return request<HomepageData>(endpoint, productsQuery, variables, headers)
   }
 
-  const [sortKey, setSortKey] = useState<'TITLE' | 'PRICE'>('TITLE')
-  const [reverse, setReverse] = useState<boolean>(false)
+  const [sortOption, setSortOption] = useState<string>('TITLE_ASC')
+
+  const sortKey = sortOption.includes('TITLE') ? 'TITLE' : 'PRICE'
+  const reverse = sortOption.includes('DESC')
 
   const fetchHomepageDataWrapper = async (
     context: QueryFunctionContext
@@ -100,6 +102,7 @@ export default function Index() {
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
+    refetch,
   } = useInfiniteQuery<HomepageData, Error>({
     queryKey: ['storefrontData', sortKey, reverse],
     queryFn: fetchHomepageDataWrapper,
@@ -115,6 +118,11 @@ export default function Index() {
       page.products.edges.map((edge) => edge.node)
     ) || []
 
+  const handleSortOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOption(e.target.value)
+    refetch()
+  }
+
   return (
     <Homepage
       products={products}
@@ -123,10 +131,8 @@ export default function Index() {
       isFetchingNextPage={isFetchingNextPage}
       hasNextPage={hasNextPage}
       fetchNextPage={fetchNextPage}
-      sortKey={sortKey}
-      reverse={reverse}
-      setSortKey={setSortKey}
-      setReverse={setReverse}
+      sortOption={sortOption}
+      handleSortOptionChange={handleSortOptionChange}
     />
   )
 }
