@@ -9,10 +9,20 @@ type HomepageProps = {
   isLoading: boolean
   error: Error | null
   products?: IProduct[]
+  hasNextPage: boolean
+  fetchNextPage: () => void
+  isFetchingNextPage: boolean
 }
 
 const Homepage = (props: HomepageProps) => {
-  const { products, isLoading, error } = props
+  const {
+    products,
+    isLoading,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = props
 
   return (
     <div>
@@ -63,6 +73,13 @@ const Homepage = (props: HomepageProps) => {
               )
             })}
         </ul>
+      )}
+      {hasNextPage && (
+        <div className="my-12 flex w-full justify-center">
+          <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+            {isFetchingNextPage ? 'Loading more...' : 'Load more'}
+          </button>
+        </div>
       )}
     </div>
   )
