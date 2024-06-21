@@ -15,6 +15,9 @@ export interface IProduct {
       amount: string
     }
   }
+  variants: {
+    edges: { node: { id: string; title: string; quantityAvailable: number } }[]
+  }
 }
 
 export interface ProductResponse {
@@ -47,6 +50,15 @@ export const getProductData = async (
           priceRange {
             minVariantPrice {
               amount
+            }
+          }
+          variants(first: 10) {
+            edges {
+              node {
+                id
+                title
+                quantityAvailable
+              }
             }
           }
         }
