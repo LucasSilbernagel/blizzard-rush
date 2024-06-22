@@ -16,6 +16,7 @@ const localStorageKey = `shopify_checkout_id`
 
 type Checkout = {
   id: string
+  webUrl: string
   lineItems: CheckoutLineItem[]
 }
 
