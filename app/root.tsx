@@ -22,10 +22,7 @@ export const links: LinksFunction = () => [
 export async function loader() {
   return json({
     ENV: {
-      ADMIN_API_ACCESS_TOKEN: process.env.ADMIN_API_ACCESS_TOKEN,
       STOREFRONT_API_ACCESS_TOKEN: process.env.STOREFRONT_API_ACCESS_TOKEN,
-      API_KEY: process.env.API_KEY,
-      API_SECRET_KEY: process.env.API_SECRET_KEY,
       SHOPIFY_DOMAIN: process.env.SHOPIFY_DOMAIN,
     },
   })
