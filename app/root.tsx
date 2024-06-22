@@ -13,6 +13,7 @@ import stylesheet from '~/tailwind.css?url'
 import { LinksFunction } from '@remix-run/node'
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
+import { StoreProvider } from './zustand-store'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -65,7 +66,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <StoreProvider>
+        <Outlet />
+      </StoreProvider>
     </QueryClientProvider>
   )
 }

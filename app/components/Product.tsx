@@ -1,8 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IProduct } from '~/routes/products.$productId'
+import { useStoreState } from '~/zustand-store'
 
 export default function Product({ product }: { product: IProduct }) {
+  const { didJustAddToCart, addVariantToCart } = useStoreState()
+
   const [quantity, setQuantity] = useState(1)
+
+  useEffect(() => {
+    if (didJustAddToCart) {
+      alert('Added to cart!')
+    }
+  }, [didJustAddToCart])
 
   const handleQuantityChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -10,8 +19,9 @@ export default function Product({ product }: { product: IProduct }) {
     setQuantity(Number(event.target.value))
   }
 
-  const handleAddToCart = async () => {
-    console.log(`Adding ${quantity} ${product.title}(s) to cart`)
+  const handleAddToCart = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    addVariantToCart(product.variants.edges[0].node.id, String(quantity))
   }
 
   if (!product) {
