@@ -5,7 +5,3 @@
 body {
   @apply font-inter;
 }
-
-main {
-  @apply max-w-screen-2xl mx-auto;
-}

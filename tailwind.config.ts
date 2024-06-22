@@ -20,6 +20,7 @@ const config = {
     extend: {
       fontFamily: {
         inter: ['Inter', 'sans-serif'],
+        anton: ['Anton', 'sans-serif'],
       },
       colors: {
         'theme-yellow': '#f8da1c',
