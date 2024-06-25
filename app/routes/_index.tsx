@@ -83,7 +83,7 @@ export default function Index() {
     return request<HomepageData>(endpoint, productsQuery, variables, headers)
   }
 
-  const [sortOption, setSortOption] = useState<string>('TITLE_ASC')
+  const [sortOption, setSortOption] = useState<string>('PRICE_DESC')
 
   const sortKey = sortOption.includes('TITLE') ? 'TITLE' : 'PRICE'
   const reverse = sortOption.includes('DESC')
@@ -118,8 +118,8 @@ export default function Index() {
       page.products.edges.map((edge) => edge.node)
     ) || []
 
-  const handleSortOptionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSortOption(e.target.value)
+  const handleSortOptionChange = (value: string) => {
+    setSortOption(value)
     refetch()
   }
 
