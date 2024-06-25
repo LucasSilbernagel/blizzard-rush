@@ -58,6 +58,15 @@ export default function Index() {
                 amount
               }
             }
+            variants(first: 250) {
+              edges {
+                node {
+                  id
+                  title
+                  quantityAvailable
+                }
+              }
+            }
           }
         }
         pageInfo {

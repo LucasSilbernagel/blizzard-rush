@@ -2,6 +2,8 @@ import { Link } from '@remix-run/react'
 import { IProduct } from '~/routes/products.$productId'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+
 import hero from '../../images/hero.webp'
 
 import {
@@ -74,7 +76,16 @@ const Homepage = (props: HomepageProps) => {
           </h2>
         </div>
       </div>
-      {error && <div>Error: {error.message}</div>}
+      {error && !isLoading && (
+        <div className="mx-auto my-44 max-w-screen-sm text-center">
+          <Alert variant="destructive">
+            <AlertTitle>Error</AlertTitle>
+            <AlertDescription>
+              {error.message || 'An error occurred, please try again later.'}
+            </AlertDescription>
+          </Alert>
+        </div>
+      )}
       {isLoading && (
         <ul className="flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {new Array(12).fill(0).map((_skeleton, index) => {
@@ -87,7 +98,7 @@ const Homepage = (props: HomepageProps) => {
         </ul>
       )}
       <div className="mx-auto max-w-screen-2xl">
-        {products && !isLoading && !error && (
+        {products && products.length > 1 && !isLoading && !error && (
           <>
             <div className="flex justify-end py-6 pl-8 pr-12">
               <div>
@@ -114,6 +125,11 @@ const Homepage = (props: HomepageProps) => {
               {products
                 .filter((product) => product.featuredImage)
                 .map((product) => {
+                  const isSoldOut =
+                    product.variants.edges.every(
+                      (product) => product.node.quantityAvailable === 0
+                    ) && product.title !== 'Gift Card'
+                  const variantsAvailable = product.variants.edges.length
                   return (
                     <li key={product.id}>
                       <Link
@@ -128,13 +144,28 @@ const Homepage = (props: HomepageProps) => {
                           />
                         </div>
                         <div className="Homepage__product-footer">
+                          {variantsAvailable > 1 && (
+                            <div>
+                              <span className="text-sm">
+                                {`${variantsAvailable} variants available`}
+                              </span>
+                            </div>
+                          )}
                           <div>
                             <span className="text-base font-bold">
                               {product.title}
                             </span>
                           </div>
                           <div>
-                            <span>{`$${product.priceRange.minVariantPrice.amount}`}</span>
+                            <span>
+                              {isSoldOut ? (
+                                <span className="bg-slate-950 p-0.5 font-bold uppercase text-white">
+                                  Sold out
+                                </span>
+                              ) : (
+                                `${Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(product.priceRange.minVariantPrice.amount))}`
+                              )}
+                            </span>
                           </div>
                         </div>
                       </Link>
