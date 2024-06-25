@@ -131,7 +131,7 @@ const Homepage = (props: HomepageProps) => {
                     ) && product.title !== 'Gift Card'
                   const variantsAvailable = product.variants.edges.length
                   return (
-                    <li key={product.id}>
+                    <li key={product.id} className="flex justify-center">
                       <Link
                         to={`/products/${product.id.split('/').at(-1)}`}
                         className="Homepage__product-link"
