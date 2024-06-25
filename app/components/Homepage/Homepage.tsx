@@ -87,7 +87,7 @@ const Homepage = (props: HomepageProps) => {
         </div>
       )}
       {isLoading && (
-        <ul className="flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <ul className="mt-24 flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {new Array(12).fill(0).map((_skeleton, index) => {
             return (
               <li key={`skeleton-${index}`}>
