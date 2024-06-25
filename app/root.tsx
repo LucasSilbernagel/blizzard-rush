@@ -10,6 +10,7 @@ import {
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './queryClient'
 import stylesheet from '~/tailwind.css?url'
+import baseStyles from '~/index.css?url'
 import { LinksFunction } from '@remix-run/node'
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
@@ -17,6 +18,7 @@ import { StoreProvider } from './zustand-store'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
+  { rel: 'baseStyles', href: baseStyles },
 ]
 
 export async function loader() {

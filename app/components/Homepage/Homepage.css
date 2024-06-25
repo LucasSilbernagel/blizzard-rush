@@ -1,5 +1,5 @@
 .Homepage__product-link {
-  @apply p-2 flex flex-col items-center relative max-w-[300px];
+  @apply relative flex max-w-[300px] flex-col items-center p-2;
 }
 
 .Homepage__product-image {
@@ -7,7 +7,7 @@
 }
 
 .Homepage__product-image::after {
-  @apply content-[''] w-full h-full border-2 border-transparent absolute -top-2 -right-2 -z-10 bg-white transition-all duration-300;
+  @apply absolute -right-2 -top-2 -z-10 h-full w-full border-2 border-transparent bg-white transition-all duration-300 content-[''];
 }
 
 .Homepage__product-link:hover .Homepage__product-image::after,
@@ -16,7 +16,7 @@
 }
 
 .Homepage__product-footer {
-  @apply transition-colors duration-300 p-2 bg-white w-full flex flex-col;
+  @apply flex w-full flex-col bg-white p-2 transition-colors duration-300;
 }
 
 .Homepage__product-link:hover .Homepage__product-footer,

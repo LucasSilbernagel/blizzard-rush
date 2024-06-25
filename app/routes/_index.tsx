@@ -69,7 +69,7 @@ export default function Index() {
   `
 
     const variables = {
-      first: 5,
+      first: 36,
       after: pageParam,
       sortKey,
       reverse,

@@ -1,6 +1,7 @@
 import { Link } from '@remix-run/react'
 import { IProduct } from '~/routes/products.$productId'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Button } from '@/components/ui/button'
 import hero from '../../images/hero.webp'
 
 import {
@@ -12,6 +13,8 @@ import {
 } from '@/components/ui/select'
 
 import './Homepage.css'
+import { Loader2 } from 'lucide-react'
+import { FaArrowDown } from 'react-icons/fa6'
 
 type HomepageProps = {
   isLoading: boolean
@@ -92,17 +95,13 @@ const Homepage = (props: HomepageProps) => {
                   value={sortOption}
                   onValueChange={handleSortOptionChange}
                 >
-                  <SelectTrigger className="flex gap-2 text-xl font-bold">
+                  <SelectTrigger>
                     <SelectValue placeholder="Price, high-low" />
                   </SelectTrigger>
-                  <SelectContent className="cursor-pointer bg-slate-800">
+                  <SelectContent>
                     {selectOptions.map((option) => {
                       return (
-                        <SelectItem
-                          key={option.value}
-                          value={option.value}
-                          className="py-2 pr-2 focus-visible:bg-slate-100 focus-visible:text-slate-950 dark:focus-visible:bg-slate-950 dark:focus-visible:text-slate-50"
-                        >
+                        <SelectItem key={option.value} value={option.value}>
                           {option.label}
                         </SelectItem>
                       )
@@ -147,12 +146,17 @@ const Homepage = (props: HomepageProps) => {
         )}
         {hasNextPage && (
           <div className="my-12 flex w-full justify-center">
-            <button
+            <Button
               onClick={() => fetchNextPage()}
               disabled={isFetchingNextPage}
             >
+              {isFetchingNextPage ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <FaArrowDown className="mr-2 h-4 w-4" />
+              )}
               {isFetchingNextPage ? 'Loading more...' : 'Load more'}
-            </button>
+            </Button>
           </div>
         )}
       </div>
