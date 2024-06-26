@@ -26,6 +26,9 @@ const config = {
       colors: {
         'theme-yellow': '#f8da1c',
       },
+      contrast: {
+        25: '.25',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: '0' },

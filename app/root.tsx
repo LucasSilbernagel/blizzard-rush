@@ -18,7 +18,7 @@ import Navbar from './components/Navbar/Navbar'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
-  { rel: 'baseStyles', href: baseStyles },
+  { rel: 'stylesheet', href: baseStyles },
 ]
 
 export async function loader() {

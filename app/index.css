@@ -1,3 +1,7 @@
 body {
   @apply font-inter;
 }
+
+.ContrastLink {
+  @apply hover:contrast-25 focus-visible:contrast-25 transition-all duration-300;
+}
