@@ -14,8 +14,19 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { FaSearch } from 'react-icons/fa'
+import { useEffect, useState } from 'react'
 
 const Navbar = () => {
+  const [currentScrollPos, setCurrentScrollPos] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setCurrentScrollPos(window.scrollY)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [currentScrollPos])
+
   const formSchema = z.object({
     searchQuery: z
       .string()
@@ -36,7 +47,9 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="fixed z-20 w-full bg-white">
+    <nav
+      className={`fixed z-20 w-full bg-white ${currentScrollPos > 139 ? 'shadow-lg' : ''}`}
+    >
       <ul className="flex justify-end gap-4 bg-black py-2 pr-12 text-xs font-light text-white">
         <li>
           <Link to="/easy-returns" className="ContrastLink">
