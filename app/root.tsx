@@ -13,8 +13,8 @@ import stylesheet from '~/tailwind.css?url'
 import baseStyles from '~/index.css?url'
 import { LinksFunction } from '@remix-run/node'
 import Footer from './components/Footer/Footer'
-import Header from './components/Header/Header'
 import { StoreProvider } from './zustand-store'
+import Navbar from './components/Navbar/Navbar'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -47,7 +47,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         />
       </head>
       <body>
-        <Header />
+        <header>
+          <Navbar />
+        </header>
         <main>{children}</main>
         <Footer />
         <ScrollRestoration />
