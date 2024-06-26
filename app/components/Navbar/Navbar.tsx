@@ -36,7 +36,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav>
+    <nav className="fixed z-20 w-full bg-white">
       <ul className="flex justify-end gap-4 bg-black py-2 pr-12 text-xs font-light text-white">
         <li>
           <Link to="/easy-returns" className="ContrastLink">

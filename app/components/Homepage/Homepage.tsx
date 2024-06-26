@@ -49,7 +49,7 @@ const Homepage = (props: HomepageProps) => {
   ]
 
   return (
-    <div>
+    <div className="pt-[139px] md:pt-[138px]">
       <h1 className="sr-only">Blizzard Rush</h1>
       <div className="flex gap-6">
         <div className="w-full bg-[#262626] px-4 pb-4 pt-4 text-white md:px-36 xl:w-3/12 xl:px-10 xl:pb-14 xl:pt-32">
