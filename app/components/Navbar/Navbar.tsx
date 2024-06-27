@@ -88,6 +88,7 @@ const Navbar = () => {
               <div className="relative flex items-center gap-1.5">
                 {checkout.lineItems?.length > 0 && (
                   <span
+                    aria-label={`${checkout.lineItems.length} items in cart`}
                     className="bg-theme-yellow absolute -left-2 -top-2 flex items-center justify-center rounded-full p-0.5 text-xs"
                     style={{
                       minWidth: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
@@ -203,6 +204,7 @@ const Navbar = () => {
                   <div className="relative flex items-center gap-1.5">
                     {checkout.lineItems?.length > 0 && (
                       <span
+                        aria-label={`${checkout.lineItems.length} items in cart`}
                         className="bg-theme-yellow absolute -left-2 -top-2 flex items-center justify-center rounded-full p-0.5 text-xs"
                         style={{
                           minWidth: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
