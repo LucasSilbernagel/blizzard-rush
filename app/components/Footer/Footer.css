@@ -1,7 +1,15 @@
 .Footer {
-  @apply mt-6 py-6 text-center;
+  @apply mt-6;
 }
 
-.Footer a {
-  @apply font-semibold underline underline-offset-2 hover:underline-offset-1 focus-visible:underline-offset-1;
+.Footer__Shipping-banner {
+  @apply bg-theme-yellow flex w-full flex-col items-center justify-around gap-12 px-6 py-8 text-lg font-bold lg:flex-row;
+}
+
+.Footer__Shipping-banner li {
+  @apply flex max-w-[350px] flex-col items-center gap-4 lg:flex-row;
+}
+
+.Footer__Shipping-banner svg {
+  @apply text-5xl;
 }
