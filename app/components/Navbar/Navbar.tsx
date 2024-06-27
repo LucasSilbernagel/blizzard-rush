@@ -15,8 +15,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { FaSearch } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
+import { useStoreState } from '~/zustand-store'
 
 const Navbar = () => {
+  const { checkout } = useStoreState()
+
   const [currentScrollPos, setCurrentScrollPos] = useState(0)
 
   useEffect(() => {
@@ -82,7 +85,21 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/cart" className="text-2xl font-bold">
-              <HiOutlineShoppingBag />
+              <div className="relative flex items-center gap-1.5">
+                {checkout.lineItems?.length > 0 && (
+                  <span
+                    className="bg-theme-yellow absolute -left-2 -top-2 flex items-center justify-center rounded-full p-0.5 text-xs"
+                    style={{
+                      minWidth: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
+                      height: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
+                      width: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
+                    }}
+                  >
+                    {checkout.lineItems.length}
+                  </span>
+                )}
+                <HiOutlineShoppingBag />
+              </div>
             </Link>
           </li>
         </ul>
@@ -182,11 +199,22 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/cart"
-                  className="ContrastLink flex items-center gap-1.5 text-xl font-bold"
-                >
-                  <HiOutlineShoppingBag /> Cart
+                <Link to="/cart" className="ContrastLink text-xl font-bold">
+                  <div className="relative flex items-center gap-1.5">
+                    {checkout.lineItems?.length > 0 && (
+                      <span
+                        className="bg-theme-yellow absolute -left-2 -top-2 flex items-center justify-center rounded-full p-0.5 text-xs"
+                        style={{
+                          minWidth: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
+                          height: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
+                          width: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
+                        }}
+                      >
+                        {checkout.lineItems.length}
+                      </span>
+                    )}
+                    <HiOutlineShoppingBag /> Cart
+                  </div>
                 </Link>
               </li>
             </ul>

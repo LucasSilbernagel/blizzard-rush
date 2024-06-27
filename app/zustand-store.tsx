@@ -30,7 +30,6 @@ interface StoreActions {
 type Store = StoreState & StoreActions
 
 const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
-  cart: [],
   isOpen: false,
   loading: false,
   didJustAddToCart: false,
