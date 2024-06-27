@@ -87,11 +87,11 @@ const Homepage = (props: HomepageProps) => {
         </div>
       )}
       {isLoading && (
-        <ul className="mt-24 flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <ul className="mx-auto mt-24 flex max-w-max flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {new Array(12).fill(0).map((_skeleton, index) => {
             return (
               <li key={`skeleton-${index}`}>
-                <Skeleton className="h-[364px] w-[300px] sm:w-[345.75px]" />
+                <Skeleton className="h-[364px] w-[300px]" />
               </li>
             )
           })}
@@ -121,7 +121,7 @@ const Homepage = (props: HomepageProps) => {
                 </Select>
               </div>
             </div>
-            <ul className="flex flex-col items-center gap-6 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            <ul className="mx-auto flex max-w-max flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {products
                 .filter((product) => product.featuredImage)
                 .map((product) => {
