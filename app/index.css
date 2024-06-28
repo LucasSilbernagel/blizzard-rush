@@ -3,5 +3,9 @@ body {
 }
 
 .ContrastLink {
-  @apply hover:contrast-25 focus-visible:contrast-25 transition-all duration-300;
+  @apply transition-all duration-300 hover:contrast-25 focus-visible:contrast-25;
+}
+
+.BrightnessLink {
+  @apply transition-all duration-300 hover:brightness-75 focus-visible:brightness-75;
 }
