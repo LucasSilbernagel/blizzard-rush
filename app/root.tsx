@@ -50,7 +50,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <header>
           <Navbar />
         </header>
-        <main>{children}</main>
+        <main className="pt-[139px] md:pt-[138px]">{children}</main>
         <Footer />
         <ScrollRestoration />
         <script

@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input'
 import { FaSearch } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { useStoreState } from '~/zustand-store'
+import './Navbar.css'
 
 const Navbar = () => {
   const { checkout } = useStoreState()
@@ -50,9 +51,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav
-      className={`fixed z-20 w-full bg-white ${currentScrollPos > 139 ? 'shadow-lg' : ''}`}
-    >
+    <nav className={`Navbar ${currentScrollPos > 139 ? 'shadow-lg' : ''}`}>
       <ul className="flex justify-end gap-4 bg-black py-2 pr-12 text-xs font-light text-white">
         <li>
           <Link to="/easy-returns" className="ContrastLink">
@@ -78,7 +77,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/"
-              className="font-anton bg-black p-1 text-xl uppercase tracking-wide text-white"
+              className="bg-black p-1 font-anton text-xl uppercase tracking-wide text-white"
             >
               Blizzard Rush
             </Link>
@@ -89,7 +88,7 @@ const Navbar = () => {
                 {checkout.lineItems?.length > 0 && (
                   <span
                     aria-label={`${checkout.lineItems.length} items in cart`}
-                    className="bg-theme-yellow absolute -left-2 -top-2 flex items-center justify-center rounded-full p-0.5 text-xs"
+                    className="Navbar__cart-number"
                     style={{
                       minWidth: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
                       height: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
@@ -148,7 +147,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/"
-              className="font-anton bg-black p-1.5 text-3xl uppercase tracking-wide text-white"
+              className="bg-black p-1.5 font-anton text-3xl uppercase tracking-wide text-white"
             >
               Blizzard Rush
             </Link>
@@ -200,12 +199,15 @@ const Navbar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/cart" className="ContrastLink text-xl font-bold">
+                <Link
+                  to="/cart"
+                  className={`text-xl font-bold ${checkout.lineItems?.length > 0 ? 'CartLink' : 'ContrastLink'}`}
+                >
                   <div className="relative flex items-center gap-1.5">
                     {checkout.lineItems?.length > 0 && (
                       <span
                         aria-label={`${checkout.lineItems.length} items in cart`}
-                        className="bg-theme-yellow absolute -left-2 -top-2 flex items-center justify-center rounded-full p-0.5 text-xs"
+                        className="Navbar__cart-number"
                         style={{
                           minWidth: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
                           height: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,

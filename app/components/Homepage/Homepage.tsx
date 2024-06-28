@@ -49,7 +49,7 @@ const Homepage = (props: HomepageProps) => {
   ]
 
   return (
-    <div className="pt-[139px] md:pt-[138px]">
+    <div>
       <h1 className="sr-only">Blizzard Rush</h1>
       <div className="flex gap-6">
         <div className="w-full bg-[#262626] px-4 pb-4 pt-4 text-white md:px-36 xl:w-3/12 xl:px-10 xl:pb-14 xl:pt-32">
@@ -71,7 +71,7 @@ const Homepage = (props: HomepageProps) => {
           className="relative hidden w-9/12 bg-cover bg-center bg-no-repeat xl:block"
         >
           <div className="absolute inset-0 bg-black bg-opacity-30"></div>
-          <h2 className="font-anton absolute -bottom-2 left-2 text-8xl uppercase text-white">
+          <h2 className="absolute -bottom-2 left-2 font-anton text-8xl uppercase text-white">
             Snowboards
           </h2>
         </div>

@@ -1,0 +1,12 @@
+.Navbar {
+  @apply fixed z-20 w-full bg-white;
+}
+
+.Navbar .Navbar__cart-number {
+  @apply absolute -left-2 -top-2 flex items-center justify-center rounded-full bg-theme-yellow p-0.5 text-xs transition-all duration-300;
+}
+
+.Navbar .CartLink:hover .Navbar__cart-number,
+.Navbar .CartLink:focus-visible .Navbar__cart-number {
+  @apply scale-125;
+}
