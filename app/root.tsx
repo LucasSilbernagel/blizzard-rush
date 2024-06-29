@@ -15,6 +15,7 @@ import { LinksFunction } from '@remix-run/node'
 import Footer from './components/Footer/Footer'
 import { StoreProvider } from './zustand-store'
 import Navbar from './components/Navbar/Navbar'
+import { Toaster } from '@/components/ui/toaster'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -51,6 +52,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <Navbar />
         </header>
         <main className="pt-[139px] md:pt-[138px]">{children}</main>
+        <Toaster />
         <Footer />
         <ScrollRestoration />
         <script
