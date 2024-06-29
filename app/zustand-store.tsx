@@ -2,6 +2,7 @@ import { StoreApi, UseBoundStore, create } from 'zustand'
 import * as React from 'react'
 import Client, { CheckoutLineItem } from 'shopify-buy'
 import getEnv from './get-env'
+import { useEffect } from 'react'
 
 const env = getEnv()
 
@@ -115,7 +116,7 @@ type StoreProviderProps = {
 export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
   const initializeCheckout = useStore((state) => state.initializeCheckout)
 
-  React.useEffect(() => {
+  useEffect(() => {
     initializeCheckout()
   }, [initializeCheckout])
 

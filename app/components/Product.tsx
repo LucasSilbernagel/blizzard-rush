@@ -46,8 +46,12 @@ export default function Product({ product }: { product: IProduct }) {
     addVariantToCart(selectedVariantId, '1')
   }
 
+  const SOLD_OUT = variants.edges.every(
+    (edge) => edge.node.quantityAvailable < 1
+  )
+
   return (
-    <div className="flex flex-col items-center justify-center px-4 lg:flex-row">
+    <div className="flex flex-col items-center justify-center gap-4 px-4 lg:flex-row">
       <div className="max-w-[720px]">
         <img src={featuredImage?.url} alt={title} />
       </div>
@@ -71,7 +75,7 @@ export default function Product({ product }: { product: IProduct }) {
             type="single"
             value={selectedVariantId}
             variant="outline"
-            className="flex-wrap"
+            className="flex-wrap gap-2"
           >
             {variants.edges.map((edge) => {
               return (
@@ -89,9 +93,17 @@ export default function Product({ product }: { product: IProduct }) {
         </div>
         <div>
           <div>
-            <Button onClick={handleAddToCart} className="w-full">
-              Add to cart
-            </Button>
+            {SOLD_OUT ? (
+              <div>
+                <p className="bg-red-600 py-2 text-center font-bold uppercase">
+                  Sold out!
+                </p>
+              </div>
+            ) : (
+              <Button onClick={handleAddToCart} className="w-full">
+                Add to cart
+              </Button>
+            )}
           </div>
           <div className="mt-2 flex w-full justify-end">
             <Button variant="ghost">

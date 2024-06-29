@@ -29,7 +29,7 @@ const Navbar = () => {
     }
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [currentScrollPos])
+  }, [])
 
   const formSchema = z.object({
     searchQuery: z
