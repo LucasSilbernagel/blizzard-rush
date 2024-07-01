@@ -40,6 +40,7 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
   setLoading: (loading: boolean) => set({ loading }),
   setDidJustAddToCart: (didJustAddToCart: boolean) => set({ didJustAddToCart }),
   initializeCheckout: async () => {
+    set({ loading: true })
     const existingCheckoutID = isBrowser
       ? localStorage.getItem(localStorageKey) || ''
       : ''
@@ -52,17 +53,20 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
           if (isBrowser) {
             localStorage.setItem(localStorageKey, existingCheckout.id)
           }
+          set({ loading: false })
           return
         }
       } catch (e) {
         localStorage.setItem(localStorageKey, 'null')
+        set({ loading: false })
       }
     }
 
     const newCheckout = await client.checkout.create()
-    set({ checkout: newCheckout })
+    set({ checkout: newCheckout, loading: false })
     if (isBrowser) {
       localStorage.setItem(localStorageKey, newCheckout.id)
+      set({ loading: false })
     }
   },
   addVariantToCart: async (variantId: string, quantity: string) => {
