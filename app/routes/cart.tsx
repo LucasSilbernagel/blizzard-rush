@@ -16,6 +16,11 @@ import { CheckoutLineItem } from 'shopify-buy'
 import { toast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
 import { PiCaretUpDownBold } from 'react-icons/pi'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 type CartProductInfo = {
   products: {
@@ -156,15 +161,33 @@ export default function CartPage() {
                     <Link
                       to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
                     >
-                      <h2 className="mr-4 max-w-60 overflow-hidden text-ellipsis text-nowrap text-lg font-bold">
-                        {lineItem.title}
-                      </h2>
+                      <div>
+                        <Tooltip>
+                          <TooltipTrigger>
+                            <h2 className="mr-4 max-w-60 overflow-hidden text-ellipsis text-nowrap text-lg font-bold">
+                              {lineItem.title}
+                            </h2>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <h2>{lineItem.title}</h2>
+                          </TooltipContent>
+                        </Tooltip>
+                      </div>
                     </Link>
                     {lineItem.variant?.title &&
                       lineItem.variant.title !== 'Default Title' && (
-                        <h2 className="max-w-60 overflow-hidden text-ellipsis text-nowrap">
-                          {lineItem.variant.title}
-                        </h2>
+                        <div>
+                          <Tooltip>
+                            <TooltipTrigger>
+                              <h2 className="max-w-60 overflow-hidden text-ellipsis text-nowrap">
+                                {lineItem.variant.title}
+                              </h2>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <h2>{lineItem.variant.title}</h2>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
                       )}
                   </div>
                 </div>
