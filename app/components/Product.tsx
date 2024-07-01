@@ -105,7 +105,7 @@ export default function Product({ product }: { product: IProduct }) {
           <div>
             {SOLD_OUT ? (
               <div>
-                <p className="bg-red-600 py-2 text-center font-bold uppercase">
+                <p className="bg-slate-100 py-2 text-center font-bold uppercase text-red-600">
                   Sold out!
                 </p>
               </div>
