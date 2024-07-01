@@ -15,6 +15,7 @@ import { useQuery } from '@tanstack/react-query'
 import { CheckoutLineItem } from 'shopify-buy'
 import { toast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
+import { PiCaretUpDownBold } from 'react-icons/pi'
 
 type CartProductInfo = {
   products: {
@@ -88,14 +89,14 @@ export default function CartPage() {
   }
 
   const getQuantitySelectOptions = (maximum: number | undefined) => {
-    if (maximum && maximum < 10) {
+    if (maximum && maximum < 9) {
       return Array.from({ length: maximum }, (_, i) => i + 1).map(
         (quantity) => {
           return { label: String(quantity), value: String(quantity) }
         }
       )
     } else {
-      return Array.from({ length: 10 }, (_, i) => i + 1).map((quantity) => {
+      return Array.from({ length: 9 }, (_, i) => i + 1).map((quantity) => {
         return { label: String(quantity), value: String(quantity) }
       })
     }
@@ -168,7 +169,7 @@ export default function CartPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
-                  <div className="w-20">
+                  <div className="w-16">
                     <Select
                       disabled={loading}
                       value={String(lineItem.quantity)}
@@ -176,7 +177,7 @@ export default function CartPage() {
                         handleQuantityChange(value, lineItem)
                       }
                     >
-                      <SelectTrigger>
+                      <SelectTrigger icon={<PiCaretUpDownBold />}>
                         <SelectValue placeholder="1" />
                       </SelectTrigger>
                       <SelectContent>

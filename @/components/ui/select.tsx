@@ -15,6 +15,7 @@ const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> & {
     className?: string
+    icon?: React.ReactNode
   }
 >(({ className, children, ...props }, ref) => (
   <SelectPrimitive.Trigger
@@ -27,7 +28,7 @@ const SelectTrigger = React.forwardRef<
   >
     {children}
     <SelectPrimitive.Icon asChild>
-      <FaArrowDown className="ml-2" />
+      <div className="ml-2">{props.icon || <FaArrowDown />}</div>
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ))
