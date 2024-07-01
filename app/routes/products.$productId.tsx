@@ -37,7 +37,7 @@ export const getProductData = async (
 
     const shopifyDomain = env.SHOPIFY_DOMAIN
 
-    const endpoint = `https://${shopifyDomain}/api/2023-01/graphql`
+    const endpoint = `https://${shopifyDomain}/api/2024-04/graphql`
 
     const productQuery: RequestDocument = `
       query getProduct($productId: ID!) {

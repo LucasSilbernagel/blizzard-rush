@@ -33,9 +33,11 @@ export default function Product({ product }: { product: IProduct }) {
       toast({
         title: `Added ${title} to cart`,
         description: (
-          <Link to="/cart" className="flex gap-2">
-            Go to cart <FaArrowRight />
-          </Link>
+          <div className="mt-2 flex justify-center">
+            <Link to="/cart" className="ContrastLink flex items-center gap-2">
+              Go to cart <FaArrowRight />
+            </Link>
+          </div>
         ),
       })
     }
@@ -46,9 +48,9 @@ export default function Product({ product }: { product: IProduct }) {
     addVariantToCart(selectedVariantId, '1')
   }
 
-  const SOLD_OUT = variants.edges.every(
-    (edge) => edge.node.quantityAvailable < 1
-  )
+  const SOLD_OUT =
+    product.title !== 'Gift Card' &&
+    variants.edges.every((edge) => edge.node.quantityAvailable < 1)
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 px-4 lg:flex-row">
@@ -58,39 +60,47 @@ export default function Product({ product }: { product: IProduct }) {
       <div className="mt-6 max-w-full lg:mt-36 lg:max-w-[400px]">
         <h1 className="text-3xl font-bold lg:text-4xl">{title}</h1>
         <h2 className="mt-8 text-2xl font-bold">
-          Price: ${priceRange?.minVariantPrice?.amount}
+          Price: ${Number(priceRange?.minVariantPrice?.amount).toFixed(2)}
         </h2>
         <div className="my-4 h-px w-full bg-gray-300"></div>
-        <h3 className="mb-4 text-lg font-bold">
-          Variant:{' '}
-          <span className="font-normal">
-            {
-              variants.edges.find((edge) => edge.node.id === selectedVariantId)
-                ?.node.title
-            }
-          </span>
-        </h3>
-        <div className="mb-8">
-          <ToggleGroup
-            type="single"
-            value={selectedVariantId}
-            variant="outline"
-            className="flex-wrap gap-2"
-          >
-            {variants.edges.map((edge) => {
-              return (
-                <ToggleGroupItem
-                  key={edge.node.id}
-                  value={edge.node.id}
-                  onClick={() => setSelectedVariantId(edge.node.id)}
-                  disabled={edge.node.quantityAvailable < 1}
-                >
-                  {edge.node.title}
-                </ToggleGroupItem>
-              )
-            })}
-          </ToggleGroup>
-        </div>
+        {variants.edges.length > 1 && (
+          <>
+            <h3 className="mb-4 text-lg font-bold">
+              Variant:{' '}
+              <span className="font-normal">
+                {
+                  variants.edges.find(
+                    (edge) => edge.node.id === selectedVariantId
+                  )?.node.title
+                }
+              </span>
+            </h3>
+            <div className="mb-8">
+              <ToggleGroup
+                type="single"
+                value={selectedVariantId}
+                variant="outline"
+                className="flex-wrap gap-2"
+              >
+                {variants.edges.map((edge) => {
+                  return (
+                    <ToggleGroupItem
+                      key={edge.node.id}
+                      value={edge.node.id}
+                      onClick={() => setSelectedVariantId(edge.node.id)}
+                      disabled={
+                        edge.node.quantityAvailable < 1 &&
+                        product.title !== 'Gift Card'
+                      }
+                    >
+                      {edge.node.title}
+                    </ToggleGroupItem>
+                  )
+                })}
+              </ToggleGroup>
+            </div>
+          </>
+        )}
         <div>
           <div>
             {SOLD_OUT ? (

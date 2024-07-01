@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 const env = getEnv()
 
 const client: Client = Client.buildClient({
-  apiVersion: '2023-01',
+  apiVersion: '2024-04',
   domain: env.SHOPIFY_DOMAIN || '',
   storefrontAccessToken: env.STOREFRONT_API_ACCESS_TOKEN || '',
 })

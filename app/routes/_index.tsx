@@ -40,7 +40,7 @@ export default function Index() {
     const storefrontAccessToken = env.STOREFRONT_API_ACCESS_TOKEN
     const shopifyDomain = env.SHOPIFY_DOMAIN
 
-    const endpoint = `https://${shopifyDomain}/api/2023-01/graphql`
+    const endpoint = `https://${shopifyDomain}/api/2024-04/graphql`
 
     const productsQuery = `
     query getProducts($first: Int!, $after: String, $sortKey: ProductSortKeys, $reverse: Boolean) {
