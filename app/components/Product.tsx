@@ -60,7 +60,11 @@ export default function Product({ product }: { product: IProduct }) {
       <div className="mt-6 max-w-full lg:mt-36 lg:max-w-[400px]">
         <h1 className="text-3xl font-bold lg:text-4xl">{title}</h1>
         <h2 className="mt-8 text-2xl font-bold">
-          Price: ${Number(priceRange?.minVariantPrice?.amount).toFixed(2)}
+          Price:{' '}
+          {new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          }).format(Number(priceRange?.minVariantPrice?.amount))}
         </h2>
         <div className="my-4 h-px w-full bg-gray-300"></div>
         {variants.edges.length > 1 && (

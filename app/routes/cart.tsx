@@ -112,7 +112,10 @@ export default function CartPage() {
     lineItems?.forEach((lineItem) => {
       subtotal += Number(lineItem.variant?.price.amount) * lineItem.quantity
     })
-    return subtotal.toFixed(2)
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(subtotal)
   }
 
   return (
@@ -122,13 +125,13 @@ export default function CartPage() {
           <FaArrowLeft /> Continue shopping
         </Link>
       </div>
-      <h1 className="my-6 text-center font-anton text-3xl font-bold uppercase tracking-wide">
+      <h1 className="my-6 pt-16 text-center font-anton text-3xl font-bold uppercase tracking-wide xl:pt-0">
         Shopping cart
       </h1>
-      <div className="mx-auto flex max-w-max">
+      <div className="mx-auto flex max-w-max flex-col gap-8 px-4 xl:flex-row xl:px-0">
         <div
           role="table"
-          className="border border-x-transparent border-b-transparent border-t-gray-300"
+          className="overflow-x-auto border border-x-transparent border-b-transparent border-t-gray-300"
         >
           <div role="row" className="sr-only">
             <div role="columnheader">Cart item image</div>
@@ -147,76 +150,77 @@ export default function CartPage() {
             const getItemSubtotal = () => {
               const subtotal =
                 Number(lineItem.variant?.price.amount) * lineItem.quantity
-              return subtotal.toFixed(2)
+              return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              }).format(subtotal)
             }
 
             return (
-              <div
-                role="row"
-                key={lineItem.id}
-                className="flex items-center border border-x-transparent border-b-gray-300 border-t-transparent py-4"
-              >
-                <div className="flex items-center">
-                  <div className="mr-4" role="cell">
-                    <Link
-                      to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
-                    >
-                      <img
-                        src={lineItem.variant?.image.src}
-                        alt=""
-                        className="w-24"
-                      />
-                    </Link>
-                  </div>
-                  <div className="w-72" role="cell">
-                    <Link
-                      to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
-                    >
-                      <div>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <h2 className="mr-4 max-w-60 overflow-hidden text-ellipsis text-nowrap text-lg font-bold">
-                              {lineItem.title}
-                            </h2>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <h2>{lineItem.title}</h2>
-                          </TooltipContent>
-                        </Tooltip>
-                      </div>
-                    </Link>
-                    {lineItem.variant?.title &&
-                      lineItem.variant.title !== 'Default Title' && (
+              <div key={lineItem.id} role="row" className="flex">
+                <div className="flex items-center border border-x-transparent border-b-gray-300 border-t-transparent py-4">
+                  <div className="flex items-center">
+                    <div className="mr-4" role="cell">
+                      <Link
+                        to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
+                      >
+                        <img
+                          src={lineItem.variant?.image.src}
+                          alt=""
+                          className="w-24"
+                        />
+                      </Link>
+                    </div>
+                    <div className="w-72" role="cell">
+                      <Link
+                        to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
+                      >
                         <div>
                           <Tooltip>
                             <TooltipTrigger>
-                              <h2 className="max-w-60 overflow-hidden text-ellipsis text-nowrap">
-                                {lineItem.variant.title}
+                              <h2 className="mr-4 max-w-60 overflow-hidden text-ellipsis text-nowrap text-lg font-bold">
+                                {lineItem.title}
                               </h2>
                             </TooltipTrigger>
                             <TooltipContent>
-                              <h2>{lineItem.variant.title}</h2>
+                              <h2>{lineItem.title}</h2>
                             </TooltipContent>
                           </Tooltip>
                         </div>
-                      )}
+                      </Link>
+                      {lineItem.variant?.title &&
+                        lineItem.variant.title !== 'Default Title' && (
+                          <div>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <h2 className="max-w-60 overflow-hidden text-ellipsis text-nowrap">
+                                  {lineItem.variant.title}
+                                </h2>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <h2>{lineItem.variant.title}</h2>
+                              </TooltipContent>
+                            </Tooltip>
+                          </div>
+                        )}
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-6">
-                  <div className="w-16" role="cell">
-                    <Select
-                      disabled={loading}
-                      value={String(lineItem.quantity)}
-                      onValueChange={(value) =>
-                        handleQuantityChange(value, lineItem)
-                      }
-                    >
-                      <SelectTrigger icon={<PiCaretUpDownBold />}>
-                        <SelectValue placeholder="1" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {getQuantitySelectOptions(maximumQuantityAvailable).map(
-                          (quantity) => {
+                  <div className="flex items-center gap-6">
+                    <div className="w-16" role="cell">
+                      <Select
+                        disabled={loading}
+                        value={String(lineItem.quantity)}
+                        onValueChange={(value) =>
+                          handleQuantityChange(value, lineItem)
+                        }
+                      >
+                        <SelectTrigger icon={<PiCaretUpDownBold />}>
+                          <SelectValue placeholder="1" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {getQuantitySelectOptions(
+                            maximumQuantityAvailable
+                          ).map((quantity) => {
                             return (
                               <SelectItem
                                 key={quantity.label}
@@ -225,50 +229,59 @@ export default function CartPage() {
                                 {quantity.label}
                               </SelectItem>
                             )
-                          }
-                        )}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div role="cell">
-                    <Button
-                      disabled={loading}
-                      onClick={() => handleRemoveLineItem(lineItem)}
-                      variant="ghost"
-                      className="flex items-center gap-2 font-bold"
-                    >
-                      <FaTrash /> Remove
-                    </Button>
-                  </div>
-                  <div role="cell">
-                    <span className="text-xl font-bold">
-                      ${getItemSubtotal()}
-                    </span>
+                          })}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div role="cell">
+                      <Button
+                        disabled={loading}
+                        onClick={() => handleRemoveLineItem(lineItem)}
+                        variant="ghost"
+                        className="flex items-center gap-2 font-bold"
+                      >
+                        <FaTrash /> Remove
+                      </Button>
+                    </div>
+                    <div role="cell">
+                      <span className="text-xl font-bold">
+                        {getItemSubtotal()}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             )
           })}
         </div>
-        <div>
-          <div className="flex justify-between">
+        <div className="mx-auto w-[280px] sm:w-[368px]">
+          <div className="flex justify-between bg-black p-4 text-xl font-bold text-white">
             <div>
               <span>Subtotal</span>
             </div>
             <div>
-              <span>${calculateCartSubtotal(checkout.lineItems)}</span>
+              <span>{calculateCartSubtotal(checkout.lineItems)}</span>
+            </div>
+          </div>
+          <div className="bg-gray-100 p-4">
+            <div>
+              <a
+                target="_blank"
+                href={checkout.webUrl}
+                rel="noreferrer"
+                className="BrightnessLink block w-full bg-theme-yellow py-2 text-center text-2xl font-bold"
+              >
+                Check Out
+              </a>
+            </div>
+            <div className="mt-4 flex justify-center">
+              <span className="text-center text-xs italic">
+                Shipping & taxes calculated at checkout
+              </span>
             </div>
           </div>
         </div>
       </div>
-      <a
-        target="_blank"
-        href={checkout.webUrl}
-        rel="noreferrer"
-        className="mt-2 inline-block rounded bg-black p-2 text-white"
-      >
-        Complete checkout
-      </a>
     </div>
   )
 }
