@@ -126,7 +126,17 @@ export default function CartPage() {
         Shopping cart
       </h1>
       <div className="mx-auto flex max-w-max">
-        <ul className="border border-x-transparent border-b-transparent border-t-gray-300">
+        <div
+          role="table"
+          className="border border-x-transparent border-b-transparent border-t-gray-300"
+        >
+          <div role="row" className="sr-only">
+            <div role="columnheader">Cart item image</div>
+            <div role="columnheader">Cart item name</div>
+            <div role="columnheader">Cart item quantity</div>
+            <div role="columnheader">Remove cart item</div>
+            <div role="columnheader">Cart item subtotal</div>
+          </div>
           {checkout.lineItems?.map((lineItem) => {
             const maximumQuantityAvailable = data?.products.edges
               .find((edge) => edge.node.title === lineItem.title)
@@ -141,12 +151,13 @@ export default function CartPage() {
             }
 
             return (
-              <li
+              <div
+                role="row"
                 key={lineItem.id}
                 className="flex items-center border border-x-transparent border-b-gray-300 border-t-transparent py-4"
               >
                 <div className="flex items-center">
-                  <div className="mr-4">
+                  <div className="mr-4" role="cell">
                     <Link
                       to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
                     >
@@ -157,7 +168,7 @@ export default function CartPage() {
                       />
                     </Link>
                   </div>
-                  <div className="w-72">
+                  <div className="w-72" role="cell">
                     <Link
                       to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
                     >
@@ -192,7 +203,7 @@ export default function CartPage() {
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
-                  <div className="w-16">
+                  <div className="w-16" role="cell">
                     <Select
                       disabled={loading}
                       value={String(lineItem.quantity)}
@@ -219,7 +230,7 @@ export default function CartPage() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div>
+                  <div role="cell">
                     <Button
                       disabled={loading}
                       onClick={() => handleRemoveLineItem(lineItem)}
@@ -229,16 +240,16 @@ export default function CartPage() {
                       <FaTrash /> Remove
                     </Button>
                   </div>
-                  <div>
+                  <div role="cell">
                     <span className="text-xl font-bold">
                       ${getItemSubtotal()}
                     </span>
                   </div>
                 </div>
-              </li>
+              </div>
             )
           })}
-        </ul>
+        </div>
         <div>
           <div className="flex justify-between">
             <div>
