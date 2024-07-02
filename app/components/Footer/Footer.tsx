@@ -31,7 +31,7 @@ const Footer = () => {
               Join our newsletter
             </h3>
             <p>
-              Join our mailing list! Subscribe to the BlizzardRush Newsletter
+              Join our mailing list! Subscribe to the Blizzard Rush Newsletter
               and save 10% on your next order.
             </p>
             <Link
