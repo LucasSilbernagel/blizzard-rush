@@ -1,5 +1,5 @@
 .Navbar {
-  @apply fixed z-20 w-full bg-white;
+  @apply fixed z-30 w-full bg-white;
 }
 
 .Navbar .Navbar__cart-number {
