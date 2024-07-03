@@ -1,0 +1,25 @@
+.ProductList__product-link {
+  @apply relative flex max-w-[300px] flex-col items-center p-2;
+}
+
+.ProductList__product-image {
+  @apply relative;
+}
+
+.ProductList__product-image::after {
+  @apply absolute -right-2 -top-2 -z-10 h-full w-full border-2 border-transparent bg-white transition-all duration-300 content-[''];
+}
+
+.ProductList__product-link:hover .ProductList__product-image::after,
+.ProductList__product-link:focus-visible .ProductList__product-image::after {
+  @apply border-theme-yellow;
+}
+
+.ProductList__product-footer {
+  @apply flex w-full flex-col bg-white p-2 transition-colors duration-300;
+}
+
+.ProductList__product-link:hover .ProductList__product-footer,
+.ProductList__product-link:focus-visible .ProductList__product-footer {
+  @apply bg-theme-yellow;
+}

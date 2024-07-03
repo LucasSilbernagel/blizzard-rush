@@ -1,4 +1,4 @@
-import { Link } from '@remix-run/react'
+import { Link, useNavigate } from '@remix-run/react'
 import { HiOutlineShoppingBag } from 'react-icons/hi2'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -19,6 +19,8 @@ import { useStoreState } from '~/zustand-store'
 import './Navbar.css'
 
 const Navbar = () => {
+  const navigate = useNavigate()
+
   const { checkout } = useStoreState()
 
   const [currentScrollPos, setCurrentScrollPos] = useState(0)
@@ -47,7 +49,7 @@ const Navbar = () => {
   })
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+    navigate(`/search?q=${values.searchQuery}`)
   }
 
   return (

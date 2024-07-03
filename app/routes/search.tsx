@@ -1,11 +1,15 @@
 import type { MetaFunction } from '@remix-run/node'
-import Homepage from '~/components/Homepage/Homepage'
+import { useSearchParams } from '@remix-run/react'
+import SearchPage from '~/components/SearchPage/SearchPage'
 import { useProductPageData } from '~/hooks/useProductPageData'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Blizzard Rush | Shop Snowboards' },
-    { name: 'description', content: 'All about Blizzard Rush' },
+    { title: 'Blizzard Rush | Search' },
+    {
+      name: 'description',
+      content: 'Search results for Blizzard Rush products',
+    },
   ]
 }
 
@@ -21,9 +25,17 @@ export default function Index() {
     handleSortOptionChange,
   } = useProductPageData()
 
+  const [searchParams] = useSearchParams()
+
+  const searchQuery = String(searchParams.get('q'))
+
+  const filteredProducts = products.filter((product) =>
+    JSON.stringify(product).toLowerCase().includes(searchQuery)
+  )
+
   return (
-    <Homepage
-      products={products}
+    <SearchPage
+      products={filteredProducts}
       isLoading={isLoading}
       error={error}
       isFetchingNextPage={isFetchingNextPage}
@@ -31,6 +43,7 @@ export default function Index() {
       fetchNextPage={fetchNextPage}
       sortOption={sortOption}
       handleSortOptionChange={handleSortOptionChange}
+      searchQuery={searchQuery}
     />
   )
 }
