@@ -52,12 +52,22 @@ export default function CartPage() {
     return request<CartProductInfo>(endpoint, productsQuery, variables, headers)
   }
 
-  const { data, error, isLoading, refetch } = useQuery<CartProductInfo, Error>({
+  const {
+    data,
+    error,
+    isLoading: isLoadingStorefrontData,
+    refetch,
+  } = useQuery<CartProductInfo, Error>({
     queryKey: ['cartProductData'],
     queryFn: fetchCartProductInfo,
   })
 
   return (
-    <Cart isLoading={isLoading} error={error} data={data} refetch={refetch} />
+    <Cart
+      isLoadingStorefrontData={isLoadingStorefrontData}
+      error={error}
+      data={data}
+      refetch={refetch}
+    />
   )
 }

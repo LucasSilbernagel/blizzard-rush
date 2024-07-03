@@ -16,7 +16,7 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const {
     products,
-    isLoading,
+    isLoadingStorefrontData,
     error,
     hasNextPage,
     fetchNextPage,
@@ -36,7 +36,7 @@ export default function Index() {
   return (
     <SearchPage
       products={filteredProducts}
-      isLoading={isLoading}
+      isLoadingStorefrontData={isLoadingStorefrontData}
       error={error}
       isFetchingNextPage={isFetchingNextPage}
       hasNextPage={hasNextPage}

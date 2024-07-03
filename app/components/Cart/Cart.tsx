@@ -22,16 +22,17 @@ import { CartProductInfo } from '~/routes/cart'
 import { useStoreState } from '~/zustand-store'
 
 interface CartProps {
-  isLoading: boolean
+  isLoadingStorefrontData: boolean
   error: Error | null
   data?: CartProductInfo
   refetch: () => void
 }
 
 const Cart = (props: CartProps) => {
-  const { isLoading, error, data, refetch } = props
+  const { isLoadingStorefrontData, error, data, refetch } = props
 
-  const { checkout, updateLineItem, removeLineItem, loading } = useStoreState()
+  const { checkout, updateLineItem, removeLineItem, isLoadingShopifyBuyData } =
+    useStoreState()
 
   const handleQuantityChange = (value: string, lineItem: CheckoutLineItem) => {
     updateLineItem(checkout.id, lineItem.id, value)
@@ -75,7 +76,7 @@ const Cart = (props: CartProps) => {
   }
 
   if (
-    (isLoading || loading) &&
+    (isLoadingStorefrontData || isLoadingShopifyBuyData) &&
     !error &&
     (!checkout.lineItems || checkout.lineItems?.length < 1)
   ) {
@@ -89,8 +90,8 @@ const Cart = (props: CartProps) => {
     )
   } else if (
     error &&
-    !isLoading &&
-    !loading &&
+    !isLoadingStorefrontData &&
+    !isLoadingShopifyBuyData &&
     (!checkout.lineItems || checkout.lineItems?.length < 1)
   ) {
     return (
@@ -104,8 +105,8 @@ const Cart = (props: CartProps) => {
       </div>
     )
   } else if (
-    !isLoading &&
-    !loading &&
+    !isLoadingStorefrontData &&
+    !isLoadingShopifyBuyData &&
     !error &&
     (!checkout.lineItems || checkout.lineItems?.length < 1)
   ) {
@@ -127,8 +128,8 @@ const Cart = (props: CartProps) => {
   } else if (
     checkout.lineItems?.length > 0 &&
     !error &&
-    !isLoading &&
-    !loading
+    !isLoadingStorefrontData &&
+    !isLoadingShopifyBuyData
   ) {
     return (
       <div className="relative">
@@ -223,7 +224,7 @@ const Cart = (props: CartProps) => {
                     <div className="flex items-center gap-6">
                       <div className="w-16" role="cell">
                         <Select
-                          disabled={loading}
+                          disabled={isLoadingShopifyBuyData}
                           value={String(lineItem.quantity)}
                           onValueChange={(value) =>
                             handleQuantityChange(value, lineItem)
@@ -250,7 +251,7 @@ const Cart = (props: CartProps) => {
                       </div>
                       <div role="cell">
                         <Button
-                          disabled={loading}
+                          disabled={isLoadingShopifyBuyData}
                           onClick={() => handleRemoveLineItem(lineItem)}
                           variant="ghost"
                           className="flex items-center gap-2 font-bold"

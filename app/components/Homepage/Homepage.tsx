@@ -3,7 +3,7 @@ import hero from '../../images/hero.webp'
 import ProductList from '../ProductList/ProductList'
 
 type HomepageProps = {
-  isLoading: boolean
+  isLoadingStorefrontData: boolean
   error: Error | null
   products?: IProduct[]
   hasNextPage: boolean
@@ -16,7 +16,7 @@ type HomepageProps = {
 const Homepage = (props: HomepageProps) => {
   const {
     products,
-    isLoading,
+    isLoadingStorefrontData,
     error,
     hasNextPage,
     fetchNextPage,
@@ -55,7 +55,7 @@ const Homepage = (props: HomepageProps) => {
       </div>
       <ProductList
         products={products}
-        isLoading={isLoading}
+        isLoadingStorefrontData={isLoadingStorefrontData}
         error={error}
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}

@@ -98,7 +98,7 @@ export const useProductPageData = () => {
   const {
     data,
     error,
-    isLoading,
+    isLoading: isLoadingStorefrontData,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
@@ -125,7 +125,7 @@ export const useProductPageData = () => {
 
   return {
     products,
-    isLoading,
+    isLoadingStorefrontData,
     error,
     hasNextPage,
     fetchNextPage,

@@ -2,7 +2,7 @@ import { IProduct } from '~/routes/products.$productId'
 import ProductList from '../ProductList/ProductList'
 
 type SearchPageProps = {
-  isLoading: boolean
+  isLoadingStorefrontData: boolean
   error: Error | null
   products?: IProduct[]
   hasNextPage: boolean
@@ -16,7 +16,7 @@ type SearchPageProps = {
 const SearchPage = (props: SearchPageProps) => {
   const {
     products,
-    isLoading,
+    isLoadingStorefrontData,
     error,
     hasNextPage,
     fetchNextPage,
@@ -33,7 +33,7 @@ const SearchPage = (props: SearchPageProps) => {
       </h1>
       <ProductList
         products={products}
-        isLoading={isLoading}
+        isLoadingStorefrontData={isLoadingStorefrontData}
         error={error}
         hasNextPage={hasNextPage}
         fetchNextPage={fetchNextPage}

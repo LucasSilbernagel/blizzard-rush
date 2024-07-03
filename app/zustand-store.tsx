@@ -23,7 +23,7 @@ type Checkout = {
 
 interface StoreActions {
   setCheckout: (checkout: Checkout) => void
-  setLoading: (loading: boolean) => void
+  setLoading: (isLoadingShopifyBuyData: boolean) => void
   setDidJustAddToCart: (didJustAddToCart: boolean) => void
   initializeCheckout: () => Promise<void>
 }
@@ -32,15 +32,16 @@ type Store = StoreState & StoreActions
 
 const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
   isOpen: false,
-  loading: false,
+  isLoadingShopifyBuyData: false,
   didJustAddToCart: false,
   client: client,
   checkout: {} as Checkout,
   setCheckout: (checkout: Checkout) => set({ checkout }),
-  setLoading: (loading: boolean) => set({ loading }),
+  setLoading: (isLoadingShopifyBuyData: boolean) =>
+    set({ isLoadingShopifyBuyData }),
   setDidJustAddToCart: (didJustAddToCart: boolean) => set({ didJustAddToCart }),
   initializeCheckout: async () => {
-    set({ loading: true })
+    set({ isLoadingShopifyBuyData: true })
     const existingCheckoutID = isBrowser
       ? localStorage.getItem(localStorageKey) || ''
       : ''
@@ -53,24 +54,24 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
           if (isBrowser) {
             localStorage.setItem(localStorageKey, existingCheckout.id)
           }
-          set({ loading: false })
+          set({ isLoadingShopifyBuyData: false })
           return
         }
       } catch (e) {
         localStorage.setItem(localStorageKey, 'null')
-        set({ loading: false })
+        set({ isLoadingShopifyBuyData: false })
       }
     }
 
     const newCheckout = await client.checkout.create()
-    set({ checkout: newCheckout, loading: false })
+    set({ checkout: newCheckout, isLoadingShopifyBuyData: false })
     if (isBrowser) {
       localStorage.setItem(localStorageKey, newCheckout.id)
-      set({ loading: false })
+      set({ isLoadingShopifyBuyData: false })
     }
   },
   addVariantToCart: async (variantId: string, quantity: string) => {
-    set({ loading: true })
+    set({ isLoadingShopifyBuyData: true })
     const { checkout } = useStore.getState()
     const checkoutID = checkout.id
 
@@ -85,21 +86,25 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
       checkoutID,
       lineItemsToUpdate
     )
-    set({ checkout: res, loading: false, didJustAddToCart: true })
+    set({
+      checkout: res,
+      isLoadingShopifyBuyData: false,
+      didJustAddToCart: true,
+    })
     setTimeout(() => set({ didJustAddToCart: false }), 3000)
   },
   removeLineItem: async (checkoutID: string, lineItemID: string) => {
-    set({ loading: true })
+    set({ isLoadingShopifyBuyData: true })
 
     const res = await client.checkout.removeLineItems(checkoutID, [lineItemID])
-    set({ checkout: res, loading: false })
+    set({ checkout: res, isLoadingShopifyBuyData: false })
   },
   updateLineItem: async (
     checkoutID: string,
     lineItemID: string,
     quantity: string
   ) => {
-    set({ loading: true })
+    set({ isLoadingShopifyBuyData: true })
 
     const lineItemsToUpdate = [
       { id: lineItemID, quantity: parseInt(quantity, 10) },
@@ -109,7 +114,7 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
       checkoutID,
       lineItemsToUpdate
     )
-    set({ checkout: res, loading: false })
+    set({ checkout: res, isLoadingShopifyBuyData: false })
   },
 }))
 
@@ -129,7 +134,7 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
 
 interface StoreState {
   checkout: Checkout
-  loading: boolean
+  isLoadingShopifyBuyData: boolean
   didJustAddToCart: boolean
   addVariantToCart: (variantId: string, quantity: string) => Promise<void>
   removeLineItem: (checkoutID: string, lineItemID: string) => Promise<void>
