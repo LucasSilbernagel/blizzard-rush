@@ -153,6 +153,17 @@ const ProductList = (props: ProductListProps) => {
                 })}
             </ul>
           )}
+        {products &&
+          products.length === 0 &&
+          !isLoadingStorefrontData &&
+          !error && (
+            <div className="mx-auto my-44 max-w-screen-sm text-center">
+              <Alert variant="destructive">
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>No products found.</AlertDescription>
+              </Alert>
+            </div>
+          )}
         {hasNextPage && (
           <div className="my-12 flex w-full justify-center">
             <Button
