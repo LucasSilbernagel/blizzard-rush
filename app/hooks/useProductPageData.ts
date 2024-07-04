@@ -16,7 +16,10 @@ type ProductPageData = {
   }
 }
 
-export const useProductPageData = (searchQuery?: string) => {
+export const useProductPageData = (
+  searchQuery?: string,
+  productTitlesList?: string[]
+) => {
   const env = getEnv()
 
   const fetchProductPageData = async ({
@@ -24,11 +27,13 @@ export const useProductPageData = (searchQuery?: string) => {
     sortKey = 'TITLE',
     reverse = false,
     searchTerm = '',
+    productTitles = [],
   }: {
     pageParam?: string | null
     sortKey?: 'TITLE' | 'PRICE'
     reverse?: boolean
     searchTerm?: string
+    productTitles?: string[]
   }): Promise<ProductPageData> => {
     const storefrontAccessToken = env.STOREFRONT_API_ACCESS_TOKEN
     const shopifyDomain = env.SHOPIFY_DOMAIN
@@ -70,12 +75,24 @@ export const useProductPageData = (searchQuery?: string) => {
       }
     `
 
+    let titlesQueryPart = ''
+    if (productTitles.length > 0) {
+      const titlesQueryList = productTitles
+        .map((title) => `"${title}"`)
+        .join(' OR ')
+      titlesQueryPart = `title:(${titlesQueryList})`
+    }
+
+    const combinedQuery = [searchTerm, titlesQueryPart]
+      .filter((part) => part)
+      .join(' AND ')
+
     const variables = {
       first: 36,
       after: pageParam,
       sortKey,
       reverse,
-      query: `${searchTerm}`,
+      query: combinedQuery,
     }
 
     const headers = {
@@ -100,6 +117,7 @@ export const useProductPageData = (searchQuery?: string) => {
       sortKey,
       reverse,
       searchTerm: searchQuery,
+      productTitles: productTitlesList,
     })
   }
 
