@@ -14,6 +14,10 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Index() {
+  const [searchParams] = useSearchParams()
+
+  const searchQuery = String(searchParams.get('q'))
+
   const {
     products,
     isLoadingStorefrontData,
@@ -23,19 +27,11 @@ export default function Index() {
     isFetchingNextPage,
     sortOption,
     handleSortOptionChange,
-  } = useProductPageData()
-
-  const [searchParams] = useSearchParams()
-
-  const searchQuery = String(searchParams.get('q'))
-
-  const filteredProducts = products.filter((product) =>
-    JSON.stringify(product).toLowerCase().includes(searchQuery)
-  )
+  } = useProductPageData(searchQuery)
 
   return (
     <SearchPage
-      products={filteredProducts}
+      products={products}
       isLoadingStorefrontData={isLoadingStorefrontData}
       error={error}
       isFetchingNextPage={isFetchingNextPage}
