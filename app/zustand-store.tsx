@@ -26,6 +26,8 @@ interface StoreActions {
   setLoading: (isLoadingShopifyBuyData: boolean) => void
   setDidJustAddToCart: (didJustAddToCart: boolean) => void
   initializeCheckout: () => Promise<void>
+  initializeWishlist: () => Promise<void>
+  setWishlistTitles: (wishlistTitles: string[]) => void
 }
 
 type Store = StoreState & StoreActions
@@ -35,6 +37,34 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
   isLoadingShopifyBuyData: false,
   didJustAddToCart: false,
   client: client,
+  wishlistTitles: [] as string[],
+  setWishlistTitles: (wishlistTitles: string[]) => {
+    set({ wishlistTitles: wishlistTitles, isLoadingShopifyBuyData: true })
+    if (isBrowser) {
+      localStorage.setItem('wishlistTitles', wishlistTitles.join(',') || '')
+    }
+    set({ isLoadingShopifyBuyData: false })
+  },
+  initializeWishlist: async () => {
+    set({ isLoadingShopifyBuyData: true })
+    const existingWishlistTitles = isBrowser
+      ? localStorage.getItem('wishlistTitles') || ''
+      : ''
+
+    if (existingWishlistTitles && existingWishlistTitles !== `null`) {
+      try {
+        set({ wishlistTitles: existingWishlistTitles.split(',') })
+        if (isBrowser) {
+          localStorage.setItem('wishlistTitles', existingWishlistTitles)
+        }
+        set({ isLoadingShopifyBuyData: false })
+        return
+      } catch (e) {
+        localStorage.setItem('wishlistTitles', 'null')
+        set({ isLoadingShopifyBuyData: false })
+      }
+    }
+  },
   checkout: {} as Checkout,
   setCheckout: (checkout: Checkout) => set({ checkout }),
   setLoading: (isLoadingShopifyBuyData: boolean) =>
@@ -124,15 +154,19 @@ type StoreProviderProps = {
 
 export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
   const initializeCheckout = useStore((state) => state.initializeCheckout)
+  const initializeWishlist = useStore((state) => state.initializeWishlist)
 
   useEffect(() => {
     initializeCheckout()
-  }, [initializeCheckout])
+    initializeWishlist()
+  }, [initializeCheckout, initializeWishlist])
 
   return <>{children}</>
 }
 
 interface StoreState {
+  wishlistTitles: string[]
+  setWishlistTitles: (wishlistTitles: string[]) => void
   checkout: Checkout
   isLoadingShopifyBuyData: boolean
   didJustAddToCart: boolean

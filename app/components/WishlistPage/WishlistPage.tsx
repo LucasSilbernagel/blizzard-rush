@@ -38,6 +38,7 @@ const WishlistPage = (props: WishlistPageProps) => {
         isFetchingNextPage={isFetchingNextPage}
         sortOption={sortOption}
         handleSortOptionChange={handleSortOptionChange}
+        isWishlistPage={true}
       />
     </div>
   )

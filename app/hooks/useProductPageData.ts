@@ -158,5 +158,6 @@ export const useProductPageData = (
     isFetchingNextPage,
     sortOption,
     handleSortOptionChange,
+    refetch,
   }
 }

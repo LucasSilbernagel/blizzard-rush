@@ -1,6 +1,8 @@
 import type { MetaFunction } from '@remix-run/node'
+import { useEffect } from 'react'
 import WishlistPage from '~/components/WishlistPage/WishlistPage'
 import { useProductPageData } from '~/hooks/useProductPageData'
+import { useStoreState } from '~/zustand-store'
 
 export const meta: MetaFunction = () => {
   return [
@@ -13,13 +15,7 @@ export const meta: MetaFunction = () => {
 }
 
 export default function Wishlist() {
-  let savedWishlistTitles
-  let wishlistTitles: string[] = []
-
-  if (typeof window !== 'undefined') {
-    savedWishlistTitles = localStorage.getItem('wishlistTitles')
-    wishlistTitles = JSON.parse(savedWishlistTitles || '[]')
-  }
+  const { wishlistTitles } = useStoreState()
 
   const {
     products,
@@ -30,11 +26,18 @@ export default function Wishlist() {
     isFetchingNextPage,
     sortOption,
     handleSortOptionChange,
+    refetch,
   } = useProductPageData(undefined, wishlistTitles)
+
+  useEffect(() => {
+    if (wishlistTitles.length > 0) {
+      refetch()
+    }
+  }, [refetch, wishlistTitles, products])
 
   return (
     <WishlistPage
-      products={wishlistTitles.length ? products : []}
+      products={wishlistTitles.length > 0 ? products : []}
       isLoadingStorefrontData={isLoadingStorefrontData}
       error={error}
       isFetchingNextPage={isFetchingNextPage}

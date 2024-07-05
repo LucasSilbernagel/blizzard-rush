@@ -14,7 +14,8 @@ import {
 
 import './ProductList.css'
 import { Loader2 } from 'lucide-react'
-import { FaArrowDown, FaArrowLeft } from 'react-icons/fa6'
+import { FaArrowDown, FaArrowLeft, FaTrash } from 'react-icons/fa6'
+import { useStoreState } from '~/zustand-store'
 
 type ProductListProps = {
   isLoadingStorefrontData: boolean
@@ -25,6 +26,7 @@ type ProductListProps = {
   isFetchingNextPage: boolean
   sortOption: string
   handleSortOptionChange: (value: string) => void
+  isWishlistPage?: boolean
 }
 
 const ProductList = (props: ProductListProps) => {
@@ -37,7 +39,10 @@ const ProductList = (props: ProductListProps) => {
     isFetchingNextPage,
     sortOption,
     handleSortOptionChange,
+    isWishlistPage = false,
   } = props
+
+  const { setWishlistTitles, wishlistTitles } = useStoreState()
 
   const selectOptions = [
     { value: 'PRICE_DESC', label: 'Price, high-low' },
@@ -110,7 +115,28 @@ const ProductList = (props: ProductListProps) => {
                     ) && product.title !== 'Gift Card'
                   const variantsAvailable = product.variants.edges.length
                   return (
-                    <li key={product.id} className="flex justify-center">
+                    <li
+                      key={product.id}
+                      className="relative flex justify-center"
+                    >
+                      {isWishlistPage && (
+                        <div className="absolute right-0 top-0 z-10">
+                          <Button
+                            aria-label={`Remove ${product.title} from wishlist`}
+                            variant="ghost"
+                            onClick={() => {
+                              const oldWishlistTitles = [...wishlistTitles]
+                              setWishlistTitles(
+                                oldWishlistTitles.filter(
+                                  (title) => title !== product.title
+                                )
+                              )
+                            }}
+                          >
+                            <FaTrash />
+                          </Button>
+                        </div>
+                      )}
                       <Link
                         to={`/products/${product.id.split('/').at(-1)}`}
                         className="ProductList__product-link"

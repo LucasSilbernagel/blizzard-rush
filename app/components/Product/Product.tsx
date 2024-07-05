@@ -11,7 +11,12 @@ import { Link } from '@remix-run/react'
 export default function Product({ product }: { product: IProduct }) {
   const { title, featuredImage, priceRange, variants } = product
 
-  const { didJustAddToCart, addVariantToCart } = useStoreState()
+  const {
+    didJustAddToCart,
+    addVariantToCart,
+    wishlistTitles,
+    setWishlistTitles,
+  } = useStoreState()
 
   const { toast } = useToast()
 
@@ -50,43 +55,19 @@ export default function Product({ product }: { product: IProduct }) {
 
   const handleAddToWishlist = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    const wishlistTitles = localStorage.getItem('wishlistTitles')
-    if (wishlistTitles) {
-      const savedWishlistTitles = JSON.parse(wishlistTitles)
-      savedWishlistTitles.push(product.title)
-      localStorage.setItem(
-        'wishlistTitles',
-        JSON.stringify(savedWishlistTitles)
-      )
-      toast({
-        title: `Added ${title} to wishlist`,
-        description: (
-          <div className="mt-2 flex justify-center">
-            <Link
-              to="/wishlist"
-              className="ContrastLink flex items-center gap-2"
-            >
-              Go to wishlist <FaArrowRight />
-            </Link>
-          </div>
-        ),
-      })
-    } else {
-      localStorage.setItem('wishlistTitles', JSON.stringify([product.title]))
-      toast({
-        title: `Added ${title} to wishlist`,
-        description: (
-          <div className="mt-2 flex justify-center">
-            <Link
-              to="/wishlist"
-              className="ContrastLink flex items-center gap-2"
-            >
-              Go to wishlist <FaArrowRight />
-            </Link>
-          </div>
-        ),
-      })
-    }
+    const newWishlistTitles = [...wishlistTitles]
+    newWishlistTitles.push(product.title)
+    setWishlistTitles(newWishlistTitles)
+    toast({
+      title: `Added ${title} to wishlist`,
+      description: (
+        <div className="mt-2 flex justify-center">
+          <Link to="/wishlist" className="ContrastLink flex items-center gap-2">
+            Go to wishlist <FaArrowRight />
+          </Link>
+        </div>
+      ),
+    })
   }
 
   const SOLD_OUT =
