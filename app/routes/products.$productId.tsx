@@ -1,7 +1,7 @@
 import { LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { request, RequestDocument } from 'graphql-request' // Assuming request has a type for the document
-import Product from '~/components/Product'
+import Product from '~/components/Product/Product'
 import getEnv from '~/get-env'
 
 export interface IProduct {

@@ -80,7 +80,7 @@ export const useProductPageData = (
       const titlesQueryList = productTitles
         .map((title) => `"${title}"`)
         .join(' OR ')
-      titlesQueryPart = `title:(${titlesQueryList})`
+      titlesQueryPart = `(${titlesQueryList})`
     }
 
     const combinedQuery = [searchTerm, titlesQueryPart]

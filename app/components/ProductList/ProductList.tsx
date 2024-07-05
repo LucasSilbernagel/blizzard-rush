@@ -14,7 +14,7 @@ import {
 
 import './ProductList.css'
 import { Loader2 } from 'lucide-react'
-import { FaArrowDown } from 'react-icons/fa6'
+import { FaArrowDown, FaArrowLeft } from 'react-icons/fa6'
 
 type ProductListProps = {
   isLoadingStorefrontData: boolean
@@ -157,11 +157,18 @@ const ProductList = (props: ProductListProps) => {
           products.length === 0 &&
           !isLoadingStorefrontData &&
           !error && (
-            <div className="mx-auto my-44 max-w-screen-sm text-center">
-              <Alert variant="destructive">
-                <AlertTitle>Error</AlertTitle>
-                <AlertDescription>No products found.</AlertDescription>
-              </Alert>
+            <div className="my-44">
+              <h2 className="my-6 pt-16 text-center font-anton text-3xl font-bold uppercase tracking-wide xl:pt-0">
+                No products found
+              </h2>
+              <div className="mx-auto my-16 max-w-max">
+                <Link
+                  to="/"
+                  className="ContrastLink flex items-center gap-2 font-bold"
+                >
+                  <FaArrowLeft /> Continue shopping
+                </Link>
+              </div>
             </div>
           )}
         {hasNextPage && (

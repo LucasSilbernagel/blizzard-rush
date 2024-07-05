@@ -1,22 +1,25 @@
 import type { MetaFunction } from '@remix-run/node'
-import { useSearchParams } from '@remix-run/react'
-import SearchPage from '~/components/SearchPage/SearchPage'
+import WishlistPage from '~/components/WishlistPage/WishlistPage'
 import { useProductPageData } from '~/hooks/useProductPageData'
 
 export const meta: MetaFunction = () => {
   return [
-    { title: 'Blizzard Rush | Search' },
+    { title: 'Blizzard Rush | Wishlist' },
     {
       name: 'description',
-      content: 'Search results for Blizzard Rush products',
+      content: 'Wishlist for Blizzard Rush products',
     },
   ]
 }
 
-export default function Search() {
-  const [searchParams] = useSearchParams()
+export default function Wishlist() {
+  let savedWishlistTitles
+  let wishlistTitles: string[] = []
 
-  const searchQuery = String(searchParams.get('q'))
+  if (typeof window !== 'undefined') {
+    savedWishlistTitles = localStorage.getItem('wishlistTitles')
+    wishlistTitles = JSON.parse(savedWishlistTitles || '[]')
+  }
 
   const {
     products,
@@ -27,11 +30,11 @@ export default function Search() {
     isFetchingNextPage,
     sortOption,
     handleSortOptionChange,
-  } = useProductPageData(searchQuery)
+  } = useProductPageData(undefined, wishlistTitles)
 
   return (
-    <SearchPage
-      products={products}
+    <WishlistPage
+      products={wishlistTitles.length ? products : []}
       isLoadingStorefrontData={isLoadingStorefrontData}
       error={error}
       isFetchingNextPage={isFetchingNextPage}
@@ -39,7 +42,6 @@ export default function Search() {
       fetchNextPage={fetchNextPage}
       sortOption={sortOption}
       handleSortOptionChange={handleSortOptionChange}
-      searchQuery={searchQuery}
     />
   )
 }

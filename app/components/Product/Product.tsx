@@ -48,6 +48,47 @@ export default function Product({ product }: { product: IProduct }) {
     addVariantToCart(selectedVariantId, '1')
   }
 
+  const handleAddToWishlist = async (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    const wishlistTitles = localStorage.getItem('wishlistTitles')
+    if (wishlistTitles) {
+      const savedWishlistTitles = JSON.parse(wishlistTitles)
+      savedWishlistTitles.push(product.title)
+      localStorage.setItem(
+        'wishlistTitles',
+        JSON.stringify(savedWishlistTitles)
+      )
+      toast({
+        title: `Added ${title} to wishlist`,
+        description: (
+          <div className="mt-2 flex justify-center">
+            <Link
+              to="/wishlist"
+              className="ContrastLink flex items-center gap-2"
+            >
+              Go to wishlist <FaArrowRight />
+            </Link>
+          </div>
+        ),
+      })
+    } else {
+      localStorage.setItem('wishlistTitles', JSON.stringify([product.title]))
+      toast({
+        title: `Added ${title} to wishlist`,
+        description: (
+          <div className="mt-2 flex justify-center">
+            <Link
+              to="/wishlist"
+              className="ContrastLink flex items-center gap-2"
+            >
+              Go to wishlist <FaArrowRight />
+            </Link>
+          </div>
+        ),
+      })
+    }
+  }
+
   const SOLD_OUT =
     product.title !== 'Gift Card' &&
     variants.edges.every((edge) => edge.node.quantityAvailable < 1)
@@ -120,7 +161,7 @@ export default function Product({ product }: { product: IProduct }) {
             )}
           </div>
           <div className="mt-2 flex w-full justify-end">
-            <Button variant="ghost">
+            <Button variant="ghost" onClick={handleAddToWishlist}>
               <FaPlus /> Add to wishlist
             </Button>
           </div>
