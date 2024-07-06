@@ -22,7 +22,12 @@ body {
   @apply mb-4 mt-12 text-2xl font-bold uppercase;
 }
 
-.MarkdownPage ol {
+.MarkdownPage p {
+  @apply mb-4;
+}
+
+.MarkdownPage ol,
+.MarkdownPage ul {
   @apply my-4 list-decimal pl-5;
 }
 
