@@ -66,7 +66,7 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link className="BrightnessLink" to="/get-help">
+                  <Link className="BrightnessLink" to="/help">
                     Get Help
                   </Link>
                 </li>

@@ -22,6 +22,10 @@ body {
   @apply mb-4 mt-12 text-2xl font-bold uppercase;
 }
 
+.MarkdownPage h3 {
+  @apply mb-4 mt-8 text-xl font-bold;
+}
+
 .MarkdownPage p {
   @apply mb-4;
 }
