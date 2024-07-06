@@ -9,3 +9,35 @@ body {
 .BrightnessLink {
   @apply transition-all duration-300 hover:brightness-75 focus-visible:brightness-75;
 }
+
+.MarkdownPage {
+  @apply mx-auto my-12 max-w-screen-lg px-4;
+}
+
+.MarkdownPage h1 {
+  @apply mb-12 text-center font-anton text-3xl font-bold uppercase;
+}
+
+.MarkdownPage h2 {
+  @apply mb-4 mt-12 text-2xl font-bold uppercase;
+}
+
+.MarkdownPage ol {
+  @apply my-4 list-decimal pl-5;
+}
+
+.MarkdownPage li {
+  @apply my-2;
+}
+
+.MarkdownPage ul {
+  @apply my-4 list-disc;
+}
+
+.MarkdownPage ol ul {
+  @apply pl-5;
+}
+
+.MarkdownPage a {
+  @apply ContrastLink break-words font-semibold underline;
+}
