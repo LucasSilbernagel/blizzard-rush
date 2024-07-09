@@ -1,8 +1,7 @@
 import { StoreApi, UseBoundStore, create } from 'zustand'
-import * as React from 'react'
+import React, { useEffect } from 'react'
 import Client, { CheckoutLineItem } from 'shopify-buy'
 import getEnv from './get-env'
-import { useEffect } from 'react'
 
 const env = getEnv()
 
@@ -13,7 +12,8 @@ const client: Client = Client.buildClient({
 })
 
 const isBrowser = typeof window !== `undefined`
-const localStorageKey = `shopify_checkout_id`
+const checkoutLocalStorageKey = `shopify_checkout_id`
+const wishlistLocalStorageKey = `wishlist_titles`
 
 type Checkout = {
   id: string
@@ -21,9 +21,9 @@ type Checkout = {
   lineItems: CheckoutLineItem[]
 }
 
-interface StoreActions {
+type StoreActions = {
   setCheckout: (checkout: Checkout) => void
-  setLoading: (isLoadingShopifyBuyData: boolean) => void
+  setLoadingShopifyBuyData: (isLoadingShopifyBuyData: boolean) => void
   setDidJustAddToCart: (didJustAddToCart: boolean) => void
   initializeCheckout: () => Promise<void>
   initializeWishlist: () => Promise<void>
@@ -33,47 +33,49 @@ interface StoreActions {
 type Store = StoreState & StoreActions
 
 const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
-  isOpen: false,
   isLoadingShopifyBuyData: false,
   didJustAddToCart: false,
   client: client,
-  wishlistTitles: [] as string[],
+  wishlistTitles: [],
   setWishlistTitles: (wishlistTitles: string[]) => {
     set({ wishlistTitles: wishlistTitles, isLoadingShopifyBuyData: true })
     if (isBrowser) {
-      localStorage.setItem('wishlistTitles', wishlistTitles.join(',') || '')
+      localStorage.setItem(
+        wishlistLocalStorageKey,
+        wishlistTitles.join(',') || ''
+      )
     }
     set({ isLoadingShopifyBuyData: false })
   },
   initializeWishlist: async () => {
     set({ isLoadingShopifyBuyData: true })
     const existingWishlistTitles = isBrowser
-      ? localStorage.getItem('wishlistTitles') || ''
+      ? localStorage.getItem(wishlistLocalStorageKey) || ''
       : ''
 
     if (existingWishlistTitles && existingWishlistTitles !== `null`) {
       try {
         set({ wishlistTitles: existingWishlistTitles.split(',') })
         if (isBrowser) {
-          localStorage.setItem('wishlistTitles', existingWishlistTitles)
+          localStorage.setItem(wishlistLocalStorageKey, existingWishlistTitles)
         }
         set({ isLoadingShopifyBuyData: false })
         return
       } catch (e) {
-        localStorage.setItem('wishlistTitles', 'null')
+        localStorage.setItem(wishlistLocalStorageKey, 'null')
         set({ isLoadingShopifyBuyData: false })
       }
     }
   },
   checkout: {} as Checkout,
   setCheckout: (checkout: Checkout) => set({ checkout }),
-  setLoading: (isLoadingShopifyBuyData: boolean) =>
+  setLoadingShopifyBuyData: (isLoadingShopifyBuyData: boolean) =>
     set({ isLoadingShopifyBuyData }),
   setDidJustAddToCart: (didJustAddToCart: boolean) => set({ didJustAddToCart }),
   initializeCheckout: async () => {
     set({ isLoadingShopifyBuyData: true })
     const existingCheckoutID = isBrowser
-      ? localStorage.getItem(localStorageKey) || ''
+      ? localStorage.getItem(checkoutLocalStorageKey) || ''
       : ''
 
     if (existingCheckoutID && existingCheckoutID !== `null`) {
@@ -82,13 +84,13 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
         if (!existingCheckout.completedAt) {
           set({ checkout: existingCheckout })
           if (isBrowser) {
-            localStorage.setItem(localStorageKey, existingCheckout.id)
+            localStorage.setItem(checkoutLocalStorageKey, existingCheckout.id)
           }
           set({ isLoadingShopifyBuyData: false })
           return
         }
       } catch (e) {
-        localStorage.setItem(localStorageKey, 'null')
+        localStorage.setItem(checkoutLocalStorageKey, 'null')
         set({ isLoadingShopifyBuyData: false })
       }
     }
@@ -96,7 +98,7 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
     const newCheckout = await client.checkout.create()
     set({ checkout: newCheckout, isLoadingShopifyBuyData: false })
     if (isBrowser) {
-      localStorage.setItem(localStorageKey, newCheckout.id)
+      localStorage.setItem(checkoutLocalStorageKey, newCheckout.id)
       set({ isLoadingShopifyBuyData: false })
     }
   },
@@ -164,7 +166,7 @@ export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
   return <>{children}</>
 }
 
-interface StoreState {
+type StoreState = {
   wishlistTitles: string[]
   setWishlistTitles: (wishlistTitles: string[]) => void
   checkout: Checkout

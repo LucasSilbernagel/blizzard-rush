@@ -1,10 +1,10 @@
 import { LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { request, RequestDocument } from 'graphql-request' // Assuming request has a type for the document
-import Product from '~/components/Product/Product'
+import IndividualProduct from '~/components/IndividualProduct/IndividualProduct'
 import getEnv from '~/get-env'
 
-export interface IProduct {
+export type Product = {
   id: string
   title: string
   featuredImage: {
@@ -20,16 +20,16 @@ export interface IProduct {
   }
 }
 
-export interface ProductResponse {
-  product: IProduct | PromiseLike<IProduct | null> | null
+export type ProductResponse = {
+  product: Product | PromiseLike<Product | null> | null
   data: {
-    product: IProduct
+    product: Product
   }
 }
 
 export const getProductData = async (
   productId: string
-): Promise<IProduct | null> => {
+): Promise<Product | null> => {
   try {
     const env = getEnv()
 
@@ -87,7 +87,7 @@ export const getProductData = async (
 export async function loader({ params }: LoaderFunctionArgs) {
   const productId = `gid://shopify/Product/${params.productId}`
 
-  const productData: IProduct | null = await getProductData(String(productId))
+  const productData: Product | null = await getProductData(String(productId))
 
   if (!productData) {
     console.log('no product data')
@@ -106,7 +106,7 @@ export default function ProductPage() {
 
   return (
     <div>
-      <Product product={data} />
+      <IndividualProduct product={data} />
     </div>
   )
 }

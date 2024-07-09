@@ -15,8 +15,8 @@ import { LinksFunction } from '@remix-run/node'
 import Footer from './components/Footer/Footer'
 import { StoreProvider } from './zustand-store'
 import Navbar from './components/Navbar/Navbar'
-import { Toaster } from '@/components/ui/toaster'
-import { TooltipProvider } from '@/components/ui/tooltip'
+import { Toaster } from 'shadcn/components/ui/toaster'
+import { TooltipProvider } from 'shadcn/components/ui/tooltip'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },

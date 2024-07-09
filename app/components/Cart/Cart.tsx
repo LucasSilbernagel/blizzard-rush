@@ -1,19 +1,19 @@
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from 'shadcn/components/ui/alert'
+import { Button } from 'shadcn/components/ui/button'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Skeleton } from '@/components/ui/skeleton'
+} from 'shadcn/components/ui/select'
+import { Skeleton } from 'shadcn/components/ui/skeleton'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { toast } from '@/components/ui/use-toast'
+} from 'shadcn/components/ui/tooltip'
+import { toast } from 'shadcn/components/ui/use-toast'
 import { Link } from '@remix-run/react'
 import { FaArrowLeft, FaTrash } from 'react-icons/fa6'
 import { PiCaretUpDownBold } from 'react-icons/pi'
@@ -21,7 +21,7 @@ import { CheckoutLineItem } from 'shopify-buy'
 import { CartProductInfo } from '~/routes/cart'
 import { useStoreState } from '~/zustand-store'
 
-interface CartProps {
+type CartProps = {
   isLoadingStorefrontData: boolean
   error: Error | null
   data?: CartProductInfo

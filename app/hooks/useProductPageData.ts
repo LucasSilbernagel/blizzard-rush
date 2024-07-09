@@ -2,12 +2,12 @@ import { QueryFunctionContext, useInfiniteQuery } from '@tanstack/react-query'
 import { request } from 'graphql-request'
 import { useState } from 'react'
 import getEnv from '~/get-env'
-import { IProduct } from '~/routes/products.$productId'
+import { Product } from '~/routes/products.$productId'
 
 type ProductPageData = {
   products: {
     edges: {
-      node: IProduct
+      node: Product
     }[]
     pageInfo: {
       hasNextPage: boolean

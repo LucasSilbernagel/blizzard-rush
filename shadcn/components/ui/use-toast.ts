@@ -3,7 +3,7 @@
 // Inspired by react-hot-toast library
 import * as React from 'react'
 
-import type { ToastActionElement, ToastProps } from '@/components/ui/toast'
+import type { ToastActionElement, ToastProps } from 'shadcn/components/ui/toast'
 import { useEffect, useState } from 'react'
 
 const TOAST_LIMIT = 1
@@ -50,7 +50,7 @@ type Action =
       toastId?: ToasterToast['id']
     }
 
-interface State {
+type State = {
   toasts: ToasterToast[]
 }
 

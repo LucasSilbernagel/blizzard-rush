@@ -1,10 +1,10 @@
-import { IProduct } from '~/routes/products.$productId'
+import { Product } from '~/routes/products.$productId'
 import ProductList from '../ProductList/ProductList'
 
 type SearchPageProps = {
   isLoadingStorefrontData: boolean
   error: Error | null
-  products?: IProduct[]
+  products?: Product[]
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean

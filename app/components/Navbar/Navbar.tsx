@@ -11,8 +11,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from 'shadcn/components/ui/form'
+import { Input } from 'shadcn/components/ui/input'
 import { FaSearch } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { useStoreState } from '~/zustand-store'

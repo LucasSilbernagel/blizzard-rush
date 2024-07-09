@@ -1,8 +1,8 @@
 import { Outlet } from '@remix-run/react'
-import { IProduct, loader } from './routes/products.$productId'
+import { Product, loader } from './routes/products.$productId'
 import { LoaderFunctionArgs } from '@remix-run/node'
 
-interface Route {
+type Route = {
   path: string
   loader: LoaderFunction
 }
@@ -25,11 +25,6 @@ export const routes: Route[] = [
   },
 ]
 
-interface Route {
-  path: string
-  loader: LoaderFunction
-}
-
 export type LoaderFunction = (
   args: LoaderFunctionArgs
-) => Promise<IProduct | null>
+) => Promise<Product | null>

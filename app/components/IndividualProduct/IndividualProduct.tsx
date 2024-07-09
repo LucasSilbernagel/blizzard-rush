@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
-import { IProduct } from '~/routes/products.$productId'
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
+import { Product } from '~/routes/products.$productId'
+import { ToggleGroup, ToggleGroupItem } from 'shadcn/components/ui/toggle-group'
 
 import { useStoreState } from '~/zustand-store'
-import { Button } from '@/components/ui/button'
+import { Button } from 'shadcn/components/ui/button'
 import { FaArrowRight, FaPlus } from 'react-icons/fa6'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from 'shadcn/components/ui/use-toast'
 import { Link } from '@remix-run/react'
 
-export default function Product({ product }: { product: IProduct }) {
+export default function IndividualProduct({ product }: { product: Product }) {
   const { title, featuredImage, priceRange, variants } = product
 
   const {

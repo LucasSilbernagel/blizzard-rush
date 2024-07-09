@@ -1,8 +1,8 @@
 import { Link } from '@remix-run/react'
-import { IProduct } from '~/routes/products.$productId'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { Product } from '~/routes/products.$productId'
+import { Skeleton } from 'shadcn/components/ui/skeleton'
+import { Button } from 'shadcn/components/ui/button'
+import { Alert, AlertDescription, AlertTitle } from 'shadcn/components/ui/alert'
 
 import {
   Select,
@@ -10,7 +10,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from 'shadcn/components/ui/select'
 
 import './ProductList.css'
 import { Loader2 } from 'lucide-react'
@@ -20,7 +20,7 @@ import { useStoreState } from '~/zustand-store'
 type ProductListProps = {
   isLoadingStorefrontData: boolean
   error: Error | null
-  products?: IProduct[]
+  products?: Product[]
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean

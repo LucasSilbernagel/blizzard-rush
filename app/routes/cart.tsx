@@ -1,5 +1,5 @@
 import getEnv from '~/get-env'
-import { IProduct } from './products.$productId'
+import { Product } from './products.$productId'
 import { request } from 'graphql-request'
 import { useQuery } from '@tanstack/react-query'
 import Cart from '~/components/Cart/Cart'
@@ -7,7 +7,7 @@ import Cart from '~/components/Cart/Cart'
 export type CartProductInfo = {
   products: {
     edges: {
-      node: IProduct
+      node: Product
     }[]
   }
 }

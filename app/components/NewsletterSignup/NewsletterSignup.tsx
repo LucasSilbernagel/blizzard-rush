@@ -10,18 +10,18 @@ import {
   FormLabel,
   FormMessage,
   Form,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+} from 'shadcn/components/ui/form'
+import { Input } from 'shadcn/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Button } from '@/components/ui/button'
+} from 'shadcn/components/ui/select'
+import { Button } from 'shadcn/components/ui/button'
 import { useState } from 'react'
-import { Alert } from '@/components/ui/alert'
+import { Alert } from 'shadcn/components/ui/alert'
 import { Link } from '@remix-run/react'
 import { FaArrowLeft } from 'react-icons/fa6'
 

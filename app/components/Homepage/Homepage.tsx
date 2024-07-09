@@ -1,11 +1,11 @@
-import { IProduct } from '~/routes/products.$productId'
+import { Product } from '~/routes/products.$productId'
 import hero from '../../images/hero.webp'
 import ProductList from '../ProductList/ProductList'
 
 type HomepageProps = {
   isLoadingStorefrontData: boolean
   error: Error | null
-  products?: IProduct[]
+  products?: Product[]
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean
