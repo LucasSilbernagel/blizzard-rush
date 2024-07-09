@@ -123,7 +123,7 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
       isLoadingShopifyBuyData: false,
       didJustAddToCart: true,
     })
-    setTimeout(() => set({ didJustAddToCart: false }), 3000)
+    setTimeout(() => set({ didJustAddToCart: false }), 1000)
   },
   removeLineItem: async (checkoutID: string, lineItemID: string) => {
     set({ isLoadingShopifyBuyData: true })

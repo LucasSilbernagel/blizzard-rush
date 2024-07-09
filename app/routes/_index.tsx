@@ -5,7 +5,7 @@ import { useProductPageData } from '~/hooks/useProductPageData'
 export const meta: MetaFunction = () => {
   return [
     { title: 'Blizzard Rush | Shop Snowboards' },
-    { name: 'description', content: 'All about Blizzard Rush' },
+    { name: 'description', content: 'Shop snowboards from Blizzard Rush' },
   ]
 }
 

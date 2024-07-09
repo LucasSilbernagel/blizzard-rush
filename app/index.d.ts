@@ -1,6 +1,6 @@
 export {}
 declare global {
-  type Window = {
+  interface Window {
     ENV: ProcessEnv
   }
 }

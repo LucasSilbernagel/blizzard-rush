@@ -11,7 +11,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './queryClient'
 import stylesheet from '~/tailwind.css?url'
 import baseStyles from '~/index.css?url'
-import { LinksFunction } from '@remix-run/node'
+import { LinksFunction, MetaFunction } from '@remix-run/node'
 import Footer from './components/Footer/Footer'
 import { StoreProvider } from './zustand-store'
 import Navbar from './components/Navbar/Navbar'
@@ -30,6 +30,17 @@ export async function loader() {
       SHOPIFY_DOMAIN: process.env.SHOPIFY_DOMAIN,
     },
   })
+}
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Blizzard Rush | Shop Snowboards' },
+    { name: 'description', content: 'Shop snowboards from Blizzard Rush' },
+    {
+      name: 'image',
+      content: 'https://blizzard-rush.vercel.app/homepage.webp',
+    },
+  ]
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
