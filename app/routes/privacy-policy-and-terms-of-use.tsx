@@ -8,6 +8,10 @@ export const meta: MetaFunction = () => {
       name: 'description',
       content: 'Blizzard Rush privacy policy & terms of use.',
     },
+    {
+      property: 'og:image',
+      content: 'https://blizzard-rush.vercel.app/seo/homepage.png',
+    },
   ]
 }
 

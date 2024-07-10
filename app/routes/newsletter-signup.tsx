@@ -9,6 +9,10 @@ export const meta: MetaFunction = () => {
       content:
         'Sign up for the Blizzard Rush newsletter to get the latest news and updates.',
     },
+    {
+      property: 'og:image',
+      content: 'https://blizzard-rush.vercel.app/seo/homepage.png',
+    },
   ]
 }
 

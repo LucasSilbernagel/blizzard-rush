@@ -17,6 +17,10 @@ export const meta: MetaFunction = () => {
   return [
     { title: 'Blizzard Rush | Cart' },
     { name: 'description', content: 'Shopping cart for Blizzard Rush' },
+    {
+      property: 'og:image',
+      content: 'https://blizzard-rush.vercel.app/seo/homepage.png',
+    },
   ]
 }
 
