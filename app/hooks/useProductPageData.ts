@@ -75,6 +75,7 @@ export const useProductPageData = (
       }
     `
 
+    // This is for the wishlist page
     let titlesQueryPart = ''
     if (productTitles.length > 0) {
       const titlesQueryList = productTitles

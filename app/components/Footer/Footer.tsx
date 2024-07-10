@@ -2,8 +2,8 @@ import { Link } from '@remix-run/react'
 import { RxCountdownTimer } from 'react-icons/rx'
 import { LiaShippingFastSolid } from 'react-icons/lia'
 import { FaCanadianMapleLeaf, FaArrowRight, FaFacebookF } from 'react-icons/fa'
-import './Footer.css'
 import { FaInstagram, FaYoutube } from 'react-icons/fa6'
+import './Footer.css'
 
 const Footer = () => {
   return (

@@ -38,7 +38,7 @@ export const meta: MetaFunction = () => {
     { name: 'description', content: 'Shop snowboards from Blizzard Rush' },
     {
       property: 'og:image',
-      content: 'https://blizzard-rush.vercel.app/homepage.png',
+      content: 'https://blizzard-rush.vercel.app/seo/homepage.png',
     },
   ]
 }

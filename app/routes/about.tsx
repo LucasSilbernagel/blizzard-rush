@@ -6,7 +6,7 @@ export const meta: MetaFunction = () => {
     { title: 'Blizzard Rush | About' },
     {
       name: 'description',
-      content: 'Shop snowboards from Blizzard Rush',
+      content: 'All about Blizzard Rush and our mission.',
     },
   ]
 }

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Product } from '~/routes/products.$productId'
 import { ToggleGroup, ToggleGroupItem } from 'shadcn/components/ui/toggle-group'
-
 import { useStoreState } from '~/zustand-store'
 import { Button } from 'shadcn/components/ui/button'
 import { FaArrowRight, FaPlus } from 'react-icons/fa6'

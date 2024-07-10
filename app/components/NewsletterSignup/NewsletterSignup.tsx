@@ -63,6 +63,7 @@ const NewsletterSignup = () => {
   return (
     <div className="mx-auto mb-12 max-w-screen-lg px-4">
       {firstName.length > 0 ? (
+        // Success state
         <div className="my-52">
           <Alert variant="success" className="text-center">
             Thanks for subscribing, {firstName}!

@@ -3,6 +3,7 @@ import { Product } from './products.$productId'
 import { request } from 'graphql-request'
 import { useQuery } from '@tanstack/react-query'
 import Cart from '~/components/Cart/Cart'
+import { MetaFunction } from '@remix-run/node'
 
 export type CartProductInfo = {
   products: {
@@ -10,6 +11,13 @@ export type CartProductInfo = {
       node: Product
     }[]
   }
+}
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: 'Blizzard Rush | Cart' },
+    { name: 'description', content: 'Shopping cart for Blizzard Rush' },
+  ]
 }
 
 export default function CartPage() {

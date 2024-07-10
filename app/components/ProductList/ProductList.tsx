@@ -3,7 +3,6 @@ import { Product } from '~/routes/products.$productId'
 import { Skeleton } from 'shadcn/components/ui/skeleton'
 import { Button } from 'shadcn/components/ui/button'
 import { Alert, AlertDescription, AlertTitle } from 'shadcn/components/ui/alert'
-
 import {
   Select,
   SelectContent,
@@ -11,11 +10,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from 'shadcn/components/ui/select'
-
-import './ProductList.css'
 import { Loader2 } from 'lucide-react'
-import { FaArrowDown, FaArrowLeft, FaTrash } from 'react-icons/fa6'
-import { useStoreState } from '~/zustand-store'
+import { FaArrowDown, FaArrowLeft } from 'react-icons/fa6'
+import './ProductList.css'
+import ProductListItem from './ProductListItem/ProductListItem'
 
 type ProductListProps = {
   isLoadingStorefrontData: boolean
@@ -42,8 +40,6 @@ const ProductList = (props: ProductListProps) => {
     isWishlistPage = false,
   } = props
 
-  const { setWishlistTitles, wishlistTitles } = useStoreState()
-
   const selectOptions = [
     { value: 'PRICE_DESC', label: 'Price, high-low' },
     { value: 'PRICE_ASC', label: 'Price, low-high' },
@@ -54,6 +50,7 @@ const ProductList = (props: ProductListProps) => {
   return (
     <>
       {error && !isLoadingStorefrontData && (
+        // Error state
         <div className="mx-auto my-44 max-w-screen-sm text-center">
           <Alert variant="destructive">
             <AlertTitle>Error</AlertTitle>
@@ -64,6 +61,7 @@ const ProductList = (props: ProductListProps) => {
         </div>
       )}
       {isLoadingStorefrontData && (
+        // Loading state
         <ul className="mx-auto mt-24 flex max-w-max flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {new Array(12).fill(0).map((_skeleton, index) => {
             return (
@@ -79,6 +77,7 @@ const ProductList = (props: ProductListProps) => {
           products.length > 1 &&
           !isLoadingStorefrontData &&
           !error && (
+            // Product sort dropdown
             <div className="flex justify-end py-6 pl-8 pr-12">
               <div>
                 <Select
@@ -105,6 +104,7 @@ const ProductList = (props: ProductListProps) => {
           products.length > 0 &&
           !isLoadingStorefrontData &&
           !error && (
+            // Products render successfully
             <ul className="mx-auto flex max-w-max flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {products
                 .filter((product) => product.featuredImage)
@@ -115,66 +115,13 @@ const ProductList = (props: ProductListProps) => {
                     ) && product.title !== 'Gift Card'
                   const variantsAvailable = product.variants.edges.length
                   return (
-                    <li
+                    <ProductListItem
                       key={product.id}
-                      className="relative flex justify-center"
-                    >
-                      {isWishlistPage && (
-                        <div className="absolute right-0 top-0 z-10">
-                          <Button
-                            aria-label={`Remove ${product.title} from wishlist`}
-                            variant="ghost"
-                            onClick={() => {
-                              const oldWishlistTitles = [...wishlistTitles]
-                              setWishlistTitles(
-                                oldWishlistTitles.filter(
-                                  (title) => title !== product.title
-                                )
-                              )
-                            }}
-                          >
-                            <FaTrash />
-                          </Button>
-                        </div>
-                      )}
-                      <Link
-                        to={`/products/${product.id.split('/').at(-1)}`}
-                        className="ProductList__product-link"
-                      >
-                        <div className="ProductList__product-image">
-                          <img
-                            src={product.featuredImage.url}
-                            alt={product.title}
-                            className="max-h-[284px] max-w-[284px]"
-                          />
-                        </div>
-                        <div className="ProductList__product-footer">
-                          {variantsAvailable > 1 && (
-                            <div>
-                              <span className="text-sm">
-                                {`${variantsAvailable} variants available`}
-                              </span>
-                            </div>
-                          )}
-                          <div>
-                            <span className="text-base font-bold">
-                              {product.title}
-                            </span>
-                          </div>
-                          <div>
-                            <span>
-                              {isSoldOut ? (
-                                <span className="bg-slate-950 p-0.5 font-bold uppercase text-white">
-                                  Sold out
-                                </span>
-                              ) : (
-                                `${Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Number(product.priceRange.minVariantPrice.amount))}`
-                              )}
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    </li>
+                      variantsAvailable={variantsAvailable}
+                      isSoldOut={isSoldOut}
+                      product={product}
+                      isWishlistPage={isWishlistPage}
+                    />
                   )
                 })}
             </ul>
@@ -183,6 +130,7 @@ const ProductList = (props: ProductListProps) => {
           products.length === 0 &&
           !isLoadingStorefrontData &&
           !error && (
+            // Empty state
             <div className="my-44">
               <h2 className="my-6 pt-16 text-center font-anton text-3xl font-bold uppercase tracking-wide xl:pt-0">
                 No products found
@@ -198,6 +146,7 @@ const ProductList = (props: ProductListProps) => {
             </div>
           )}
         {hasNextPage && (
+          // Load more button
           <div className="my-12 flex w-full justify-center">
             <Button
               onClick={() => fetchNextPage()}

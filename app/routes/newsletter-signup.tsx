@@ -1,5 +1,4 @@
 import type { MetaFunction } from '@remix-run/node'
-
 import NewsletterSignup from '~/components/NewsletterSignup/NewsletterSignup'
 
 export const meta: MetaFunction = () => {

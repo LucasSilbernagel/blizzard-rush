@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from '@remix-run/node'
+import { LoaderFunctionArgs, MetaFunction } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { request, RequestDocument } from 'graphql-request' // Assuming request has a type for the document
 import IndividualProduct from '~/components/IndividualProduct/IndividualProduct'
@@ -25,6 +25,20 @@ export type ProductResponse = {
   data: {
     product: Product
   }
+}
+
+export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  return [
+    { title: `Blizzard Rush | ${data?.title || 'Shop Snowboards'}` },
+    {
+      name: 'description',
+      content: `Buy ${data?.title || 'snowboards'} from Blizzard Rush`,
+    },
+    {
+      property: 'og:image',
+      content: `${data?.featuredImage.url || 'https://blizzard-rush.vercel.app/seo/homepage.png'}`,
+    },
+  ]
 }
 
 export const getProductData = async (
