@@ -1,7 +1,82 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import FullCart from './FullCart'
+import { MOCK_CHECKOUT } from './MockCheckout'
+import { TooltipProvider } from 'shadcn/components/ui/tooltip'
+import { calculateCartSubtotal, getItemSubtotal } from '~/utils/priceFormatting'
+import { CheckoutLineItem } from 'shopify-buy'
 
-test('renders properly', () => {
-  render(<FullCart refetch={jest.fn()} />)
+jest.mock('../../../zustand-store.tsx', () => ({
+  useStoreState: () => ({
+    checkout: MOCK_CHECKOUT,
+    isLoadingShopifyBuyData: false,
+    updateLineItem: jest.fn(),
+    removeLineItem: jest.fn(),
+  }),
+}))
+
+test('renders a shopping cart with items correctly', () => {
+  render(
+    <TooltipProvider>
+      <FullCart refetch={jest.fn()} />
+    </TooltipProvider>
+  )
   expect(screen.getByText('Continue shopping')).toBeVisible()
+  expect(screen.getByText('Continue shopping')).toHaveAttribute('href', '/')
+  expect(screen.getByText('Shopping cart')).toBeVisible()
+  expect(screen.getByText('Cart item image')).toBeInTheDocument()
+  expect(screen.getByText('Cart item name')).toBeInTheDocument()
+  expect(screen.getByText('Cart item quantity')).toBeInTheDocument()
+  expect(screen.getByText('Remove cart item')).toBeInTheDocument()
+  expect(screen.getByText('Cart item subtotal')).toBeInTheDocument()
+  MOCK_CHECKOUT.lineItems.forEach((lineItem, index) => {
+    const cartItem = screen.getByTestId(`cart-item-${lineItem.id}`)
+    const { getByTestId } = within(cartItem)
+    expect(getByTestId('cart-item-image-link')).toBeVisible()
+    expect(getByTestId('cart-item-image-link')).toHaveAttribute(
+      'href',
+      `/products/${lineItem.variant?.product.id.split('/').at(-1)}`
+    )
+    expect(screen.getByAltText(lineItem.title)).toBeVisible()
+    expect(screen.getByAltText(lineItem.title)).toHaveAttribute(
+      'src',
+      lineItem.variant?.image.src
+    )
+    expect(getByTestId('cart-item-title-link')).toBeVisible()
+    expect(getByTestId('cart-item-title-link')).toHaveAttribute(
+      'href',
+      `/products/${lineItem.variant?.product.id.split('/').at(-1)}`
+    )
+    expect(screen.getByText(lineItem.title)).toBeVisible()
+    if (
+      lineItem.variant?.title &&
+      lineItem.variant?.title !== 'Default Title'
+    ) {
+      expect(screen.getByText(lineItem.variant.title)).toBeVisible()
+    }
+    expect(screen.getAllByRole('combobox')[index]).toBeVisible()
+    expect(screen.getAllByRole('combobox')[index]).toHaveTextContent(
+      String(lineItem.quantity)
+    )
+    expect(screen.getAllByText('Remove')[index]).toBeVisible()
+    expect(screen.getAllByTestId('item-subtotal')[index]).toBeVisible()
+    expect(screen.getAllByTestId('item-subtotal')[index]).toHaveTextContent(
+      getItemSubtotal(lineItem as unknown as CheckoutLineItem)
+    )
+  })
+  expect(screen.getByText('Subtotal')).toBeVisible()
+  expect(
+    screen.getByText(
+      calculateCartSubtotal(
+        MOCK_CHECKOUT.lineItems as unknown as CheckoutLineItem[]
+      )
+    )
+  ).toBeVisible()
+  expect(screen.getByText('Check Out')).toBeVisible()
+  expect(screen.getByText('Check Out')).toHaveAttribute(
+    'href',
+    MOCK_CHECKOUT.webUrl
+  )
+  expect(
+    screen.getByText('Shipping & taxes calculated at checkout')
+  ).toBeVisible()
 })

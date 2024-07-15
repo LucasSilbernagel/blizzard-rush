@@ -17,6 +17,7 @@ import {
 import { toast } from 'shadcn/components/ui/use-toast'
 import { CheckoutLineItem } from 'shopify-buy'
 import { CartProductInfo } from '~/routes/cart'
+import { calculateCartSubtotal, getItemSubtotal } from '~/utils/priceFormatting'
 import { useStoreState } from '~/zustand-store'
 
 const FullCart = ({
@@ -59,17 +60,6 @@ const FullCart = ({
     }
   }
 
-  const calculateCartSubtotal = (lineItems: CheckoutLineItem[]) => {
-    let subtotal = 0
-    lineItems?.forEach((lineItem) => {
-      subtotal += Number(lineItem.variant?.price.amount) * lineItem.quantity
-    })
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(subtotal)
-  }
-
   return (
     <div className="relative">
       <div className="absolute left-16 top-2">
@@ -99,26 +89,23 @@ const FullCart = ({
                 (edge) => edge.node.id === lineItem.variant?.id
               )?.node.quantityAvailable
 
-            const getItemSubtotal = () => {
-              const subtotal =
-                Number(lineItem.variant?.price.amount) * lineItem.quantity
-              return new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              }).format(subtotal)
-            }
-
             return (
-              <div key={lineItem.id} role="row" className="flex">
+              <div
+                key={lineItem.id}
+                role="row"
+                className="flex"
+                data-testid={`cart-item-${lineItem.id}`}
+              >
                 <div className="flex items-center border border-x-transparent border-b-gray-300 border-t-transparent py-4">
                   <div className="flex items-center">
                     <div className="mr-4" role="cell">
                       <Link
                         to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
+                        data-testid="cart-item-image-link"
                       >
                         <img
                           src={lineItem.variant?.image.src}
-                          alt=""
+                          alt={lineItem.title}
                           className="w-24"
                         />
                       </Link>
@@ -126,6 +113,7 @@ const FullCart = ({
                     <div className="w-72" role="cell">
                       <Link
                         to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
+                        data-testid="cart-item-title-link"
                       >
                         <div>
                           <Tooltip>
@@ -196,8 +184,11 @@ const FullCart = ({
                       </Button>
                     </div>
                     <div role="cell">
-                      <span className="text-xl font-bold">
-                        {getItemSubtotal()}
+                      <span
+                        className="text-xl font-bold"
+                        data-testid="item-subtotal"
+                      >
+                        {getItemSubtotal(lineItem)}
                       </span>
                     </div>
                   </div>

@@ -35,8 +35,14 @@ export const mockUseFetcherFn = jest.fn().mockReturnValue({
 export const mockUseOutletContextFn = jest.fn()
 
 jest.mock('@remix-run/react', () => ({
-  Link: (props: { children: JSX.Element }) => <>{props.children}</>,
-  NavLink: (props: { children: JSX.Element }) => <>{props.children}</>,
+  Link: (props: { children: JSX.Element; to: string }) => (
+    <a {...props} href={props.to}>
+      {props.children}
+    </a>
+  ),
+  NavLink: (props: { children: JSX.Element; to: string }) => (
+    <a href={props.to}>{props.children}</a>
+  ),
   Await: (props: { children: (arg0: any) => any; resolve: any }) => {
     if (!props) return null
     return <>{props.children(props.resolve)}</>
