@@ -1,9 +1,10 @@
 import { render, screen, within } from '@testing-library/react'
 import FullCart from './FullCart'
-import { MOCK_CHECKOUT } from './MockCheckout'
 import { TooltipProvider } from 'shadcn/components/ui/tooltip'
 import { calculateCartSubtotal, getItemSubtotal } from '~/utils/priceFormatting'
 import { CheckoutLineItem } from 'shopify-buy'
+import { MOCK_CART_PRODUCT_DATA } from '~/mocks/MockCartProductData'
+import { MOCK_CHECKOUT } from '~/mocks/MockCheckout'
 
 jest.mock('../../../zustand-store.tsx', () => ({
   useStoreState: () => ({
@@ -17,7 +18,7 @@ jest.mock('../../../zustand-store.tsx', () => ({
 test('renders a shopping cart with items correctly', () => {
   render(
     <TooltipProvider>
-      <FullCart refetch={jest.fn()} />
+      <FullCart data={MOCK_CART_PRODUCT_DATA} refetch={jest.fn()} />
     </TooltipProvider>
   )
   expect(screen.getByText('Continue shopping')).toBeVisible()
@@ -28,7 +29,7 @@ test('renders a shopping cart with items correctly', () => {
   expect(screen.getByText('Cart item quantity')).toBeInTheDocument()
   expect(screen.getByText('Remove cart item')).toBeInTheDocument()
   expect(screen.getByText('Cart item subtotal')).toBeInTheDocument()
-  MOCK_CHECKOUT.lineItems.forEach((lineItem, index) => {
+  MOCK_CHECKOUT.lineItems.forEach(async (lineItem, index) => {
     const cartItem = screen.getByTestId(`cart-item-${lineItem.id}`)
     const { getByTestId } = within(cartItem)
     expect(getByTestId('cart-item-image-link')).toBeVisible()
@@ -53,10 +54,15 @@ test('renders a shopping cart with items correctly', () => {
     ) {
       expect(screen.getByText(lineItem.variant.title)).toBeVisible()
     }
-    expect(screen.getAllByRole('combobox')[index]).toBeVisible()
-    expect(screen.getAllByRole('combobox')[index]).toHaveTextContent(
-      String(lineItem.quantity)
-    )
+    if (
+      lineItem.variant?.title &&
+      lineItem.variant?.title === 'Default Title'
+    ) {
+      expect(screen.queryByText(lineItem.variant.title)).not.toBeInTheDocument()
+    }
+    const quantitySelect = screen.getAllByRole('combobox')[index]
+    expect(quantitySelect).toBeVisible()
+    expect(quantitySelect).toHaveTextContent(String(lineItem.quantity))
     expect(screen.getAllByText('Remove')[index]).toBeVisible()
     expect(screen.getAllByTestId('item-subtotal')[index]).toBeVisible()
     expect(screen.getAllByTestId('item-subtotal')[index]).toHaveTextContent(
@@ -65,11 +71,7 @@ test('renders a shopping cart with items correctly', () => {
   })
   expect(screen.getByText('Subtotal')).toBeVisible()
   expect(
-    screen.getByText(
-      calculateCartSubtotal(
-        MOCK_CHECKOUT.lineItems as unknown as CheckoutLineItem[]
-      )
-    )
+    screen.getByText(calculateCartSubtotal(MOCK_CHECKOUT.lineItems))
   ).toBeVisible()
   expect(screen.getByText('Check Out')).toBeVisible()
   expect(screen.getByText('Check Out')).toHaveAttribute(
