@@ -8,6 +8,7 @@ module.exports = {
       jsx: true,
     },
   },
+  plugins: ['jest-dom', 'testing-library'],
   env: {
     browser: true,
     commonjs: true,
@@ -16,7 +17,11 @@ module.exports = {
   ignorePatterns: ['!**/.server', '!**/.client'],
 
   // Base config
-  extends: ['eslint:recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:jest-dom/recommended',
+    'plugin:testing-library/react',
+  ],
 
   overrides: [
     // React
