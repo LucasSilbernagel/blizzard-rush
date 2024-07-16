@@ -7,6 +7,7 @@ const config: Config.InitialOptions = {
     '~/(.*)': '<rootDir>/app/$1',
     '\\.(jpg|jpeg|png|gif|webp|svg|mp4|webm|ogg|mp3|wav|mpe?g|aac|woff2?|eot|ttf|otf|ico|pdf|zip)$':
       '<rootDir>/app/mocks/fileMock.ts',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.tsx'],
   transformIgnorePatterns: [
