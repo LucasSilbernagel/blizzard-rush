@@ -80,7 +80,7 @@ export default function IndividualProduct({ product }: { product: Product }) {
       </div>
       <div className="mt-6 max-w-full lg:mt-36 lg:max-w-[400px]">
         <h1 className="text-3xl font-bold lg:text-4xl">{title}</h1>
-        <h2 className="mt-8 text-2xl font-bold">
+        <h2 className="mt-8 text-2xl font-bold" data-testid="product-price">
           Price:{' '}
           {new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -90,7 +90,10 @@ export default function IndividualProduct({ product }: { product: Product }) {
         <div className="my-4 h-px w-full bg-gray-300"></div>
         {variants.edges.length > 1 && (
           <>
-            <h3 className="mb-4 text-lg font-bold">
+            <h3
+              className="mb-4 text-lg font-bold"
+              data-testid="selected-variant"
+            >
               Variant:{' '}
               <span className="font-normal">
                 {
@@ -141,7 +144,11 @@ export default function IndividualProduct({ product }: { product: Product }) {
             )}
           </div>
           <div className="mt-2 flex w-full justify-end">
-            <Button variant="ghost" onClick={handleAddToWishlist}>
+            <Button
+              className="flex items-center gap-2"
+              variant="ghost"
+              onClick={handleAddToWishlist}
+            >
               <FaPlus /> Add to wishlist
             </Button>
           </div>

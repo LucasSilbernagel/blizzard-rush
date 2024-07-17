@@ -7,7 +7,7 @@ import getEnv from '~/get-env'
 export type Product = {
   id: string
   title: string
-  featuredImage: {
+  featuredImage?: {
     url: string
   }
   priceRange: {
@@ -36,7 +36,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     {
       property: 'og:image',
-      content: `${data?.featuredImage.url || 'https://blizzard-rush.vercel.app/seo/homepage.png'}`,
+      content: `${data?.featuredImage?.url || 'https://blizzard-rush.vercel.app/seo/homepage.png'}`,
     },
   ]
 }

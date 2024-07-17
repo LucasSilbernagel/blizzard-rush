@@ -48,7 +48,7 @@ const ProductList = (props: ProductListProps) => {
   ]
 
   return (
-    <>
+    <div data-testid="product-list">
       {error && !isLoadingStorefrontData && (
         // Error state
         <div className="mx-auto my-44 max-w-screen-sm text-center">
@@ -162,7 +162,7 @@ const ProductList = (props: ProductListProps) => {
           </div>
         )}
       </div>
-    </>
+    </div>
   )
 }
 
