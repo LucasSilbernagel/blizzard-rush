@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import '@testing-library/jest-dom'
+import { server } from '~/mocks/node'
 
 // Mocks for @remix-run/react
 export const searchInput = ''
@@ -78,3 +79,9 @@ jest.mock('./app/get-env.ts', () => ({
     STOREFRONT_API_ACCESS_TOKEN: 'dummy_access_token',
   })),
 }))
+
+beforeAll(() => server.listen())
+
+afterEach(() => server.resetHandlers())
+
+afterAll(() => server.close())

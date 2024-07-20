@@ -93,13 +93,13 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
         localStorage.setItem(checkoutLocalStorageKey, 'null')
         set({ isLoadingShopifyBuyData: false })
       }
-    }
-
-    const newCheckout = await client.checkout.create()
-    set({ checkout: newCheckout, isLoadingShopifyBuyData: false })
-    if (isBrowser) {
-      localStorage.setItem(checkoutLocalStorageKey, newCheckout.id)
-      set({ isLoadingShopifyBuyData: false })
+    } else {
+      const newCheckout = await client.checkout.create()
+      set({ checkout: newCheckout, isLoadingShopifyBuyData: false })
+      if (isBrowser) {
+        localStorage.setItem(checkoutLocalStorageKey, newCheckout.id)
+        set({ isLoadingShopifyBuyData: false })
+      }
     }
   },
   addVariantToCart: async (variantId: string, quantity: string) => {

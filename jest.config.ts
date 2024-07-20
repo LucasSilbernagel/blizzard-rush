@@ -9,10 +9,14 @@ const config: Config.InitialOptions = {
       '<rootDir>/app/mocks/fileMock.ts',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
   },
+  setupFiles: ['./jest.polyfills.js'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.tsx'],
   transformIgnorePatterns: [
     'node_modules/(?!(@web3-storage/multipart-parser|@remix-run)/)',
   ],
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 }
 
 export default config
