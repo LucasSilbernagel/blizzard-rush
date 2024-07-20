@@ -21,7 +21,11 @@ const MobileNavbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/cart" className="text-2xl font-bold">
+          <Link
+            to="/cart"
+            className="text-2xl font-bold"
+            data-testid="cart-link"
+          >
             <div className="relative flex items-center gap-1.5">
               {checkout.lineItems?.length > 0 && (
                 <span

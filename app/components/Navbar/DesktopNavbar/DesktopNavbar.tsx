@@ -29,6 +29,7 @@ const DesktopNavbar = () => {
             </li>
             <li>
               <Link
+                data-testid="cart-link"
                 to="/cart"
                 className={`text-xl font-bold ${checkout.lineItems?.length > 0 ? 'CartLink' : 'ContrastLink'}`}
               >
