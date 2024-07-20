@@ -7,7 +7,7 @@ const MobileNavbar = () => {
   const { checkout } = useStoreState()
 
   return (
-    <div className="block md:hidden">
+    <div className="block md:hidden" data-testid="mobile-navbar">
       <ul className="flex items-center justify-between px-6 py-3">
         <li className="font-bold">
           <Link to="/about">About</Link>

@@ -7,7 +7,7 @@ const DesktopNavbar = () => {
   const { checkout } = useStoreState()
 
   return (
-    <div className="hidden px-16 py-6 md:block">
+    <div className="hidden px-16 py-6 md:block" data-testid="desktop-navbar">
       <ul className="flex items-center justify-between">
         <li>
           <Link
