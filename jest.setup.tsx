@@ -85,3 +85,6 @@ beforeAll(() => server.listen())
 afterEach(() => server.resetHandlers())
 
 afterAll(() => server.close())
+
+window.HTMLElement.prototype.hasPointerCapture = jest.fn()
+window.HTMLElement.prototype.scrollIntoView = jest.fn()
