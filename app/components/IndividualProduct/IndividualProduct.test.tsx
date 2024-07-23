@@ -92,7 +92,7 @@ test('renders a product without variants correctly', async () => {
   ).toBeVisible()
 })
 
-test('renders sold out product correctly correctly', async () => {
+test('renders sold out product correctly', async () => {
   render(
     <StoreProvider>
       <Toaster />

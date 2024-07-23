@@ -18,7 +18,7 @@ beforeEach(() => {
   })
 })
 
-test('renders loading state while loading Shopify storefront data', () => {
+test('renders cart loading state while loading Shopify storefront data', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: { lineItems: [] },
     isLoadingShopifyBuyData: false,
@@ -36,7 +36,7 @@ test('renders loading state while loading Shopify storefront data', () => {
   expect(screen.queryByText('Shopping cart')).not.toBeInTheDocument()
 })
 
-test('renders loading state while loading shopify-buy data', () => {
+test('renders cart loading state while loading shopify-buy data', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: { lineItems: undefined },
     isLoadingShopifyBuyData: true,
@@ -54,7 +54,7 @@ test('renders loading state while loading shopify-buy data', () => {
   expect(screen.queryByText('Shopping cart')).not.toBeInTheDocument()
 })
 
-test('renders error state if there is an error', () => {
+test('renders cart error state if there is an error', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: { lineItems: undefined },
     isLoadingShopifyBuyData: false,

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import SearchForm from './SearchForm'
 import { userEvent } from '@testing-library/user-event'
 
-test('renders correctly when the cart is empty', async () => {
+test('renders search form correctly', async () => {
   render(<SearchForm />)
   expect(screen.getByRole('searchbox')).toBeVisible()
   expect(screen.getByLabelText('Submit product search')).toBeVisible()

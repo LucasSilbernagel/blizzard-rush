@@ -5,13 +5,17 @@ import { calculateCartSubtotal, getItemSubtotal } from '~/utils/priceFormatting'
 import { CheckoutLineItem } from 'shopify-buy'
 import { MOCK_CART_PRODUCT_DATA } from '~/mocks/MockCartProductData'
 import { MOCK_CHECKOUT } from '~/mocks/MockCheckout'
+import { userEvent } from '@testing-library/user-event'
+
+const mockUpdateLineItem = jest.fn()
+const mockRemoveLineItem = jest.fn()
 
 jest.mock('../../../zustand-store.tsx', () => ({
   useStoreState: () => ({
     checkout: MOCK_CHECKOUT,
     isLoadingShopifyBuyData: false,
-    updateLineItem: jest.fn(),
-    removeLineItem: jest.fn(),
+    updateLineItem: mockUpdateLineItem,
+    removeLineItem: mockRemoveLineItem,
   }),
 }))
 
@@ -81,4 +85,31 @@ test('renders a shopping cart with items correctly', () => {
   expect(
     screen.getByText('Shipping & taxes calculated at checkout')
   ).toBeVisible()
+})
+
+test('updates the quantity of a cart item', async () => {
+  render(
+    <TooltipProvider>
+      <FullCart data={MOCK_CART_PRODUCT_DATA} refetch={jest.fn()} />
+    </TooltipProvider>
+  )
+  expect(screen.getByText('Shopping cart')).toBeVisible()
+  expect(screen.getAllByRole('combobox')[0]).toHaveTextContent('2')
+  await userEvent.click(screen.getAllByRole('combobox')[0])
+  await userEvent.click(screen.getByRole('option', { name: '3' }))
+  expect(mockUpdateLineItem).toHaveBeenCalled()
+  expect(mockUpdateLineItem).toHaveBeenCalledTimes(1)
+})
+
+test('removes an item from the cart', async () => {
+  render(
+    <TooltipProvider>
+      <FullCart data={MOCK_CART_PRODUCT_DATA} refetch={jest.fn()} />
+    </TooltipProvider>
+  )
+  expect(screen.getByText('Shopping cart')).toBeVisible()
+  expect(screen.getAllByRole('combobox')[1]).toHaveTextContent('1')
+  await userEvent.click(screen.getAllByText('Remove')[1])
+  expect(mockRemoveLineItem).toHaveBeenCalled()
+  expect(mockRemoveLineItem).toHaveBeenCalledTimes(1)
 })
