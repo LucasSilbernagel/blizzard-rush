@@ -1,5 +1,6 @@
 import { Product } from '~/routes/products.$productId'
 import ProductList from '../ProductList/ProductList'
+import { SortOption } from '~/hooks/useProductPageData'
 
 type WishlistPageProps = {
   isLoadingStorefrontData: boolean
@@ -8,7 +9,7 @@ type WishlistPageProps = {
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean
-  sortOption: string
+  sortOption: SortOption
   handleSortOptionChange: (value: string) => void
 }
 

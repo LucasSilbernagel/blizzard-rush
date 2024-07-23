@@ -16,6 +16,8 @@ type ProductPageData = {
   }
 }
 
+export type SortOption = 'PRICE_DESC' | 'PRICE_ASC' | 'TITLE_ASC' | 'TITLE_DESC'
+
 export const useProductPageData = (
   searchQuery?: string,
   productTitlesList?: string[]
@@ -104,7 +106,7 @@ export const useProductPageData = (
     return request<ProductPageData>(endpoint, productsQuery, variables, headers)
   }
 
-  const [sortOption, setSortOption] = useState<string>('PRICE_DESC')
+  const [sortOption, setSortOption] = useState<SortOption>('PRICE_DESC')
 
   const sortKey = sortOption.includes('TITLE') ? 'TITLE' : 'PRICE'
   const reverse = sortOption.includes('DESC')
@@ -145,7 +147,7 @@ export const useProductPageData = (
       page.products.edges.map((edge) => edge.node)
     ) || []
 
-  const handleSortOptionChange = (value: string) => {
+  const handleSortOptionChange = (value: SortOption) => {
     setSortOption(value)
     refetch()
   }

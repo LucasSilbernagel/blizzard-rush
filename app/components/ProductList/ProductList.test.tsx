@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react'
 import ProductList from './ProductList'
 import { userEvent } from '@testing-library/user-event'
 import { MOCK_PRODUCT_DATA } from '~/mocks/MockProductData'
+import { SortOption } from '~/hooks/useProductPageData'
 
 const mockFetchNextPage = jest.fn()
 
@@ -10,7 +11,7 @@ const mockHandleSortOptionChange = jest.fn()
 const commonMockProps = {
   fetchNextPage: mockFetchNextPage,
   isFetchingNextPage: false,
-  sortOption: 'PRICE_DESC',
+  sortOption: 'PRICE_DESC' as SortOption,
   handleSortOptionChange: mockHandleSortOptionChange,
 }
 

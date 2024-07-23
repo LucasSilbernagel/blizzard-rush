@@ -14,6 +14,7 @@ import { Loader2 } from 'lucide-react'
 import { FaArrowDown, FaArrowLeft } from 'react-icons/fa6'
 import './ProductList.css'
 import ProductListItem from './ProductListItem/ProductListItem'
+import { SortOption } from '~/hooks/useProductPageData'
 
 type ProductListProps = {
   isLoadingStorefrontData: boolean
@@ -22,7 +23,7 @@ type ProductListProps = {
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean
-  sortOption: string
+  sortOption: SortOption
   handleSortOptionChange: (value: string) => void
   isWishlistPage?: boolean
 }
