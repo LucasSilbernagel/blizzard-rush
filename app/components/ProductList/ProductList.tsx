@@ -109,16 +109,9 @@ const ProductList = (props: ProductListProps) => {
               {products
                 .filter((product) => product.featuredImage)
                 .map((product) => {
-                  const isSoldOut =
-                    product.variants.edges.every(
-                      (product) => product.node.quantityAvailable === 0
-                    ) && product.title !== 'Gift Card'
-                  const variantsAvailable = product.variants.edges.length
                   return (
                     <ProductListItem
                       key={product.id}
-                      variantsAvailable={variantsAvailable}
-                      isSoldOut={isSoldOut}
                       product={product}
                       isWishlistPage={isWishlistPage}
                     />
