@@ -13,6 +13,7 @@ const config: Config.InitialOptions = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.tsx'],
   transformIgnorePatterns: [
     'node_modules/(?!(@web3-storage/multipart-parser|@remix-run)/)',
+    'e2e/**/*.ts',
   ],
   testEnvironmentOptions: {
     customExportConditions: [''],
