@@ -18,7 +18,7 @@ jobs:
       - name: Fetch and Set Vercel Preview URL
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          DEPLOYMENTS=$(curl -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" "https://api.vercel.com/v5/now/deployments")
+          DEPLOYMENTS=$(curl -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" "https://api.vercel.com/v6/deployments")
           PREVIEW_URL=$(echo $DEPLOYMENTS | jq -r --arg prNum "$PR_NUMBER" '.deployments[] | select(.meta.githubPrId == $prNum) | .url' | head -n 1)
 
           echo "Selected URL: $PREVIEW_URL"
