@@ -79,5 +79,13 @@ module.exports = {
         node: true,
       },
     },
+
+    // Testing
+    {
+      files: ['e2e/**/*.js', 'e2e/**/*.ts'],
+      rules: {
+        'testing-library/prefer-screen-queries': 'off',
+      },
+    },
   ],
 }
