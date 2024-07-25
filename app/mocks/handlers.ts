@@ -1,5 +1,4 @@
-import { http, graphql, HttpResponse } from 'msw'
-import { MOCK_PRODUCT_DATA } from './MockProductData'
+import { http, HttpResponse } from 'msw'
 import { MOCK_CHECKOUT } from './MockCheckout'
 
 export const handlers = [
@@ -265,9 +264,4 @@ export const handlers = [
       }
     }
   ),
-  graphql.query('getProducts', () => {
-    return HttpResponse.json({
-      data: MOCK_PRODUCT_DATA,
-    })
-  }),
 ]
