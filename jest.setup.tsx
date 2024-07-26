@@ -80,10 +80,9 @@ jest.mock('./app/get-env.ts', () => ({
   })),
 }))
 
+// MSW (Mock Service Worker)
 beforeAll(() => server.listen())
-
 afterEach(() => server.resetHandlers())
-
 afterAll(() => server.close())
 
 window.HTMLElement.prototype.hasPointerCapture = jest.fn()
