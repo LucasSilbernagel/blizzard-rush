@@ -7,19 +7,19 @@ import { useStoreState } from '~/zustand-store'
 type ProductListItemProps = {
   product: Product
   isWishlistPage?: boolean
-  isSoldOut: boolean
-  variantsAvailable: number
 }
 
 const ProductListItem = (props: ProductListItemProps) => {
-  const {
-    product,
-    isWishlistPage = false,
-    isSoldOut,
-    variantsAvailable,
-  } = props
+  const { product, isWishlistPage = false } = props
 
   const { setWishlistTitles, wishlistTitles } = useStoreState()
+
+  const variantsAvailable = product.variants.edges.length
+
+  const isSoldOut =
+    product.variants.edges.every(
+      (product) => product.node.quantityAvailable === 0
+    ) && product.title !== 'Gift Card'
 
   return (
     <li key={product.id} className="relative flex justify-center">
@@ -42,10 +42,11 @@ const ProductListItem = (props: ProductListItemProps) => {
       <Link
         to={`/products/${product.id.split('/').at(-1)}`}
         className="ProductList__product-link"
+        data-testid="product-link"
       >
         <div className="ProductList__product-image">
           <img
-            src={product.featuredImage.url}
+            src={product.featuredImage?.url}
             alt={product.title}
             className="max-h-[284px] max-w-[284px]"
           />
@@ -53,7 +54,7 @@ const ProductListItem = (props: ProductListItemProps) => {
         <div className="ProductList__product-footer">
           {variantsAvailable > 1 && (
             <div>
-              <span className="text-sm">
+              <span className="text-sm" data-testid="variants-available-text">
                 {`${variantsAvailable} variants available`}
               </span>
             </div>

@@ -7,7 +7,7 @@ const DesktopNavbar = () => {
   const { checkout } = useStoreState()
 
   return (
-    <div className="hidden px-16 py-6 md:block">
+    <div className="hidden px-16 py-6 md:block" data-testid="desktop-navbar">
       <ul className="flex items-center justify-between">
         <li>
           <Link
@@ -29,6 +29,7 @@ const DesktopNavbar = () => {
             </li>
             <li>
               <Link
+                data-testid="cart-link"
                 to="/cart"
                 className={`text-xl font-bold ${checkout.lineItems?.length > 0 ? 'CartLink' : 'ContrastLink'}`}
               >

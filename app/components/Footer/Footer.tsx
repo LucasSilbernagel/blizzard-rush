@@ -40,7 +40,7 @@ const Footer = () => {
             >
               Sign Up <FaArrowRight />
             </Link>
-            <p className="text-xs">
+            <p className="text-xs" data-testid="email-signup-disclaimer">
               By entering your email, you agree to our{' '}
               <Link
                 to="privacy-policy-and-terms-of-use"

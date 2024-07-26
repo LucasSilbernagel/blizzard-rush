@@ -8,6 +8,7 @@ module.exports = {
       jsx: true,
     },
   },
+  plugins: ['jest-dom', 'testing-library'],
   env: {
     browser: true,
     commonjs: true,
@@ -16,7 +17,11 @@ module.exports = {
   ignorePatterns: ['!**/.server', '!**/.client'],
 
   // Base config
-  extends: ['eslint:recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:jest-dom/recommended',
+    'plugin:testing-library/react',
+  ],
 
   overrides: [
     // React
@@ -72,6 +77,14 @@ module.exports = {
       files: ['.eslintrc.cjs'],
       env: {
         node: true,
+      },
+    },
+
+    // Testing
+    {
+      files: ['e2e/**/*.js', 'e2e/**/*.ts'],
+      rules: {
+        'testing-library/prefer-screen-queries': 'off',
       },
     },
   ],

@@ -1,6 +1,7 @@
 import { Product } from '~/routes/products.$productId'
 import hero from '../../images/hero.webp'
 import ProductList from '../ProductList/ProductList'
+import { SortOption } from '~/hooks/useProductPageData'
 
 type HomepageProps = {
   isLoadingStorefrontData: boolean
@@ -9,8 +10,8 @@ type HomepageProps = {
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean
-  sortOption: string
-  handleSortOptionChange: (value: string) => void
+  sortOption: SortOption
+  handleSortOptionChange: (value: SortOption) => void
 }
 
 const Homepage = (props: HomepageProps) => {

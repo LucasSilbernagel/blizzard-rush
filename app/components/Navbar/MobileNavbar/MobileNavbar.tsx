@@ -7,7 +7,7 @@ const MobileNavbar = () => {
   const { checkout } = useStoreState()
 
   return (
-    <div className="block md:hidden">
+    <div className="block md:hidden" data-testid="mobile-navbar">
       <ul className="flex items-center justify-between px-6 py-3">
         <li className="font-bold">
           <Link to="/about">About</Link>
@@ -21,7 +21,11 @@ const MobileNavbar = () => {
           </Link>
         </li>
         <li>
-          <Link to="/cart" className="text-2xl font-bold">
+          <Link
+            to="/cart"
+            className="text-2xl font-bold"
+            data-testid="cart-link"
+          >
             <div className="relative flex items-center gap-1.5">
               {checkout.lineItems?.length > 0 && (
                 <span

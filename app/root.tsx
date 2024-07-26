@@ -28,6 +28,7 @@ export async function loader() {
     ENV: {
       STOREFRONT_API_ACCESS_TOKEN: process.env.STOREFRONT_API_ACCESS_TOKEN,
       SHOPIFY_DOMAIN: process.env.SHOPIFY_DOMAIN,
+      PROD_DOMAIN: process.env.PROD_DOMAIN,
     },
   })
 }

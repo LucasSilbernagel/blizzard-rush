@@ -14,6 +14,7 @@ import { Loader2 } from 'lucide-react'
 import { FaArrowDown, FaArrowLeft } from 'react-icons/fa6'
 import './ProductList.css'
 import ProductListItem from './ProductListItem/ProductListItem'
+import { SortOption } from '~/hooks/useProductPageData'
 
 type ProductListProps = {
   isLoadingStorefrontData: boolean
@@ -22,8 +23,8 @@ type ProductListProps = {
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean
-  sortOption: string
-  handleSortOptionChange: (value: string) => void
+  sortOption: SortOption
+  handleSortOptionChange: (value: SortOption) => void
   isWishlistPage?: boolean
 }
 
@@ -48,25 +49,33 @@ const ProductList = (props: ProductListProps) => {
   ]
 
   return (
-    <>
-      {error && !isLoadingStorefrontData && (
-        // Error state
-        <div className="mx-auto my-44 max-w-screen-sm text-center">
-          <Alert variant="destructive">
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>
-              {error.message || 'An error occurred, please try again later.'}
-            </AlertDescription>
-          </Alert>
-        </div>
-      )}
-      {isLoadingStorefrontData && (
+    <div data-testid="product-list">
+      {error &&
+        !isLoadingStorefrontData &&
+        (!products || products.length < 1) && (
+          // Error state
+          <div className="mx-auto my-44 max-w-screen-sm text-center">
+            <Alert variant="destructive">
+              <AlertTitle>Error</AlertTitle>
+              <AlertDescription>
+                {error.message || 'An error occurred, please try again later.'}
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
+      {isLoadingStorefrontData && (!products || products.length < 1) && (
         // Loading state
-        <ul className="mx-auto mt-24 flex max-w-max flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ul
+          data-testid="products-loading"
+          className="mx-auto mt-24 flex max-w-max flex-col items-center gap-6 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+        >
           {new Array(12).fill(0).map((_skeleton, index) => {
             return (
               <li key={`skeleton-${index}`}>
-                <Skeleton className="h-[364px] w-[300px]" />
+                <Skeleton
+                  data-testid="product-skeleton"
+                  className="h-[364px] w-[300px]"
+                />
               </li>
             )
           })}
@@ -109,16 +118,9 @@ const ProductList = (props: ProductListProps) => {
               {products
                 .filter((product) => product.featuredImage)
                 .map((product) => {
-                  const isSoldOut =
-                    product.variants.edges.every(
-                      (product) => product.node.quantityAvailable === 0
-                    ) && product.title !== 'Gift Card'
-                  const variantsAvailable = product.variants.edges.length
                   return (
                     <ProductListItem
                       key={product.id}
-                      variantsAvailable={variantsAvailable}
-                      isSoldOut={isSoldOut}
                       product={product}
                       isWishlistPage={isWishlistPage}
                     />
@@ -145,24 +147,25 @@ const ProductList = (props: ProductListProps) => {
               </div>
             </div>
           )}
-        {hasNextPage && (
-          // Load more button
-          <div className="my-12 flex w-full justify-center">
-            <Button
-              onClick={() => fetchNextPage()}
-              disabled={isFetchingNextPage}
-            >
-              {isFetchingNextPage ? (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <FaArrowDown className="mr-2 h-4 w-4" />
-              )}
-              {isFetchingNextPage ? 'Loading more...' : 'Load more'}
-            </Button>
-          </div>
-        )}
+        {hasNextPage &&
+          products &&
+          products.length > 0 &&
+          !isLoadingStorefrontData &&
+          !error && (
+            // Load more button
+            <div className="my-12 flex w-full justify-center">
+              <Button onClick={fetchNextPage} disabled={isFetchingNextPage}>
+                {isFetchingNextPage ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <FaArrowDown className="mr-2 h-4 w-4" />
+                )}
+                {isFetchingNextPage ? 'Loading more...' : 'Load more'}
+              </Button>
+            </div>
+          )}
       </div>
-    </>
+    </div>
   )
 }
 

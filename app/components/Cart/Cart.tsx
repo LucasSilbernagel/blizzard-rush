@@ -25,7 +25,10 @@ const Cart = (props: CartProps) => {
   ) {
     // Loading state
     return (
-      <div className="flex flex-col gap-2 px-4 pt-16 md:px-16">
+      <div
+        className="flex flex-col gap-2 px-4 pt-16 md:px-16"
+        data-testid="cart-skeleton"
+      >
         <Skeleton className="h-[130px] w-full" />
         <Skeleton className="h-[130px] w-full" />
         <Skeleton className="h-[130px] w-full" />
@@ -40,7 +43,10 @@ const Cart = (props: CartProps) => {
   ) {
     // Error state
     return (
-      <div className="mx-auto my-44 max-w-screen-sm text-center">
+      <div
+        className="mx-auto my-44 max-w-screen-sm text-center"
+        data-testid="cart-error-state"
+      >
         <Alert variant="destructive">
           <AlertTitle>Error</AlertTitle>
           <AlertDescription>

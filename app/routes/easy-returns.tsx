@@ -1,7 +1,9 @@
 import type { MetaFunction } from '@remix-run/node'
 import EasyReturnsContent from '../mdx/easy-returns.mdx'
+import getEnv from '~/get-env'
 
 export const meta: MetaFunction = () => {
+  const env = getEnv()
   return [
     { title: 'Blizzard Rush | Easy Returns' },
     {
@@ -10,7 +12,7 @@ export const meta: MetaFunction = () => {
     },
     {
       property: 'og:image',
-      content: 'https://blizzard-rush.vercel.app/seo/homepage.png',
+      content: `${env.PROD_DOMAIN}/seo/homepage.png`,
     },
   ]
 }

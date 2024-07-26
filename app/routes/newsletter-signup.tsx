@@ -1,7 +1,9 @@
 import type { MetaFunction } from '@remix-run/node'
 import NewsletterSignup from '~/components/NewsletterSignup/NewsletterSignup'
+import getEnv from '~/get-env'
 
 export const meta: MetaFunction = () => {
+  const env = getEnv()
   return [
     { title: 'Blizzard Rush | Newsletter Signup' },
     {
@@ -11,7 +13,7 @@ export const meta: MetaFunction = () => {
     },
     {
       property: 'og:image',
-      content: 'https://blizzard-rush.vercel.app/seo/homepage.png',
+      content: `${env.PROD_DOMAIN}/seo/homepage.png`,
     },
   ]
 }

@@ -11,6 +11,7 @@ export default function FallbackPage() {
         width: '100vw',
         maxWidth: '100%',
       }}
+      data-testid="fallback-page"
     >
       <video
         autoPlay
@@ -27,7 +28,7 @@ export default function FallbackPage() {
           zIndex: '-1',
         }}
       >
-        <source src={skiing} type="video/mp4" />
+        <source src={skiing} type="video/mp4" data-testid="video-source" />
       </video>
       <div
         style={{

@@ -1,5 +1,6 @@
 import { Product } from '~/routes/products.$productId'
 import ProductList from '../ProductList/ProductList'
+import { SortOption } from '~/hooks/useProductPageData'
 
 type SearchPageProps = {
   isLoadingStorefrontData: boolean
@@ -8,8 +9,8 @@ type SearchPageProps = {
   hasNextPage: boolean
   fetchNextPage: () => void
   isFetchingNextPage: boolean
-  sortOption: string
-  handleSortOptionChange: (value: string) => void
+  sortOption: SortOption
+  handleSortOptionChange: (value: SortOption) => void
   searchQuery: string
 }
 
