@@ -10,7 +10,7 @@ type SearchPageProps = {
   fetchNextPage: () => void
   isFetchingNextPage: boolean
   sortOption: SortOption
-  handleSortOptionChange: (value: string) => void
+  handleSortOptionChange: (value: SortOption) => void
   searchQuery: string
 }
 

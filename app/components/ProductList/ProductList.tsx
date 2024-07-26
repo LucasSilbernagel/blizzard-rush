@@ -24,7 +24,7 @@ type ProductListProps = {
   fetchNextPage: () => void
   isFetchingNextPage: boolean
   sortOption: SortOption
-  handleSortOptionChange: (value: string) => void
+  handleSortOptionChange: (value: SortOption) => void
   isWishlistPage?: boolean
 }
 
