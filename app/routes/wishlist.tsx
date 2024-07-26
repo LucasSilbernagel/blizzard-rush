@@ -1,10 +1,12 @@
 import type { MetaFunction } from '@remix-run/node'
 import { useEffect } from 'react'
 import WishlistPage from '~/components/WishlistPage/WishlistPage'
+import getEnv from '~/get-env'
 import { useProductPageData } from '~/hooks/useProductPageData'
 import { useStoreState } from '~/zustand-store'
 
 export const meta: MetaFunction = () => {
+  const env = getEnv()
   return [
     { title: 'Blizzard Rush | Wishlist' },
     {
@@ -13,7 +15,7 @@ export const meta: MetaFunction = () => {
     },
     {
       property: 'og:image',
-      content: 'https://blizzard-rush.vercel.app/seo/homepage.png',
+      content: `${env.PROD_DOMAIN}/seo/homepage.png`,
     },
   ]
 }

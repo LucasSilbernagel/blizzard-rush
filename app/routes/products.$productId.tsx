@@ -28,6 +28,7 @@ export type ProductResponse = {
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
+  const env = getEnv()
   return [
     { title: `Blizzard Rush | ${data?.title || 'Shop Snowboards'}` },
     {
@@ -36,7 +37,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
     },
     {
       property: 'og:image',
-      content: `${data?.featuredImage?.url || 'https://blizzard-rush.vercel.app/seo/homepage.png'}`,
+      content: `${data?.featuredImage?.url || `${env.PROD_DOMAIN}/seo/homepage.png`}`,
     },
   ]
 }
