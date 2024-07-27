@@ -123,3 +123,17 @@ test('renders sold out product correctly', async () => {
     screen.getByText(`Added ${MOCK_SOLD_OUT_PRODUCT.title} to wishlist`)
   ).toBeVisible()
 })
+
+test('fails to render a product', async () => {
+  render(
+    <StoreProvider>
+      <Toaster />
+      <IndividualProduct product={null} />
+    </StoreProvider>
+  )
+  expect(
+    screen.queryByAltText(MOCK_SOLD_OUT_PRODUCT.title)
+  ).not.toBeInTheDocument()
+  expect(screen.getByText('Product not found')).toBeVisible()
+  expect(screen.getByText('Continue shopping')).toBeVisible()
+})

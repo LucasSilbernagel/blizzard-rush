@@ -3,13 +3,16 @@ import { Product } from '~/routes/products.$productId'
 import { ToggleGroup, ToggleGroupItem } from 'shadcn/components/ui/toggle-group'
 import { useStoreState } from '~/zustand-store'
 import { Button } from 'shadcn/components/ui/button'
-import { FaArrowRight, FaPlus } from 'react-icons/fa6'
+import { FaArrowLeft, FaArrowRight, FaPlus } from 'react-icons/fa6'
 import { useToast } from 'shadcn/components/ui/use-toast'
 import { Link } from '@remix-run/react'
+import { Alert, AlertTitle } from 'shadcn/components/ui/alert'
 
-export default function IndividualProduct({ product }: { product: Product }) {
-  const { title, featuredImage, priceRange, variants } = product
-
+export default function IndividualProduct({
+  product,
+}: {
+  product: Product | null
+}) {
   const {
     didJustAddToCart,
     addVariantToCart,
@@ -22,20 +25,20 @@ export default function IndividualProduct({ product }: { product: Product }) {
   const [selectedVariantId, setSelectedVariantId] = useState<string>('')
 
   useEffect(() => {
-    if (variants) {
-      const selectedVariant = variants.edges.find(
+    if (product?.variants) {
+      const selectedVariant = product?.variants.edges.find(
         (edge) => edge.node.quantityAvailable > 0
       )
       if (selectedVariant) {
         setSelectedVariantId(selectedVariant.node.id)
       }
     }
-  }, [variants])
+  }, [product?.variants])
 
   useEffect(() => {
     if (didJustAddToCart) {
       toast({
-        title: `Added ${title} to cart`,
+        title: `Added ${product?.title} to cart`,
         description: (
           <div className="mt-2 flex justify-center">
             <Link to="/cart" className="ContrastLink flex items-center gap-2">
@@ -45,7 +48,7 @@ export default function IndividualProduct({ product }: { product: Product }) {
         ),
       })
     }
-  }, [didJustAddToCart, title, toast])
+  }, [didJustAddToCart, product?.title, toast])
 
   const handleAddToCart = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -54,41 +57,67 @@ export default function IndividualProduct({ product }: { product: Product }) {
 
   const handleAddToWishlist = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    const newWishlistTitles = [...wishlistTitles]
-    newWishlistTitles.push(product.title)
-    setWishlistTitles(newWishlistTitles)
-    toast({
-      title: `Added ${title} to wishlist`,
-      description: (
-        <div className="mt-2 flex justify-center">
-          <Link to="/wishlist" className="ContrastLink flex items-center gap-2">
-            Go to wishlist <FaArrowRight />
-          </Link>
-        </div>
-      ),
-    })
+    if (product) {
+      const newWishlistTitles = [...wishlistTitles]
+      newWishlistTitles.push(product.title)
+      setWishlistTitles(newWishlistTitles)
+      toast({
+        title: `Added ${product.title} to wishlist`,
+        description: (
+          <div className="mt-2 flex justify-center">
+            <Link
+              to="/wishlist"
+              className="ContrastLink flex items-center gap-2"
+            >
+              Go to wishlist <FaArrowRight />
+            </Link>
+          </div>
+        ),
+      })
+    }
   }
 
   const SOLD_OUT =
-    product.title !== 'Gift Card' &&
-    variants.edges.every((edge) => edge.node.quantityAvailable < 1)
+    product?.title !== 'Gift Card' &&
+    product?.variants.edges.every((edge) => edge.node.quantityAvailable < 1)
+
+  if (!product) {
+    return (
+      <div
+        className="mx-auto my-44 max-w-screen-sm px-4 text-center"
+        data-testid="cart-error-state"
+      >
+        <Alert variant="destructive">
+          <AlertTitle>Product not found</AlertTitle>
+        </Alert>
+        <div className="mx-auto my-16 max-w-max">
+          <Link
+            to="/"
+            className="ContrastLink flex items-center gap-2 font-bold"
+          >
+            <FaArrowLeft /> Continue shopping
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col items-center justify-center gap-4 px-4 lg:flex-row">
       <div className="max-w-[720px]">
-        <img src={featuredImage?.url} alt={title} />
+        <img src={product.featuredImage?.url} alt={product.title} />
       </div>
       <div className="mt-6 max-w-full lg:mt-36 lg:max-w-[400px]">
-        <h1 className="text-3xl font-bold lg:text-4xl">{title}</h1>
+        <h1 className="text-3xl font-bold lg:text-4xl">{product.title}</h1>
         <h2 className="mt-8 text-2xl font-bold" data-testid="product-price">
           Price:{' '}
           {new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
-          }).format(Number(priceRange?.minVariantPrice?.amount))}
+          }).format(Number(product.priceRange?.minVariantPrice?.amount))}
         </h2>
         <div className="my-4 h-px w-full bg-gray-300"></div>
-        {variants.edges.length > 1 && (
+        {product.variants.edges.length > 1 && (
           <>
             <h3
               className="mb-4 text-lg font-bold"
@@ -97,7 +126,7 @@ export default function IndividualProduct({ product }: { product: Product }) {
               Variant:{' '}
               <span className="font-normal">
                 {
-                  variants.edges.find(
+                  product.variants.edges.find(
                     (edge) => edge.node.id === selectedVariantId
                   )?.node.title
                 }
@@ -110,7 +139,7 @@ export default function IndividualProduct({ product }: { product: Product }) {
                 variant="outline"
                 className="flex-wrap gap-2"
               >
-                {variants.edges.map((edge) => {
+                {product.variants.edges.map((edge) => {
                   return (
                     <ToggleGroupItem
                       key={edge.node.id}

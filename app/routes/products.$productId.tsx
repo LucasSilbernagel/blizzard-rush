@@ -105,7 +105,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
   const productData: Product | null = await getProductData(String(productId))
 
   if (!productData) {
-    console.log('no product data')
+    console.error('no product data')
     return null
   }
 
@@ -114,10 +114,6 @@ export async function loader({ params }: LoaderFunctionArgs) {
 
 export default function ProductPage() {
   const data = useLoaderData<typeof loader>()
-
-  if (!data) {
-    return null
-  }
 
   return (
     <div>
