@@ -1,11 +1,8 @@
 import { test, expect } from '@playwright/test'
+import { initializeDesktopView, initializeMobileView } from './helpers'
 
 test('adds a product to the wishlist on desktop', async ({ page }) => {
-  await page.setViewportSize({ width: 1470, height: 712 })
-  await page.goto(process.env.VERCEL_PREVIEW_URL || 'http://localhost:5173/', {
-    waitUntil: 'networkidle',
-  })
-  await expect(page).toHaveTitle(/Blizzard Rush | Shop Snowboards/)
+  initializeDesktopView(page)
   await page.click('text=Wishlist')
   await expect(page).toHaveTitle(/Blizzard Rush | Wishlist/)
   await expect(page.locator('text=NO PRODUCTS FOUND')).toBeVisible()
@@ -35,11 +32,7 @@ test('adds a product to the wishlist on desktop', async ({ page }) => {
 })
 
 test('adds a product to the wishlist on mobile', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto(process.env.VERCEL_PREVIEW_URL || 'http://localhost:5173/', {
-    waitUntil: 'networkidle',
-  })
-  await expect(page).toHaveTitle(/Blizzard Rush | Shop Snowboards/)
+  initializeMobileView(page)
   await page.click('text=Wishlist')
   await expect(page).toHaveTitle(/Blizzard Rush | Wishlist/)
   await expect(page.locator('text=NO PRODUCTS FOUND')).toBeVisible()

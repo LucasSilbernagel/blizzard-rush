@@ -1,11 +1,8 @@
-import { test, expect } from '@playwright/test'
+import { test } from '@playwright/test'
+import { initializeDesktopView, initializeMobileView } from './helpers'
 
 test('sorts product list on desktop', async ({ page }) => {
-  await page.setViewportSize({ width: 1470, height: 712 })
-  await page.goto(process.env.VERCEL_PREVIEW_URL || 'http://localhost:5173/', {
-    waitUntil: 'networkidle',
-  })
-  await expect(page).toHaveTitle(/Blizzard Rush | Shop Snowboards/)
+  initializeDesktopView(page)
   await page.waitForSelector('[data-testid="product-list"]')
   await page.click('button:has-text("Price, high-low")')
   await page.click('div[role="option"]:has-text("Price, low-high")')
@@ -22,11 +19,7 @@ test('sorts product list on desktop', async ({ page }) => {
 })
 
 test('sorts product list on mobile', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto(process.env.VERCEL_PREVIEW_URL || 'http://localhost:5173/', {
-    waitUntil: 'networkidle',
-  })
-  await expect(page).toHaveTitle(/Blizzard Rush | Shop Snowboards/)
+  initializeMobileView(page)
   await page.waitForSelector('[data-testid="product-list"]')
   await page.click('button:has-text("Price, high-low")')
   await page.click('div[role="option"]:has-text("Price, low-high")')

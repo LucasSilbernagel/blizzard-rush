@@ -1,11 +1,8 @@
 import { test, expect } from '@playwright/test'
+import { initializeDesktopView, initializeMobileView } from './helpers'
 
 test('product search returns relevant results on desktop', async ({ page }) => {
-  await page.setViewportSize({ width: 1470, height: 712 })
-  await page.goto(process.env.VERCEL_PREVIEW_URL || 'http://localhost:5173/', {
-    waitUntil: 'networkidle',
-  })
-  await expect(page).toHaveTitle(/Blizzard Rush | Shop Snowboards/)
+  initializeDesktopView(page)
   const searchInput = page.locator(
     '[data-testid="desktop-navbar"] input[type="search"]'
   )
@@ -22,11 +19,7 @@ test('product search returns relevant results on desktop', async ({ page }) => {
 })
 
 test('product search returns relevant results on mobile', async ({ page }) => {
-  await page.setViewportSize({ width: 320, height: 568 })
-  await page.goto(process.env.VERCEL_PREVIEW_URL || 'http://localhost:5173/', {
-    waitUntil: 'networkidle',
-  })
-  await expect(page).toHaveTitle(/Blizzard Rush | Shop Snowboards/)
+  initializeMobileView(page)
   const searchInput = page.locator(
     '[data-testid="mobile-navbar"] input[type="search"]'
   )
