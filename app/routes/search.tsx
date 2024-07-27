@@ -1,5 +1,6 @@
 import type { MetaFunction } from '@remix-run/node'
 import { useSearchParams } from '@remix-run/react'
+import { useEffect } from 'react'
 import SearchPage from '~/components/SearchPage/SearchPage'
 import getEnv from '~/get-env'
 import { useProductPageData } from '~/hooks/useProductPageData'
@@ -33,7 +34,14 @@ export default function Search() {
     isFetchingNextPage,
     sortOption,
     handleSortOptionChange,
+    refetch,
   } = useProductPageData(searchQuery)
+
+  useEffect(() => {
+    if (searchQuery.length >= 3) {
+      refetch()
+    }
+  }, [searchQuery, refetch])
 
   return (
     <SearchPage
