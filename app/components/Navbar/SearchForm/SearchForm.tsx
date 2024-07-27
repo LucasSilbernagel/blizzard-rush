@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react'
 import { useNavigate } from '@remix-run/react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
@@ -16,6 +17,7 @@ import { FaSearch } from 'react-icons/fa'
 
 const SearchForm = () => {
   const navigate = useNavigate()
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   const formSchema = z.object({
     searchQuery: z
@@ -34,7 +36,21 @@ const SearchForm = () => {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     navigate(`/search?q=${values.searchQuery}`)
+    form.reset()
   }
+
+  useEffect(() => {
+    const handleInput = () => {
+      if (inputRef.current?.value === '') {
+        form.reset()
+      }
+    }
+    const inputElement = inputRef.current
+    inputElement?.addEventListener('input', handleInput)
+    return () => {
+      inputElement?.removeEventListener('input', handleInput)
+    }
+  }, [form])
 
   return (
     <div className="relative bg-black pb-2 pt-0.5">
@@ -59,6 +75,10 @@ const SearchForm = () => {
                     type="search"
                     placeholder="Search our store"
                     {...field}
+                    ref={(e) => {
+                      field.ref(e)
+                      inputRef.current = e
+                    }}
                     className="border-transparent bg-black text-base text-white placeholder:text-white focus:border-transparent"
                   />
                 </FormControl>

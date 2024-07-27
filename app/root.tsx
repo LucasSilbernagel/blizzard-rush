@@ -17,6 +17,7 @@ import { StoreProvider } from './zustand-store'
 import Navbar from './components/Navbar/Navbar'
 import { Toaster } from 'shadcn/components/ui/toaster'
 import { TooltipProvider } from 'shadcn/components/ui/tooltip'
+import { useState } from 'react'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -35,6 +36,8 @@ export async function loader() {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const data = useLoaderData<typeof loader>()
+  const [navbarHeight, setNavbarHeight] = useState(139)
+
   return (
     <html lang="en">
       <head>
@@ -51,10 +54,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <header>
-          <Navbar />
+          <Navbar setNavbarHeight={setNavbarHeight} />
         </header>
         <TooltipProvider>
-          <main className="pt-[139px] md:pt-[138px]">{children}</main>
+          <main style={{ paddingTop: `${navbarHeight}px` }}>{children}</main>
         </TooltipProvider>
         <Toaster />
         <Footer />
