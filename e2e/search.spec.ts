@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { initializeDesktopView, initializeMobileView } from './helpers'
 
 test('product search returns relevant results on desktop', async ({ page }) => {
-  initializeDesktopView(page)
+  await initializeDesktopView(page)
   const searchInput = page.locator(
     '[data-testid="desktop-navbar"] input[type="search"]'
   )
@@ -19,7 +19,7 @@ test('product search returns relevant results on desktop', async ({ page }) => {
 })
 
 test('product search returns relevant results on mobile', async ({ page }) => {
-  initializeMobileView(page)
+  await initializeMobileView(page)
   const searchInput = page.locator(
     '[data-testid="mobile-navbar"] input[type="search"]'
   )

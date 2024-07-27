@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { initializeDesktopView, initializeMobileView } from './helpers'
 
 test('subscribe to newsletter on desktop', async ({ page }) => {
-  initializeDesktopView(page)
+  await initializeDesktopView(page)
   await page.click('text=Sign Up')
   await expect(page).toHaveTitle(/Blizzard Rush | Newsletter Signup/)
   await page.fill('input[placeholder="Email address"]', 'test@example.com')
@@ -16,7 +16,7 @@ test('subscribe to newsletter on desktop', async ({ page }) => {
 })
 
 test('subscribe to newsletter on mobile', async ({ page }) => {
-  initializeMobileView(page)
+  await initializeMobileView(page)
   await page.click('text=Sign Up')
   await expect(page).toHaveTitle(/Blizzard Rush | Newsletter Signup/)
   await page.fill('input[placeholder="Email address"]', 'test@example.com')

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { initializeDesktopView, initializeMobileView } from './helpers'
 
 test('purchase a product on desktop', async ({ page }) => {
-  initializeDesktopView(page)
+  await initializeDesktopView(page)
   await page.click('text=Cart')
   await expect(page).toHaveTitle(/Blizzard Rush | Cart/)
   await expect(page.locator('text=YOUR CART IS EMPTY')).toBeVisible()
@@ -64,7 +64,7 @@ test('purchase a product on desktop', async ({ page }) => {
 })
 
 test('purchase a product on mobile', async ({ page }) => {
-  initializeMobileView(page)
+  await initializeMobileView(page)
   await page.click('data-testid=cart-link')
   await expect(page).toHaveTitle(/Blizzard Rush | Cart/)
   await expect(page.locator('text=YOUR CART IS EMPTY')).toBeVisible()
