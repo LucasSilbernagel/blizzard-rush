@@ -1,7 +1,7 @@
 import { StoreApi, UseBoundStore, create } from 'zustand'
 import React, { useEffect } from 'react'
 import Client, { CheckoutLineItem } from 'shopify-buy'
-import getEnv from './get-env'
+import getEnv, { isBrowser } from './get-env'
 
 const env = getEnv()
 
@@ -11,8 +11,8 @@ const client: Client = Client.buildClient({
   storefrontAccessToken: env.STOREFRONT_API_ACCESS_TOKEN || '',
 })
 
-const isBrowser = typeof window !== `undefined`
 const checkoutLocalStorageKey = `shopify_checkout_id`
+
 const wishlistLocalStorageKey = `wishlist_titles`
 
 type Checkout = {
@@ -22,9 +22,6 @@ type Checkout = {
 }
 
 type StoreActions = {
-  setCheckout: (checkout: Checkout) => void
-  setLoadingShopifyBuyData: (isLoadingShopifyBuyData: boolean) => void
-  setDidJustAddToCart: (didJustAddToCart: boolean) => void
   initializeCheckout: () => Promise<void>
   initializeWishlist: () => Promise<void>
   setWishlistTitles: (wishlistTitles: string[]) => void
@@ -68,10 +65,6 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
     }
   },
   checkout: {} as Checkout,
-  setCheckout: (checkout: Checkout) => set({ checkout }),
-  setLoadingShopifyBuyData: (isLoadingShopifyBuyData: boolean) =>
-    set({ isLoadingShopifyBuyData }),
-  setDidJustAddToCart: (didJustAddToCart: boolean) => set({ didJustAddToCart }),
   initializeCheckout: async () => {
     set({ isLoadingShopifyBuyData: true })
     const existingCheckoutID = isBrowser
