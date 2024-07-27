@@ -25,6 +25,7 @@ jobs:
 
           if [ -z "$PREVIEW_URL" ]; then
             echo "No preview URL found for PR $PR_NUMBER"
+            exit 1
           else
             # Ensure the URL starts with https://
             if [[ $PREVIEW_URL != http* ]]; then
@@ -36,7 +37,7 @@ jobs:
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       - name: Run Playwright tests
-        run: pnpm exec playwright test
+        run: pnpm exec playwright test --retries=1
         env:
           VERCEL_PREVIEW_URL: ${{ env.VERCEL_PREVIEW_URL }}
       - uses: actions/upload-artifact@v4

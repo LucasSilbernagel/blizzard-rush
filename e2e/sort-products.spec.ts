@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import { initializeDesktopView, initializeMobileView } from './helpers'
 
 test('sorts product list on desktop', async ({ page }) => {
-  initializeDesktopView(page)
+  await initializeDesktopView(page)
   await page.waitForSelector('[data-testid="product-list"]')
   await page.click('button:has-text("Price, high-low")')
   await page.click('div[role="option"]:has-text("Price, low-high")')
@@ -19,7 +19,7 @@ test('sorts product list on desktop', async ({ page }) => {
 })
 
 test('sorts product list on mobile', async ({ page }) => {
-  initializeMobileView(page)
+  await initializeMobileView(page)
   await page.waitForSelector('[data-testid="product-list"]')
   await page.click('button:has-text("Price, high-low")')
   await page.click('div[role="option"]:has-text("Price, low-high")')

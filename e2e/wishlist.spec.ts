@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import { initializeDesktopView, initializeMobileView } from './helpers'
 
 test('adds a product to the wishlist on desktop', async ({ page }) => {
-  initializeDesktopView(page)
+  await initializeDesktopView(page)
   await page.click('text=Wishlist')
   await expect(page).toHaveTitle(/Blizzard Rush | Wishlist/)
   await expect(page.locator('text=NO PRODUCTS FOUND')).toBeVisible()
@@ -32,7 +32,7 @@ test('adds a product to the wishlist on desktop', async ({ page }) => {
 })
 
 test('adds a product to the wishlist on mobile', async ({ page }) => {
-  initializeMobileView(page)
+  await initializeMobileView(page)
   await page.click('text=Wishlist')
   await expect(page).toHaveTitle(/Blizzard Rush | Wishlist/)
   await expect(page.locator('text=NO PRODUCTS FOUND')).toBeVisible()
