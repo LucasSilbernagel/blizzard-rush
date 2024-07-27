@@ -25,7 +25,15 @@ test('subscribe to newsletter on mobile', async ({ page }) => {
   await page.fill('input[placeholder="Last name"]', 'Doe')
   await page.click('button:has-text("Gender")')
   await page.waitForTimeout(1000)
-  await page.click('div[role="option"]:has-text("Male")')
+  const genderOptions = await page.$$('div[role="option"]')
+  for (const option of genderOptions) {
+    const textContent = await option.textContent()
+    if (textContent?.includes('Male')) {
+      await option.scrollIntoViewIfNeeded()
+      await option.click()
+      break
+    }
+  }
   await page.fill('input[placeholder="Birthday"]', '1990-01-01')
   await page.click('button:has-text("Subscribe")')
   await page.waitForSelector('text=Thanks for subscribing, John!')
