@@ -80,8 +80,7 @@ const Cart = (props: CartProps) => {
   } else if (
     checkout.lineItems?.length > 0 &&
     !error &&
-    !isLoadingStorefrontData &&
-    !isLoadingShopifyBuyData
+    !isLoadingStorefrontData
   ) {
     // Full cart state
     return <FullCart data={data} refetch={refetch} />

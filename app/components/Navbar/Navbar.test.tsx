@@ -4,7 +4,7 @@ import Navbar from './Navbar'
 window.scrollTo = jest.fn()
 
 test('renders the navbar correctly', async () => {
-  render(<Navbar />)
+  render(<Navbar setNavbarHeight={jest.fn()} />)
   expect(screen.getByRole('navigation')).toBeVisible()
   expect(screen.getByRole('navigation')).not.toHaveClass('shadow-lg')
   await waitFor(() => {
