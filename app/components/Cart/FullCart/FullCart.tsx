@@ -67,7 +67,7 @@ const FullCart = ({
           <FaArrowLeft /> Continue shopping
         </Link>
       </div>
-      <h1 className="my-6 pt-16 text-center font-anton text-3xl font-bold uppercase tracking-wide xl:pt-0">
+      <h1 className="my-6 pt-16 text-center font-anton text-3xl uppercase tracking-wide xl:pt-0">
         Shopping cart
       </h1>
       <div className="mx-auto flex max-w-max flex-col gap-8 px-4 xl:flex-row xl:px-0">

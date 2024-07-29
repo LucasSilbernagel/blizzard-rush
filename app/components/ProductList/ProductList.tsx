@@ -134,7 +134,7 @@ const ProductList = (props: ProductListProps) => {
           !error && (
             // Empty state
             <div className="my-44">
-              <h2 className="my-6 pt-16 text-center font-anton text-3xl font-bold uppercase tracking-wide xl:pt-0">
+              <h2 className="my-6 pt-16 text-center font-anton text-3xl uppercase tracking-wide xl:pt-0">
                 No products found
               </h2>
               <div className="mx-auto my-16 max-w-max">

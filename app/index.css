@@ -15,7 +15,7 @@ body {
 }
 
 .MarkdownPage h1 {
-  @apply mb-12 text-center font-anton text-3xl font-bold uppercase;
+  @apply mb-12 text-center font-anton text-3xl uppercase;
 }
 
 .MarkdownPage h2 {

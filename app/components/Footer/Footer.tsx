@@ -27,7 +27,7 @@ const Footer = () => {
       <div className="bg-black px-4 pb-8 pt-16 text-white lg:px-44">
         <div className="flex flex-col justify-between md:flex-row">
           <div className="mx-auto mb-12 max-w-[367px] lg:mx-0 lg:mb-0">
-            <h3 className="mb-2 font-anton text-3xl font-bold uppercase tracking-wider">
+            <h3 className="mb-2 font-anton text-3xl uppercase tracking-wider">
               Join our newsletter
             </h3>
             <p>

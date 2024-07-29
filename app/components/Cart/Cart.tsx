@@ -64,7 +64,7 @@ const Cart = (props: CartProps) => {
     // Empty cart state
     return (
       <div className="pt-16">
-        <h1 className="my-6 pt-16 text-center font-anton text-3xl font-bold uppercase tracking-wide xl:pt-0">
+        <h1 className="my-6 pt-16 text-center font-anton text-3xl uppercase tracking-wide xl:pt-0">
           Your cart is empty
         </h1>
         <div className="mx-auto my-16 max-w-max">
