@@ -42,7 +42,7 @@ const NewsletterSignup = () => {
     firstName: z.string().min(2).max(50),
     lastName: z.string().min(2).max(50),
     gender: z.string(),
-    birthday: dateSchema,
+    birthday: dateSchema.optional(),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
