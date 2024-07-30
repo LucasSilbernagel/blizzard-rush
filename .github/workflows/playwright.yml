@@ -18,9 +18,20 @@ jobs:
       - name: Fetch and Set Vercel Preview URL
         run: |
           PR_NUMBER=${{ github.event.pull_request.number }}
-          DEPLOYMENTS=$(curl -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" "https://api.vercel.com/v6/deployments")
-          PREVIEW_URL=$(echo $DEPLOYMENTS | jq -r --arg prNum "$PR_NUMBER" '.deployments[] | select(.meta.githubPrId == $prNum) | .url' | head -n 1)
+          echo "Fetching deployments for PR #$PR_NUMBER"
 
+          DEPLOYMENTS=$(curl -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" "https://api.vercel.com/v6/deployments")
+          echo "Deployments fetched: $DEPLOYMENTS"
+
+          # Verify if the deployments contain the PR ID
+          if echo "$DEPLOYMENTS" | jq -e --arg prNum "$PR_NUMBER" '.deployments[] | select(.meta.githubPrId == $prNum)' > /dev/null; then
+            echo "PR ID $PR_NUMBER found in deployments"
+          else
+            echo "PR ID $PR_NUMBER not found in deployments"
+            exit 1
+          fi
+
+          PREVIEW_URL=$(echo $DEPLOYMENTS | jq -r --arg prNum "$PR_NUMBER" '.deployments[] | select(.meta.githubPrId == $prNum) | .url' | head -n 1)
           echo "Selected URL: $PREVIEW_URL"
 
           if [ -z "$PREVIEW_URL" ]; then
