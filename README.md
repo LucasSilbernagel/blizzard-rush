@@ -71,7 +71,6 @@ To install all of the required dependencies, run `pnpm install`.
 - [Jest](https://jestjs.io/)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - [msw](https://mswjs.io/)
-- [msw](https://mswjs.io/)
 - [Playwright](https://playwright.dev/)
 
 ### Unit Tests
