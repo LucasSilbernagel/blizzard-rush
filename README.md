@@ -75,7 +75,7 @@ To install all of the required dependencies, run `pnpm install`.
 
 ### Unit Tests
 
-Unit tests are written with [Jest](https://jestjs.io/) and [react-testing-library](https://testing-library.com/).
+Unit tests are written with [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/).
 
 Use `pnpm run test-unit` to run all unit tests, or use `pnpm run test-unit SomeFileToRun` to run a specific test file.
 
