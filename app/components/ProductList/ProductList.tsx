@@ -93,7 +93,13 @@ const ProductList = (props: ProductListProps) => {
                   value={sortOption}
                   onValueChange={handleSortOptionChange}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger
+                    aria-label={
+                      selectOptions.find(
+                        (option) => option.value === sortOption
+                      )?.label
+                    }
+                  >
                     <SelectValue placeholder="Price, high-low" />
                   </SelectTrigger>
                   <SelectContent>

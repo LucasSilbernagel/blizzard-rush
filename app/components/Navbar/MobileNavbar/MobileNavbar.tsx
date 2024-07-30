@@ -23,6 +23,7 @@ const MobileNavbar = () => {
         <li>
           <Link
             to="/cart"
+            aria-label="cart"
             className="text-2xl font-bold"
             data-testid="cart-link"
           >

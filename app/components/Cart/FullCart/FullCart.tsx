@@ -154,7 +154,10 @@ const FullCart = ({
                           handleQuantityChange(value, lineItem)
                         }
                       >
-                        <SelectTrigger icon={<PiCaretUpDownBold />}>
+                        <SelectTrigger
+                          aria-label={String(lineItem.quantity)}
+                          icon={<PiCaretUpDownBold />}
+                        >
                           <SelectValue placeholder="1" />
                         </SelectTrigger>
                         <SelectContent>

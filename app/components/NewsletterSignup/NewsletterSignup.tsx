@@ -165,7 +165,9 @@ const NewsletterSignup = () => {
                             field.onChange(value)
                           }}
                         >
-                          <SelectTrigger>
+                          <SelectTrigger
+                            aria-label={field.value ? field.value : 'gender'}
+                          >
                             <SelectValue placeholder="Gender" />
                           </SelectTrigger>
                           <SelectContent>
