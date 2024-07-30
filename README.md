@@ -2,6 +2,8 @@
 
 Blizzard Rush is a Shopify development store that sells snowboards. Test data is rendered on the Remix front end through Shopify APIs, and Shopify handles the checkout process.
 
+![Screen Shot 2024-07-29 at 22 56 04](https://github.com/user-attachments/assets/4ef83239-c924-476a-b64c-7790870d6d08)
+
 ## Live Link
 
 [https://blizzard-rush.vercel.app/](https://blizzard-rush.vercel.app/)
