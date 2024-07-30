@@ -10,17 +10,17 @@ const Footer = () => {
     <footer className="Footer">
       <ul className="Footer__Shipping-banner">
         <li>
-          <RxCountdownTimer />{' '}
+          <RxCountdownTimer aria-hidden />{' '}
           <Link to="/easy-returns">30 Days Easy Returns</Link>
         </li>
         <li>
-          <LiaShippingFastSolid />{' '}
+          <LiaShippingFastSolid aria-hidden />{' '}
           <Link to="/free-shipping">
             Free Shipping on orders of $98+ (Regular Price Items)
           </Link>
         </li>
         <li>
-          <FaCanadianMapleLeaf />{' '}
+          <FaCanadianMapleLeaf aria-hidden />{' '}
           <Link to="/shipping-policy">We Ship from Canada</Link>
         </li>
       </ul>
