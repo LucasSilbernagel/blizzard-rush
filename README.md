@@ -17,7 +17,7 @@ Blizzard Rush is a Shopify development store that sells snowboards. Test data is
 - [TypeScript](https://www.typescriptlang.org/)
 - [Tailwind](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.com/)
-- [zustand](https://github.com/pmndrs/zustand)
+- [Zustand](https://github.com/pmndrs/zustand)
 - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview)
 - [react-icons](https://www.npmjs.com/package/react-icons)
 - [@mdx-js/rollup](https://mdxjs.com/packages/rollup/)
