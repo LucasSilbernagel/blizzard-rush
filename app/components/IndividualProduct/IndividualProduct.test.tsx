@@ -6,15 +6,14 @@ import {
   MOCK_PRODUCT_WITHOUT_VARIANTS,
   MOCK_SOLD_OUT_PRODUCT,
 } from '~/mocks/MockIndividualProducts'
-import { StoreProvider } from '~/zustand-store'
 import { Toaster } from 'shadcn/components/ui/toaster'
 
 test('renders a product with variants correctly', async () => {
   render(
-    <StoreProvider>
+    <>
       <Toaster />
       <IndividualProduct product={MOCK_PRODUCT_WITH_VARIANTS} />
-    </StoreProvider>
+    </>
   )
   expect(screen.getByAltText(MOCK_PRODUCT_WITH_VARIANTS.title)).toBeVisible()
   expect(screen.getByAltText(MOCK_PRODUCT_WITH_VARIANTS.title)).toHaveAttribute(
@@ -60,10 +59,10 @@ test('renders a product with variants correctly', async () => {
 
 test('renders a product without variants correctly', async () => {
   render(
-    <StoreProvider>
+    <>
       <Toaster />
       <IndividualProduct product={MOCK_PRODUCT_WITHOUT_VARIANTS} />
-    </StoreProvider>
+    </>
   )
   expect(screen.getByAltText(MOCK_PRODUCT_WITHOUT_VARIANTS.title)).toBeVisible()
   expect(
@@ -94,10 +93,10 @@ test('renders a product without variants correctly', async () => {
 
 test('renders sold out product correctly', async () => {
   render(
-    <StoreProvider>
+    <>
       <Toaster />
       <IndividualProduct product={MOCK_SOLD_OUT_PRODUCT} />
-    </StoreProvider>
+    </>
   )
   expect(screen.getByAltText(MOCK_SOLD_OUT_PRODUCT.title)).toBeVisible()
   expect(screen.getByAltText(MOCK_SOLD_OUT_PRODUCT.title)).toHaveAttribute(
@@ -126,10 +125,10 @@ test('renders sold out product correctly', async () => {
 
 test('fails to render a product', async () => {
   render(
-    <StoreProvider>
+    <>
       <Toaster />
       <IndividualProduct product={null} />
-    </StoreProvider>
+    </>
   )
   expect(
     screen.queryByAltText(MOCK_SOLD_OUT_PRODUCT.title)

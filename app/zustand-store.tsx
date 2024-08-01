@@ -1,5 +1,4 @@
 import { StoreApi, UseBoundStore, create } from 'zustand'
-import React, { useEffect } from 'react'
 import Client, { CheckoutLineItem } from 'shopify-buy'
 import getEnv, { isBrowser } from './get-env'
 
@@ -143,23 +142,9 @@ const useStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
   },
 }))
 
-type StoreProviderProps = {
-  children: React.ReactNode
-}
-
-export const StoreProvider: React.FC<StoreProviderProps> = ({ children }) => {
-  const initializeCheckout = useStore((state) => state.initializeCheckout)
-  const initializeWishlist = useStore((state) => state.initializeWishlist)
-
-  useEffect(() => {
-    initializeCheckout()
-    initializeWishlist()
-  }, [initializeCheckout, initializeWishlist])
-
-  return <>{children}</>
-}
-
 type StoreState = {
+  initializeCheckout: () => void
+  initializeWishlist: () => void
   wishlistTitles: string[]
   setWishlistTitles: (wishlistTitles: string[]) => void
   checkout: Checkout
