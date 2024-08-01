@@ -13,11 +13,11 @@ import stylesheet from '~/tailwind.css?url'
 import baseStyles from '~/index.css?url'
 import { LinksFunction } from '@remix-run/node'
 import Footer from './components/Footer/Footer'
-import { StoreProvider } from './zustand-store'
 import Navbar from './components/Navbar/Navbar'
 import { Toaster } from 'shadcn/components/ui/toaster'
 import { TooltipProvider } from 'shadcn/components/ui/tooltip'
 import { useState } from 'react'
+import { useStoreState } from './zustand-store'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: stylesheet },
@@ -74,11 +74,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const initializeShopCheckout = useStoreState(
+    (state) => state.initializeCheckout
+  )
+  const initializeShopWishlist = useStoreState(
+    (state) => state.initializeWishlist
+  )
+  initializeShopCheckout()
+  initializeShopWishlist()
   return (
     <QueryClientProvider client={queryClient}>
-      <StoreProvider>
-        <Outlet />
-      </StoreProvider>
+      <Outlet />
     </QueryClientProvider>
   )
 }
