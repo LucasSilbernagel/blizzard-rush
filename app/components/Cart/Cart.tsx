@@ -7,22 +7,17 @@ import { useStoreState } from '~/zustand-store'
 import FullCart from './FullCart/FullCart'
 
 type CartProps = {
-  isLoadingStorefrontData: boolean
   error: Error | null
   data?: CartProductInfo
   refetch: () => void
 }
 
 const Cart = (props: CartProps) => {
-  const { isLoadingStorefrontData, error, data, refetch } = props
+  const { error, data, refetch } = props
 
-  const { checkout, isLoadingShopifyBuyData } = useStoreState()
+  const { cart, isLoadingShopifyCart } = useStoreState()
 
-  if (
-    (isLoadingStorefrontData || isLoadingShopifyBuyData) &&
-    !error &&
-    (!checkout.lineItems || checkout.lineItems?.length < 1)
-  ) {
+  if (isLoadingShopifyCart) {
     // Loading state
     return (
       <div
@@ -35,12 +30,7 @@ const Cart = (props: CartProps) => {
         <Skeleton className="h-[130px] w-full" />
       </div>
     )
-  } else if (
-    error &&
-    !isLoadingStorefrontData &&
-    !isLoadingShopifyBuyData &&
-    (!checkout.lineItems || checkout.lineItems?.length < 1)
-  ) {
+  } else if (error) {
     // Error state
     return (
       <div
@@ -55,12 +45,7 @@ const Cart = (props: CartProps) => {
         </Alert>
       </div>
     )
-  } else if (
-    !isLoadingStorefrontData &&
-    !isLoadingShopifyBuyData &&
-    !error &&
-    (!checkout.lineItems || checkout.lineItems?.length < 1)
-  ) {
+  } else if (!cart?.lines || cart.lines.edges.length < 1) {
     // Empty cart state
     return (
       <div className="pt-16">
@@ -77,15 +62,9 @@ const Cart = (props: CartProps) => {
         </div>
       </div>
     )
-  } else if (
-    checkout.lineItems?.length > 0 &&
-    !error &&
-    !isLoadingStorefrontData
-  ) {
+  } else {
     // Full cart state
     return <FullCart data={data} refetch={refetch} />
-  } else {
-    return null
   }
 }
 

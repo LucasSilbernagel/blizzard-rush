@@ -31,7 +31,7 @@ test('renders correctly when the cart is empty', () => {
 test('renders correctly when the cart has items', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: MOCK_CHECKOUT,
-    isLoadingShopifyBuyData: false,
+    isLoadingShopifyCart: false,
     updateLineItem: jest.fn(),
     removeLineItem: jest.fn(),
   })

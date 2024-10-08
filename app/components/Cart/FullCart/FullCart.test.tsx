@@ -13,7 +13,7 @@ const mockRemoveLineItem = jest.fn()
 jest.mock('../../../zustand-store.tsx', () => ({
   useStoreState: () => ({
     checkout: MOCK_CHECKOUT,
-    isLoadingShopifyBuyData: false,
+    isLoadingShopifyCart: false,
     updateLineItem: mockUpdateLineItem,
     removeLineItem: mockRemoveLineItem,
   }),

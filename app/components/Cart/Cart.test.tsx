@@ -12,7 +12,7 @@ jest.mock('../../zustand-store', () => ({
 beforeEach(() => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: MOCK_CHECKOUT,
-    isLoadingShopifyBuyData: false,
+    isLoadingShopifyCart: false,
     updateLineItem: jest.fn(),
     removeLineItem: jest.fn(),
   })
@@ -21,7 +21,7 @@ beforeEach(() => {
 test('renders cart loading state while loading Shopify storefront data', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: { lineItems: [] },
-    isLoadingShopifyBuyData: false,
+    isLoadingShopifyCart: false,
     updateLineItem: jest.fn(),
     removeLineItem: jest.fn(),
   })
@@ -39,7 +39,7 @@ test('renders cart loading state while loading Shopify storefront data', () => {
 test('renders cart loading state while loading shopify-buy data', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: { lineItems: undefined },
-    isLoadingShopifyBuyData: true,
+    isLoadingShopifyCart: true,
     updateLineItem: jest.fn(),
     removeLineItem: jest.fn(),
   })
@@ -57,7 +57,7 @@ test('renders cart loading state while loading shopify-buy data', () => {
 test('renders cart error state if there is an error', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: { lineItems: undefined },
-    isLoadingShopifyBuyData: false,
+    isLoadingShopifyCart: false,
     updateLineItem: jest.fn(),
     removeLineItem: jest.fn(),
   })
@@ -86,7 +86,7 @@ test('renders cart error state if there is an error', () => {
 test('renders empty cart if there are no checkout line items', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
     checkout: { lineItems: undefined },
-    isLoadingShopifyBuyData: false,
+    isLoadingShopifyCart: false,
     updateLineItem: jest.fn(),
     removeLineItem: jest.fn(),
   })

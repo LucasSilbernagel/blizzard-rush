@@ -15,9 +15,12 @@ import {
   TooltipTrigger,
 } from 'shadcn/components/ui/tooltip'
 import { toast } from 'shadcn/components/ui/use-toast'
-import { CheckoutLineItem } from 'shopify-buy'
 import { CartProductInfo } from '~/routes/cart'
-import { calculateCartSubtotal, getItemSubtotal } from '~/utils/priceFormatting'
+import {
+  calculateCartSubtotal,
+  CheckoutLineItem,
+  getItemSubtotal,
+} from '~/utils/priceFormatting'
 import { useStoreState } from '~/zustand-store'
 
 const FullCart = ({
@@ -27,11 +30,11 @@ const FullCart = ({
   data?: CartProductInfo
   refetch: () => void
 }) => {
-  const { checkout, isLoadingShopifyBuyData, updateLineItem, removeLineItem } =
+  const { cart, updateLineItem, removeLineItem, isLoadingShopifyCart } =
     useStoreState()
 
   const handleQuantityChange = (value: string, lineItem: CheckoutLineItem) => {
-    updateLineItem(checkout.id, lineItem.id, value)
+    updateLineItem(cart.id, lineItem.id, value)
     toast({
       title: 'Updated cart',
     })
@@ -39,12 +42,14 @@ const FullCart = ({
   }
 
   const handleRemoveLineItem = (lineItem: CheckoutLineItem) => {
-    removeLineItem(checkout.id, lineItem.id)
+    removeLineItem(cart.id, lineItem.id)
     toast({
       title: 'Updated cart',
     })
     refetch()
   }
+
+  console.log(cart)
 
   const getQuantitySelectOptions = (maximum: number | undefined) => {
     if (maximum && maximum < 9) {
@@ -82,63 +87,69 @@ const FullCart = ({
             <div role="columnheader">Remove cart item</div>
             <div role="columnheader">Cart item subtotal</div>
           </div>
-          {checkout.lineItems?.map((lineItem) => {
+          {cart.lines.edges.map((lineItem) => {
             const maximumQuantityAvailable = data?.products.edges
-              .find((edge) => edge.node.title === lineItem.title)
+              .find(
+                (edge) =>
+                  edge.node.title === lineItem.node.merchandise.product.title
+              )
               ?.node.variants.edges.find(
-                (edge) => edge.node.id === lineItem.variant?.id
+                (edge) => edge.node.id === lineItem.node.merchandise.id
               )?.node.quantityAvailable
 
             return (
               <div
-                key={lineItem.id}
+                key={lineItem.node.id}
                 role="row"
                 className="flex"
-                data-testid={`cart-item-${lineItem.id}`}
+                data-testid={`cart-item-${lineItem.node.id}`}
               >
                 <div className="flex items-center border border-x-transparent border-b-gray-300 border-t-transparent py-4">
                   <div className="flex items-center">
                     <div className="mr-4" role="cell">
                       <Link
-                        to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
+                        to={`/products/${lineItem.node.merchandise?.product.id.split('/').at(-1)}`}
                         data-testid="cart-item-image-link"
                       >
                         <img
-                          src={lineItem.variant?.image.src}
-                          alt={lineItem.title}
+                          src={lineItem.node.merchandise.image.src}
+                          alt={lineItem.node.merchandise.product.title}
                           className="w-24"
                         />
                       </Link>
                     </div>
                     <div className="w-72" role="cell">
                       <Link
-                        to={`/products/${lineItem.variant?.product.id.split('/').at(-1)}`}
+                        to={`/products/${lineItem.node.merchandise?.product.id.split('/').at(-1)}`}
                         data-testid="cart-item-title-link"
                       >
                         <div>
                           <Tooltip>
                             <TooltipTrigger>
                               <h2 className="mr-4 max-w-60 overflow-hidden text-ellipsis text-nowrap text-lg font-bold">
-                                {lineItem.title}
+                                {lineItem.node.merchandise.product.title}
                               </h2>
                             </TooltipTrigger>
                             <TooltipContent>
-                              <h2>{lineItem.title}</h2>
+                              <h2>{lineItem.node.merchandise.product.title}</h2>
                             </TooltipContent>
                           </Tooltip>
                         </div>
                       </Link>
-                      {lineItem.variant?.title &&
-                        lineItem.variant.title !== 'Default Title' && (
+                      {lineItem.node.merchandise?.product.title &&
+                        lineItem.node.merchandise.product.title !==
+                          'Default Title' && (
                           <div>
                             <Tooltip>
                               <TooltipTrigger>
                                 <h2 className="max-w-60 overflow-hidden text-ellipsis text-nowrap">
-                                  {lineItem.variant.title}
+                                  {lineItem.node.merchandise.product.title}
                                 </h2>
                               </TooltipTrigger>
                               <TooltipContent>
-                                <h2>{lineItem.variant.title}</h2>
+                                <h2>
+                                  {lineItem.node.merchandise.product.title}
+                                </h2>
                               </TooltipContent>
                             </Tooltip>
                           </div>
@@ -148,14 +159,14 @@ const FullCart = ({
                   <div className="flex items-center gap-6">
                     <div className="w-16" role="cell">
                       <Select
-                        disabled={isLoadingShopifyBuyData}
-                        value={String(lineItem.quantity)}
+                        disabled={isLoadingShopifyCart}
+                        value={String(lineItem.node.quantity)}
                         onValueChange={(value) =>
-                          handleQuantityChange(value, lineItem)
+                          handleQuantityChange(value, lineItem.node)
                         }
                       >
                         <SelectTrigger
-                          aria-label={String(lineItem.quantity)}
+                          aria-label={String(lineItem.node.quantity)}
                           icon={<PiCaretUpDownBold />}
                         >
                           <SelectValue placeholder="1" />
@@ -178,8 +189,8 @@ const FullCart = ({
                     </div>
                     <div role="cell">
                       <Button
-                        disabled={isLoadingShopifyBuyData}
-                        onClick={() => handleRemoveLineItem(lineItem)}
+                        disabled={isLoadingShopifyCart}
+                        onClick={() => handleRemoveLineItem(lineItem.node)}
                         variant="ghost"
                         className="flex items-center gap-2 font-bold"
                       >
@@ -191,7 +202,7 @@ const FullCart = ({
                         className="text-xl font-bold"
                         data-testid="item-subtotal"
                       >
-                        {getItemSubtotal(lineItem)}
+                        {getItemSubtotal(lineItem.node)}
                       </span>
                     </div>
                   </div>
@@ -206,14 +217,18 @@ const FullCart = ({
               <span>Subtotal</span>
             </div>
             <div>
-              <span>{calculateCartSubtotal(checkout.lineItems)}</span>
+              <span>
+                {calculateCartSubtotal(
+                  cart.lines.edges.map((edge) => edge.node)
+                )}
+              </span>
             </div>
           </div>
           <div className="bg-gray-100 p-4">
             <div>
               <a
                 target="_blank"
-                href={checkout.webUrl}
+                href={cart.checkoutUrl}
                 rel="noreferrer"
                 className="BrightnessLink block w-full bg-theme-yellow py-2 text-center text-2xl font-bold"
               >
