@@ -1,5 +1,4 @@
 import { Alert, AlertDescription, AlertTitle } from 'shadcn/components/ui/alert'
-import { Skeleton } from 'shadcn/components/ui/skeleton'
 import { Link } from '@remix-run/react'
 import { FaArrowLeft } from 'react-icons/fa6'
 import { CartProductInfo } from '~/routes/cart'
@@ -7,31 +6,17 @@ import { useStoreState } from '~/zustand-store'
 import FullCart from './FullCart/FullCart'
 
 type CartProps = {
-  isLoadingStorefrontData: boolean
   error: Error | null
   data?: CartProductInfo
   refetch: () => void
 }
 
 const Cart = (props: CartProps) => {
-  const { isLoadingStorefrontData, error, data, refetch } = props
+  const { error, data, refetch } = props
 
-  const { cart, isLoadingShopifyCart } = useStoreState()
+  const { cart } = useStoreState()
 
-  if (isLoadingShopifyCart || isLoadingStorefrontData) {
-    // Loading state
-    return (
-      <div
-        className="flex flex-col gap-2 px-4 pt-16 md:px-16"
-        data-testid="cart-skeleton"
-      >
-        <Skeleton className="h-[130px] w-full" />
-        <Skeleton className="h-[130px] w-full" />
-        <Skeleton className="h-[130px] w-full" />
-        <Skeleton className="h-[130px] w-full" />
-      </div>
-    )
-  } else if (error) {
+  if (error) {
     // Error state
     return (
       <div
