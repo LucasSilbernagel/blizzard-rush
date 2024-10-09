@@ -134,27 +134,17 @@ const FullCart = ({
                           </Tooltip>
                         </div>
                       </Link>
-                      {lineItem.node.merchandise?.product.variants?.edges[0]
-                        .node.title &&
-                        lineItem.node.merchandise?.product.variants.edges[0]
-                          .node.title !== 'Default Title' && (
+                      {lineItem.node.merchandise.title &&
+                        lineItem.node.merchandise.title !== 'Default Title' && (
                           <div>
                             <Tooltip>
                               <TooltipTrigger>
                                 <h2 className="max-w-60 overflow-hidden text-ellipsis text-nowrap">
-                                  {
-                                    lineItem.node.merchandise.product.variants
-                                      ?.edges[0].node.title
-                                  }
+                                  {lineItem.node.merchandise.title}
                                 </h2>
                               </TooltipTrigger>
                               <TooltipContent>
-                                <h2>
-                                  {
-                                    lineItem.node.merchandise?.product.variants
-                                      .edges[0].node.title
-                                  }
-                                </h2>
+                                <h2>{lineItem.node.merchandise.title}</h2>
                               </TooltipContent>
                             </Tooltip>
                           </div>

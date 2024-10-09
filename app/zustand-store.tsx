@@ -30,6 +30,7 @@ const fragments = `
 
   fragment MerchandiseDetails on ProductVariant {
     id
+    title
     image {
       src
     }

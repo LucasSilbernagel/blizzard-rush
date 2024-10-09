@@ -3,6 +3,7 @@ export type CheckoutLineItem = {
   quantity: number
   merchandise: {
     id: string
+    title: string
     image: {
       src: string
     }
