@@ -49,8 +49,6 @@ const FullCart = ({
     refetch()
   }
 
-  console.log(cart)
-
   const getQuantitySelectOptions = (maximum: number | undefined) => {
     if (maximum && maximum < 9) {
       return Array.from({ length: maximum }, (_, i) => i + 1).map(
@@ -136,19 +134,26 @@ const FullCart = ({
                           </Tooltip>
                         </div>
                       </Link>
-                      {lineItem.node.merchandise?.product.title &&
-                        lineItem.node.merchandise.product.title !==
-                          'Default Title' && (
+                      {lineItem.node.merchandise?.product.variants?.edges[0]
+                        .node.title &&
+                        lineItem.node.merchandise?.product.variants.edges[0]
+                          .node.title !== 'Default Title' && (
                           <div>
                             <Tooltip>
                               <TooltipTrigger>
                                 <h2 className="max-w-60 overflow-hidden text-ellipsis text-nowrap">
-                                  {lineItem.node.merchandise.product.title}
+                                  {
+                                    lineItem.node.merchandise.product.variants
+                                      ?.edges[0].node.title
+                                  }
                                 </h2>
                               </TooltipTrigger>
                               <TooltipContent>
                                 <h2>
-                                  {lineItem.node.merchandise.product.title}
+                                  {
+                                    lineItem.node.merchandise?.product.variants
+                                      .edges[0].node.title
+                                  }
                                 </h2>
                               </TooltipContent>
                             </Tooltip>

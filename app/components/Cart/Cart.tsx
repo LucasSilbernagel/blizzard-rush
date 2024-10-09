@@ -7,17 +7,18 @@ import { useStoreState } from '~/zustand-store'
 import FullCart from './FullCart/FullCart'
 
 type CartProps = {
+  isLoadingStorefrontData: boolean
   error: Error | null
   data?: CartProductInfo
   refetch: () => void
 }
 
 const Cart = (props: CartProps) => {
-  const { error, data, refetch } = props
+  const { isLoadingStorefrontData, error, data, refetch } = props
 
   const { cart, isLoadingShopifyCart } = useStoreState()
 
-  if (isLoadingShopifyCart) {
+  if (isLoadingShopifyCart || isLoadingStorefrontData) {
     // Loading state
     return (
       <div

@@ -16,8 +16,8 @@ export type CheckoutLineItem = {
         edges: {
           node: {
             id: string
+            title: string
             price: { amount: number }
-            image: { src: string }
           }
         }[]
       }
@@ -36,8 +36,6 @@ export const getItemSubtotal = (lineItem: CheckoutLineItem) => {
 export const calculateCartSubtotal = (lineItems: CheckoutLineItem[]) => {
   let subtotal = 0
   lineItems?.forEach((lineItem) => {
-    // subtotal +=
-    //   Number(lineItem.merchandise.product.variants) * lineItem.quantity
     lineItem.merchandise.product.variants?.edges.forEach((edge) => {
       subtotal += Number(edge.node.price.amount) * lineItem.quantity
     })

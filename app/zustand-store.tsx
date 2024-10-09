@@ -1,5 +1,6 @@
 import { StoreApi, UseBoundStore, create } from 'zustand'
 import getEnv, { isBrowser } from './get-env'
+import { CheckoutLineItem } from './utils/priceFormatting'
 
 const env = getEnv()
 
@@ -7,8 +8,52 @@ const cartLocalStorageKey = `shopify_cart_id`
 const wishlistLocalStorageKey = `wishlist_titles`
 const storefrontApiUrl = `https://${env.SHOPIFY_DOMAIN}/api/2024-04/graphql.json`
 
-// GraphQL queries
+const fragments = `
+  fragment ProductDetails on Product {
+    id
+    title
+    variants(first: 250) {
+      edges {
+        node {
+          id
+          title
+          price {
+            amount
+          }
+          image {
+            src
+          }
+        }
+      }
+    }
+  }
+
+  fragment MerchandiseDetails on ProductVariant {
+    id
+    image {
+      src
+    }
+    price {
+      amount
+    }
+    product {
+      ...ProductDetails
+    }
+  }
+
+  fragment LineItemDetails on CartLine {
+    id
+    quantity
+    merchandise {
+      ... on ProductVariant {
+        ...MerchandiseDetails
+      }
+    }
+  }
+`
+
 const CREATE_CART_MUTATION = `
+  ${fragments}
   mutation {
     cartCreate {
       cart {
@@ -17,36 +62,7 @@ const CREATE_CART_MUTATION = `
         lines(first: 250) {
           edges {
             node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  image {
-                            src
-                          }
-                            price {
-                            amount
-                          }
-                  product {
-                    id
-                    title
-                    variants(first: 250) {
-                      edges {
-                        node {
-                          id
-                          price {
-                            amount
-                          }
-                          image {
-                            src
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              ...LineItemDetails
             }
           }
         }
@@ -56,6 +72,7 @@ const CREATE_CART_MUTATION = `
 `
 
 const GET_CART_QUERY = (cartId: string) => `
+  ${fragments}
   query {
     cart(id: "${cartId}") {
       id
@@ -63,36 +80,7 @@ const GET_CART_QUERY = (cartId: string) => `
       lines(first: 250) {
         edges {
           node {
-            id
-            quantity
-            merchandise {
-              ... on ProductVariant {
-                id
-                image {
-                            src
-                          }
-                            price {
-                            amount
-                          }
-                product {
-                  id
-                  title
-                  variants(first: 250) {
-                    edges {
-                      node {
-                        id
-                        price {
-                          amount
-                        }
-                        image {
-                          src
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            ...LineItemDetails
           }
         }
       }
@@ -105,6 +93,7 @@ const ADD_LINE_ITEM_MUTATION = (
   variantId: string,
   quantity: number
 ) => `
+  ${fragments}
   mutation {
     cartLinesAdd(cartId: "${cartId}", lines: [{merchandiseId: "${variantId}", quantity: ${quantity}}]) {
       cart {
@@ -113,36 +102,7 @@ const ADD_LINE_ITEM_MUTATION = (
         lines(first: 250) {
           edges {
             node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  image {
-                            src
-                          }
-                            price {
-                            amount
-                          }
-                  product {
-                    id
-                    title
-                    variants(first: 250) {
-                      edges {
-                        node {
-                          id
-                          price {
-                            amount
-                          }
-                          image {
-                            src
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              ...LineItemDetails
             }
           }
         }
@@ -152,6 +112,7 @@ const ADD_LINE_ITEM_MUTATION = (
 `
 
 const REMOVE_LINE_ITEM_MUTATION = (cartId: string, lineItemId: string) => `
+  ${fragments}
   mutation {
     cartLinesRemove(cartId: "${cartId}", lineIds: ["${lineItemId}"]) {
       cart {
@@ -160,36 +121,7 @@ const REMOVE_LINE_ITEM_MUTATION = (cartId: string, lineItemId: string) => `
         lines(first: 250) {
           edges {
             node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  image {
-                            src
-                          }
-                            price {
-                            amount
-                          }
-                  product {
-                    id
-                    title
-                    variants(first: 250) {
-                      edges {
-                        node {
-                          id
-                          price {
-                            amount
-                          }
-                          image {
-                            src
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              ...LineItemDetails
             }
           }
         }
@@ -203,6 +135,7 @@ const UPDATE_LINE_ITEM_MUTATION = (
   lineItemId: string,
   quantity: number
 ) => `
+  ${fragments}
   mutation {
     cartLinesUpdate(cartId: "${cartId}", lines: [{id: "${lineItemId}", quantity: ${quantity}}]) {
       cart {
@@ -211,36 +144,7 @@ const UPDATE_LINE_ITEM_MUTATION = (
         lines(first: 250) {
           edges {
             node {
-              id
-              quantity
-              merchandise {
-                ... on ProductVariant {
-                  id
-                  image {
-                            src
-                          }
-                            price {
-                            amount
-                          }
-                  product {
-                    id
-                    title
-                    variants(first: 250) {
-                      edges {
-                        node {
-                          id
-                          price {
-                            amount
-                          }
-                          image {
-                            src
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              ...LineItemDetails
             }
           }
         }
@@ -249,7 +153,6 @@ const UPDATE_LINE_ITEM_MUTATION = (
   }
 `
 
-// Helper function to call Shopify API
 const shopifyFetch = async (query: string) => {
   const response = await fetch(storefrontApiUrl, {
     method: 'POST',
@@ -271,42 +174,9 @@ const shopifyFetch = async (query: string) => {
 type Cart = {
   id: string
   checkoutUrl: string
-  // lines: {
-  //   id: string
-  //   quantity: number
-  //   merchandise: {
-  //     id: string
-  //     title: string
-  //     product: { id: string; price: { amount: number } }
-  //     image: { src: string }
-  //   }
-  // }[]
   lines: {
     edges: {
-      node: {
-        id: string
-        quantity: number
-        merchandise: {
-          id: string
-          title: string
-          image: { src: string }
-          price: { amount: number }
-          product: {
-            id: string
-            title: string
-            price: { amount: number }
-            variants?: {
-              edges: {
-                node: {
-                  id: string
-                  price: { amount: number }
-                  image: { src: string }
-                }
-              }[]
-            }
-          }
-        }
-      }
+      node: CheckoutLineItem
     }[]
   }
 }
