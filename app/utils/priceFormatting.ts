@@ -19,6 +19,7 @@ export type CheckoutLineItem = {
             id: string
             title: string
             price: { amount: number }
+            image: { src: string }
           }
         }[]
       }

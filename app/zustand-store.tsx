@@ -172,7 +172,7 @@ const shopifyFetch = async (query: string) => {
   }
 }
 
-type Cart = {
+export type Cart = {
   id: string
   checkoutUrl: string
   lines: {
