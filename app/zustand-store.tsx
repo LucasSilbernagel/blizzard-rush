@@ -6,7 +6,7 @@ const env = getEnv()
 
 const cartLocalStorageKey = `shopify_cart_id`
 const wishlistLocalStorageKey = `wishlist_titles`
-const storefrontApiUrl = `https://${env.SHOPIFY_DOMAIN}/api/2024-04/graphql.json`
+const storefrontApiUrl = `https://${env.SHOPIFY_DOMAIN}/api/2024-04/graphql`
 
 const fragments = `
   fragment ProductDetails on Product {
@@ -155,6 +155,7 @@ const UPDATE_LINE_ITEM_MUTATION = (
 `
 
 const shopifyFetch = async (query: string) => {
+  console.log(query)
   const response = await fetch(storefrontApiUrl, {
     method: 'POST',
     headers: {
