@@ -6,7 +6,7 @@ const env = getEnv()
 
 const cartLocalStorageKey = `shopify_cart_id`
 const wishlistLocalStorageKey = `wishlist_titles`
-const storefrontApiUrl = `https://${env.SHOPIFY_DOMAIN}/api/2024-04/graphql`
+const storefrontApiUrl = `https://${env.SHOPIFY_DOMAIN}/api/2024-04/graphql.json`
 
 const fragments = `
   fragment ProductDetails on Product {
