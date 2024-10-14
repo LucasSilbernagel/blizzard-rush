@@ -155,7 +155,6 @@ const UPDATE_LINE_ITEM_MUTATION = (
 `
 
 const shopifyFetch = async (query: string) => {
-  console.log(query)
   const response = await fetch(storefrontApiUrl, {
     method: 'POST',
     headers: {
