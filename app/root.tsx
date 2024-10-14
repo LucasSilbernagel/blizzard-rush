@@ -74,9 +74,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
-  const initializeShopCheckout = useStoreState(
-    (state) => state.initializeCheckout
-  )
+  const initializeShopCheckout = useStoreState((state) => state.initializeCart)
   const initializeShopWishlist = useStoreState(
     (state) => state.initializeWishlist
   )

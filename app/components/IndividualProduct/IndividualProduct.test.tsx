@@ -7,6 +7,23 @@ import {
   MOCK_SOLD_OUT_PRODUCT,
 } from '~/mocks/MockIndividualProducts'
 import { Toaster } from 'shadcn/components/ui/toaster'
+import { useStoreState } from '~/zustand-store'
+
+jest.mock('~/zustand-store', () => ({
+  useStoreState: jest.fn(),
+}))
+
+const addVariantToCart = jest.fn()
+const setDidJustAddToCart = jest.fn()
+const setWishlistTitles = jest.fn()
+;(useStoreState as unknown as jest.Mock).mockReturnValue({
+  cart: [],
+  wishlistTitles: [],
+  addVariantToCart,
+  didJustAddToCart: false,
+  setDidJustAddToCart,
+  setWishlistTitles,
+})
 
 test('renders a product with variants correctly', async () => {
   render(
@@ -47,9 +64,10 @@ test('renders a product with variants correctly', async () => {
   )
   expect(screen.getByText('Add to cart')).toBeVisible()
   await userEvent.click(screen.getByText('Add to cart'))
-  expect(
-    screen.getByText(`Added ${MOCK_PRODUCT_WITH_VARIANTS.title} to cart`)
-  ).toBeVisible()
+  expect(addVariantToCart).toHaveBeenCalledWith(
+    MOCK_PRODUCT_WITH_VARIANTS.variants.edges[1].node.id,
+    '1'
+  )
   expect(screen.getByText('Add to wishlist')).toBeVisible()
   await userEvent.click(screen.getByText('Add to wishlist'))
   expect(
@@ -81,9 +99,10 @@ test('renders a product without variants correctly', async () => {
   expect(screen.queryByTestId('selected-variant')).not.toBeInTheDocument()
   expect(screen.getByText('Add to cart')).toBeVisible()
   await userEvent.click(screen.getByText('Add to cart'))
-  expect(
-    screen.getByText(`Added ${MOCK_PRODUCT_WITHOUT_VARIANTS.title} to cart`)
-  ).toBeVisible()
+  expect(addVariantToCart).toHaveBeenCalledWith(
+    MOCK_PRODUCT_WITHOUT_VARIANTS.variants.edges[0].node.id,
+    '1'
+  )
   expect(screen.getByText('Add to wishlist')).toBeVisible()
   await userEvent.click(screen.getByText('Add to wishlist'))
   expect(

@@ -2,7 +2,7 @@
 import { render, screen } from '@testing-library/react'
 import MobileNavbar from './MobileNavbar'
 import { useStoreState } from '~/zustand-store'
-import { MOCK_CHECKOUT } from '~/mocks/MockCheckout'
+import { MOCK_CART } from '~/mocks/MockCart'
 
 jest.mock('../../../zustand-store.tsx', () => ({
   useStoreState: jest.fn(),
@@ -10,7 +10,7 @@ jest.mock('../../../zustand-store.tsx', () => ({
 
 beforeEach(() => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
-    checkout: { lineItems: [] },
+    cart: { lineItems: [] },
   })
 })
 
@@ -24,14 +24,14 @@ test('renders correctly when the cart is empty', () => {
   expect(screen.getByTestId('cart-link')).toBeVisible()
   expect(screen.getByTestId('cart-link')).toHaveAttribute('href', '/cart')
   expect(
-    screen.queryByLabelText(`${MOCK_CHECKOUT.lineItems.length} items in cart`)
+    screen.queryByLabelText(`${MOCK_CART.lines.edges.length} items in cart`)
   ).not.toBeInTheDocument()
 })
 
 test('renders correctly when the cart has items', () => {
   ;(useStoreState as unknown as jest.Mock).mockReturnValue({
-    checkout: MOCK_CHECKOUT,
-    isLoadingShopifyBuyData: false,
+    cart: MOCK_CART,
+    isLoadingShopifyCart: false,
     updateLineItem: jest.fn(),
     removeLineItem: jest.fn(),
   })
@@ -45,6 +45,6 @@ test('renders correctly when the cart has items', () => {
   expect(screen.getByTestId('cart-link')).toHaveTextContent('2')
   expect(screen.getByTestId('cart-link')).toHaveAttribute('href', '/cart')
   expect(
-    screen.getByLabelText(`${MOCK_CHECKOUT.lineItems.length} items in cart`)
+    screen.getByLabelText(`${MOCK_CART.lines.edges.length} items in cart`)
   ).toBeVisible()
 })

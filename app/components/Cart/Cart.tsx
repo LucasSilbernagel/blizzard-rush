@@ -1,5 +1,4 @@
 import { Alert, AlertDescription, AlertTitle } from 'shadcn/components/ui/alert'
-import { Skeleton } from 'shadcn/components/ui/skeleton'
 import { Link } from '@remix-run/react'
 import { FaArrowLeft } from 'react-icons/fa6'
 import { CartProductInfo } from '~/routes/cart'
@@ -7,40 +6,17 @@ import { useStoreState } from '~/zustand-store'
 import FullCart from './FullCart/FullCart'
 
 type CartProps = {
-  isLoadingStorefrontData: boolean
   error: Error | null
   data?: CartProductInfo
   refetch: () => void
 }
 
 const Cart = (props: CartProps) => {
-  const { isLoadingStorefrontData, error, data, refetch } = props
+  const { error, data, refetch } = props
 
-  const { checkout, isLoadingShopifyBuyData } = useStoreState()
+  const { cart } = useStoreState()
 
-  if (
-    (isLoadingStorefrontData || isLoadingShopifyBuyData) &&
-    !error &&
-    (!checkout.lineItems || checkout.lineItems?.length < 1)
-  ) {
-    // Loading state
-    return (
-      <div
-        className="flex flex-col gap-2 px-4 pt-16 md:px-16"
-        data-testid="cart-skeleton"
-      >
-        <Skeleton className="h-[130px] w-full" />
-        <Skeleton className="h-[130px] w-full" />
-        <Skeleton className="h-[130px] w-full" />
-        <Skeleton className="h-[130px] w-full" />
-      </div>
-    )
-  } else if (
-    error &&
-    !isLoadingStorefrontData &&
-    !isLoadingShopifyBuyData &&
-    (!checkout.lineItems || checkout.lineItems?.length < 1)
-  ) {
+  if (error) {
     // Error state
     return (
       <div
@@ -55,12 +31,7 @@ const Cart = (props: CartProps) => {
         </Alert>
       </div>
     )
-  } else if (
-    !isLoadingStorefrontData &&
-    !isLoadingShopifyBuyData &&
-    !error &&
-    (!checkout.lineItems || checkout.lineItems?.length < 1)
-  ) {
+  } else if (!cart?.lines || cart.lines.edges.length < 1) {
     // Empty cart state
     return (
       <div className="pt-16">
@@ -77,15 +48,9 @@ const Cart = (props: CartProps) => {
         </div>
       </div>
     )
-  } else if (
-    checkout.lineItems?.length > 0 &&
-    !error &&
-    !isLoadingStorefrontData
-  ) {
+  } else {
     // Full cart state
     return <FullCart data={data} refetch={refetch} />
-  } else {
-    return null
   }
 }
 

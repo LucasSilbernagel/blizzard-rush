@@ -4,7 +4,7 @@ import { useStoreState } from '~/zustand-store'
 import SearchForm from '../SearchForm/SearchForm'
 
 const DesktopNavbar = () => {
-  const { checkout } = useStoreState()
+  const { cart } = useStoreState()
 
   return (
     <div className="hidden px-16 py-6 md:block" data-testid="desktop-navbar">
@@ -31,20 +31,20 @@ const DesktopNavbar = () => {
               <Link
                 data-testid="cart-link"
                 to="/cart"
-                className={`text-xl font-bold ${checkout.lineItems?.length > 0 ? 'CartLink' : 'ContrastLink'}`}
+                className={`text-xl font-bold ${cart.lines?.edges.length > 0 ? 'CartLink' : 'ContrastLink'}`}
               >
                 <div className="relative flex items-center gap-1.5">
-                  {checkout.lineItems?.length > 0 && (
+                  {cart.lines?.edges.length > 0 && (
                     <span
-                      aria-label={`${checkout.lineItems.length} items in cart`}
+                      aria-label={`${cart.lines.edges.length} items in cart`}
                       className="Navbar__cart-number"
                       style={{
-                        minWidth: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
-                        height: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
-                        width: `${Math.max(2, checkout.lineItems.length.toString().length)}em`,
+                        minWidth: `${Math.max(2, cart.lines.edges.length.toString().length)}em`,
+                        height: `${Math.max(2, cart.lines.edges.length.toString().length)}em`,
+                        width: `${Math.max(2, cart.lines.edges.length.toString().length)}em`,
                       }}
                     >
-                      {checkout.lineItems.length}
+                      {cart.lines.edges.length}
                     </span>
                   )}
                   <HiOutlineShoppingBag /> Cart
