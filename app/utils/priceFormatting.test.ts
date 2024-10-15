@@ -11,7 +11,7 @@ describe('priceFormatting', () => {
         id: '1',
         quantity: 2,
         merchandise: {
-          id: 'm1',
+          id: 'v1',
           title: 'Product 1',
           image: { src: 'image1.jpg' },
           price: { amount: 10 },
@@ -46,7 +46,7 @@ describe('priceFormatting', () => {
           id: '1',
           quantity: 2,
           merchandise: {
-            id: 'm1',
+            id: 'v1',
             title: 'Product 1',
             image: { src: 'image1.jpg' },
             price: { amount: 10 },
@@ -72,7 +72,7 @@ describe('priceFormatting', () => {
           id: '2',
           quantity: 1,
           merchandise: {
-            id: 'm2',
+            id: 'v2',
             title: 'Product 2',
             image: { src: 'image2.jpg' },
             price: { amount: 20 },
